@@ -74,15 +74,16 @@ if (!class_exists('HG_Frontend_Scripts')) :
             wp_enqueue_script('hg-calendar', HG_PLUGIN_URL . 'assets/js/calendar.js', false, '1.1.0', true);
 
             $datepicker_params = array(
-                'language' => 'es',
+                'language' => get_bloginfo("language"),
                 'datepicker_format' => "D MMM YYYY",
                 'baseurl' => HG_PLUGIN_URL
             );
             wp_localize_script('hg-calendar', 'hg_params', $datepicker_params);
         }
         
-        public static function booking() {
+        public static function booking( $addicionalParams = false) {
             wp_enqueue_style('hg_booking_engine', HG_PLUGIN_URL . 'assets/css/booking_engine.css', false, '1.1', 'all');
+            wp_enqueue_style('hg_booking-css', HG_PLUGIN_URL . 'assets/css/booking.css', false, '1.1', 'all');
             wp_enqueue_style('bootstrap', 'https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false, '3.3.6', 'all');
             wp_enqueue_style( 'toastr','https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css',false,'2.1.3','all');
              wp_enqueue_style('hg_calendar', HG_PLUGIN_URL . 'assets/css/calendar.css', false, '1.1', 'all');
@@ -102,14 +103,18 @@ if (!class_exists('HG_Frontend_Scripts')) :
             wp_enqueue_script('hotel-accommodations-translate', HG_PLUGIN_URL . 'assets/js/i18n/main.js', false, '1.1.0', true);
           
             wp_enqueue_script('hg-accommodations', HG_PLUGIN_URL . 'assets/js/accommodations.js', false, '1.1.0', true);
-
+            
+            $lang = explode( '-', get_bloginfo("language") )[0];
             $datepicker_params = array(
-                'language' => 'es',
+                'language' => $lang,
                 'datepicker_format' => "D MMM YYYY",
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'baseurl' => HG_PLUGIN_URL,
-                'lang' => get_bloginfo("language")
+                'lang' => $lang,
+                'pcode' => get_option('hotelgest_pcode', 114) 
             );
+            if( $addicionalParams )
+                $datepicker_params = array_merge ( $datepicker_params ,$addicionalParams);
             wp_localize_script('hg-accommodations', 'hg_params', $datepicker_params);
         }
 

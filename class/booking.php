@@ -37,7 +37,6 @@ if (!class_exists('HG_Booking')) :
          * https://test.webparahoteles.es/wp-admin/admin-ajax.php?action=tpv&pcode=114
          */
         function hg_tpv() {
-            die('hola');
 
             include HG_PLUGIN_DIR . 'utility/SDK_Hotelgest.php';
             include HG_PLUGIN_DIR . 'utility/autoload.php';
@@ -148,11 +147,11 @@ if (!class_exists('HG_Booking')) :
 
             $hotel = new SDK_Hotelgest($user_hotelgest, $pass_hotelgest);
 
-            ob_start();
+            /*ob_start();
             var_dump($_POST);
             $log = ob_get_contents();
             ob_end_clean();
-            $hotel->logFile($log);
+            $hotel->logFile($log);*/
 
 
             $customerArray = array('name', 'surname', 'email', 'country', 'city', 'address', 'zip', 'phone', 'language', 'language_iso');

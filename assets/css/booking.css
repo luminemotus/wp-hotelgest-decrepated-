@@ -23,12 +23,19 @@
   display: block;
   overflow-y: scroll; }
 
+.modal-backdrop{
+    display: none;
+}
+.modal-xl {
+    top: 91px;
+}    
 @keyframes spin {
   100% {
     transform: rotate(360deg); } }
 @media (min-width: 768px) {
   .modal-xl {
-    width: 90%;
-    max-width: 1200px !important; } }
+    width: 90% !important;
+    max-width: 1200px !important; } 
+}
 
 /*# sourceMappingURL=booking.css.map */

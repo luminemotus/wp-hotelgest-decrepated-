@@ -52,7 +52,7 @@ if (!class_exists('HG_Shortcode')) :
 
             ob_start();
             $suffix = 'min';
-            echo 'ssssss'.$action; 
+            //echo 'ssssss'.$action; 
             echo plugin_dir_url(__FILE__) . 'assets/js/lib/hotel-datepicker/hotel-datepicker' . $suffix . '.js';
             
             include( HG_PLUGIN_DIR."themes/shortcode_calendar.php" );
@@ -64,8 +64,19 @@ if (!class_exists('HG_Shortcode')) :
             return $html;
         }
 
-        function hostelgest_plp() {
-             HG_Frontend_Scripts::booking();
+        function hostelgest_plp($atts = null) {
+            $atts = shortcode_atts(
+                    array(
+                'rtcode' => '',
+                'lang' => false,
+                    ), $atts);
+      
+            foreach( $atts as $key =>$att ):
+                if( !$att )
+                    unset( $atts[$key] );
+            endforeach;
+            
+            HG_Frontend_Scripts::booking( $atts );
          
 
             include( HG_PLUGIN_DIR."themes/shortcode_booking_main.php" );

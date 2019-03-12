@@ -18,7 +18,12 @@ var $date_in_val = '';
 var $date_out_val = '';
 var $booking_occupancy = 1;
 var formatDate = 'DD-MM-YYYY';
-var $pcode = 114;
+try {
+  var $pcode = hg_params.pcode;
+}
+catch(err) {
+  var $pcode = 114;
+}
 var $currency = 'eur';
 var $firstLoad = true;
 var $debug = true;
@@ -49,6 +54,16 @@ window.currencySymbol = "€";
 window.priceDecimalPlaces = 2;
 window.currencySymbolShowAfter = 1;
 
+function imageExists(url, callback) {
+    var img = new Image();
+    img.onload = function () {
+        callback(true);
+    };
+    img.onerror = function () {
+        callback(false);
+    };
+    img.src = url;
+}
 
 
 (function (i, s, o, g, r, a, m) {
@@ -79,13 +94,24 @@ function wbParseQueryString() {
 query = wbParseQueryString();
 if (typeof query.pcode !== "undefined")
     $pcode = query.pcode;
-if (typeof query.rtcode !== "undefined") {
-    $rcode = query.rtcode;
+
+try {
+      var $rcode = hg_params.rtcode;
+    }
+    catch(err) {
+      if (typeof query.rtcode !== "undefined") {
+        $rcode = query.rtcode;
+    }
 }
-if (typeof query.lang !== "undefined") {
-    $lang = query.lang;
-} else {
-    $lang = false
+try {
+   $lang = hg_params.lang;
+}
+catch(err) {
+    if (typeof query.lang !== "undefined") {
+        $lang = query.lang;
+    } else {
+        $lang = false
+    }
 }
 if (typeof query.css !== "undefined") {
     var $css = query.css;
@@ -144,20 +170,9 @@ if (typeof query.fbAnalytics !== "undefined") {
 }
 
 (function ($) {
+    //translate
+    $('.not-available').html(mainlang["not_available"]);
 
-  //translate
-  $('.not-available').html(mainlang["not_available"]);
-  function imageExists(url, callback) {
-      var img = new Image();
-      img.onload = function () {
-          callback(true);
-      };
-      img.onerror = function () {
-          callback(false);
-      };
-      img.src = url;
-  }
-  
     var checkin_input = $('#fromDate'); // $('#fromDate');
     var checkout_input = $('#toDate'); //$('#toDate');
     var occupancy_input = $('.booking-occupancy'); //$('#toDate');
@@ -169,7 +184,7 @@ if (typeof query.fbAnalytics !== "undefined") {
 //alert(query.dto + '' + query.dfrom);
             $('#fromDate').val(query.dfrom);
             $('#toDate').val(query.dto);
-            urlmoment  = ( typeof hg_params.ajaxurl === "undefined" ) ? "/js/i18n/moment/" : "assets/js/i18n/moment/" ;
+            urlmoment  = ( typeof hg_params === "undefined" ) ? "/js/i18n/moment/" : "assets/js/i18n/moment/" ;
             $.getScript( baseurl + urlmoment + language.toLowerCase() + ".js",
                     function (result) {
                         var fromdayT = moment(query.dfrom, formatDate);
@@ -212,9 +227,10 @@ if (typeof query.fbAnalytics !== "undefined") {
             accommodations.bindDate();
             accommodations.roomAjax($pcode);
         });
-        $("input#promoCodeMobile").keypress(function() {
-            $('#promoCode').val( $('#promoCodeMobile').val() );
-        });
+
+        $('#promoCodeMobile').on('input', function() { $('#promoCode').val( $('#promoCodeMobile').val() );  });
+        $("#promoCode").on('input', function() { $('#promoCodeMobile').val( $('#promoCode').val() );   });
+
         $( ".booking-occupancy" ).change(function() {
             $('.booking-occupancy').val( $(this).val() );
       	});
@@ -836,7 +852,8 @@ if (typeof query.fbAnalytics !== "undefined") {
                         listrcode.push(room.rcode);
                         $listRoom[room.rcode] = room;
                         //exist rcode url
-                        if (typeof $rcode !== "undefined" && room.rcode != $rcode) {
+                        var rgxp = new RegExp(room.rcode, "i");
+                        if (typeof $rcode !== "undefined" && $rcode.search( rgxp ) ===  -1   ) {
                             return;
                         }
                         //if disabled room
@@ -935,7 +952,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                     //accommodations.roomPriceAjax($pcode, listrcode.join(), 0);
 
                     //exist rcode url
-                    if (typeof $rcode !== "undefined") {
+                    if (typeof $rcode !== "undefined" && !Array.isArray($rcode) ) {
                         $('.roomitem[data-id=' + $rcode + ']').find('.book-accommodation-select-dates').trigger("click");
                         /*setTimeout(function () {
                          accommodations.bindAddCart();
@@ -992,8 +1009,8 @@ if (typeof query.fbAnalytics !== "undefined") {
                             selector = 0;
                         }
                         //filter um person
-                        if (price.occupancy >= $booking_occupancy && ((!$isExistRoom) || (price.occupancy == $isExistRoom))) {
-                            $isExistRoom = price.occupancy;
+                        if (parseInt(price.occupancy) >= parseInt($booking_occupancy) && ((!$isExistRoom) || (price.occupancy == $isExistRoom))) {
+                            $isExistRoom = parseInt(price.occupancy);
                             // alert( 'true'+price.occupancy + '=>'+ price.price); alert( price.occupancy >= $booking_occupancy+' &&'+ ( (!$isExistRoom)  || (price.occupancy =  $isExistRoom ))  );
                         } else {
                             return true;
@@ -2627,6 +2644,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                     'reservation_code': occupancy,
                     'customer_notes': customer_notes,
                     'promoCode': $promoCode,
+                    'action': 'hg_frontend_submit',
                     /*'occupancy': price_occupancy,
                      'men': price_occupancy,
                      'board': price_board,*/
@@ -2634,7 +2652,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                     'item': item
                 };
                 //alert( JSON.stringify(data) );return;
-                confirmBookingUrl = ( typeof hg_params.ajaxurl === "undefined" ) ? baseurl + '/ajaxbooking.php' : hg_params.ajaxurl ;
+                confirmBookingUrl = ( typeof hg_params === "undefined" ) ? baseurl + '/ajaxbooking.php' : hg_params.ajaxurl ;
                 $.ajax({
                     url: confirmBookingUrl,
                     method: 'post',
@@ -3184,38 +3202,39 @@ if (typeof query.fbAnalytics !== "undefined") {
             //document.location.search = kvp.join('&');
         }
     };
-})(jQuery);
-window.confirm = function (message, title, yes_label, cancel_label, callback) {
-    $("#bootstrap-confirm-box-modal").data('confirm-yes', false);
-    if ($("#bootstrap-confirm-box-modal").length == 0) {
-        $("body").append('<div id="bootstrap-confirm-box-modal" class="modal fade">\
-            <div class="modal-dialog">\
-                <div class="modal-content">\
-                    <div class="modal-header" style="min-height:40px; display:none">\
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
-                        <h4 class="modal-title"></h4>\
-                    </div>\
-                    <div class="modal-body"><p></p></div>\
-                    <div class="modal-footer">\
-                        <a href="#" data-dismiss="modal" class="btn btn-default">' + (cancel_label || 'OK') + '</a>\
-                        <input value="' + (yes_label || 'OK') + '" class="btn btn-primary" type="button">\
+
+    window.confirm = function (message, title, yes_label, cancel_label, callback) {
+        $("#bootstrap-confirm-box-modal").data('confirm-yes', false);
+        if ($("#bootstrap-confirm-box-modal").length == 0) {
+            $("body").append('<div id="bootstrap-confirm-box-modal" class="modal fade">\
+                <div class="modal-dialog">\
+                    <div class="modal-content">\
+                        <div class="modal-header" style="min-height:40px; display:none">\
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
+                            <h4 class="modal-title"></h4>\
+                        </div>\
+                        <div class="modal-body"><p></p></div>\
+                        <div class="modal-footer">\
+                            <a href="#" data-dismiss="modal" class="btn btn-default">' + (cancel_label || 'OK') + '</a>\
+                            <input value="' + (yes_label || 'OK') + '" class="btn btn-primary" type="button">\
+                        </div>\
                     </div>\
                 </div>\
-            </div>\
-        </div>');
-        $("#bootstrap-confirm-box-modal .modal-footer .btn-primary").on('click', function () {
-            $("#bootstrap-confirm-box-modal").data('confirm-yes', true);
-            $("#bootstrap-confirm-box-modal").modal('hide');
-            return false;
-        });
-        $("#bootstrap-confirm-box-modal").on('hide.bs.modal', function () {
-            if (callback)
-                callback($("#bootstrap-confirm-box-modal").data('confirm-yes'));
-        });
-    }
-    if (title) {
-        $("#bootstrap-confirm-box-modal .modal-header h4").text(title || "");
-    }
-    $("#bootstrap-confirm-box-modal .modal-body p").text(message || "");
-    $("#bootstrap-confirm-box-modal").modal('show');
-};
+            </div>');
+            $("#bootstrap-confirm-box-modal .modal-footer .btn-primary").on('click', function () {
+                $("#bootstrap-confirm-box-modal").data('confirm-yes', true);
+                $("#bootstrap-confirm-box-modal").modal('hide');
+                return false;
+            });
+            $("#bootstrap-confirm-box-modal").on('hide.bs.modal', function () {
+                if (callback)
+                    callback($("#bootstrap-confirm-box-modal").data('confirm-yes'));
+            });
+        }
+        if (title) {
+            $("#bootstrap-confirm-box-modal .modal-header h4").text(title || "");
+        }
+        $("#bootstrap-confirm-box-modal .modal-body p").text(message || "");
+        $("#bootstrap-confirm-box-modal").modal('show');
+    };
+})(jQuery);

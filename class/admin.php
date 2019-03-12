@@ -18,10 +18,10 @@ if (!class_exists('HG_Admin')) :
      */
     class HG_Admin {
 
-       /**
-	 * Constructor.
-	 */
-	public function __construct() {
+        /**
+         * Constructor.
+         */
+        public function __construct() {
             add_action('admin_menu', array($this, 'hotelgest_admin_menu'));
         }
 
@@ -47,9 +47,9 @@ if (!class_exists('HG_Admin')) :
                 update_option('hotelgest_user', $_POST['username']);
                 update_option('hotelgest_password', $_POST['password']);
                 update_option('hotelgest_pcode', $_POST['pcode']);
-                update_option('hotelgest_v3', $_POST['v3']);
                 update_option('hotelgest_occupancy_min', $_POST['occupancy_min']);
                 update_option('hotelgest_occupancy_max', $_POST['occupancy_max']);
+                update_option('hotelgest_fb_analytics', $_POST['fb_analytics']);
             }
 
             $this->hostelgest_welcome_panel();
@@ -63,37 +63,44 @@ if (!class_exists('HG_Admin')) :
                         <tr>
                             <th scope="row">Usuario</th>   
                             <td>
-                                <input type="text" value="<?php echo get_option('hotelgest_user', ''); ?>" name="username" placeholder="Usuario"/>
+                                <input type="text" value="<?php echo get_option('hotelgest_user', 'demoacccount'); ?>" name="username" placeholder="Usuario"/>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">Password</th>   
                             <td>
-                                <input type="password" value="<?php echo get_option('hotelgest_password', ''); ?>" name="password" placeholder="Password"/>
+                                <input type="password" value="<?php echo get_option('hotelgest_password', '123456789'); ?>" name="password" placeholder="Password"/>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">Código de propiedad</th>   
                             <td>
-                                <input type="text" value="<?php echo get_option('hotelgest_pcode', ''); ?>" name="pcode" placeholder="Código de propiedad"/>
+                                <input type="text" value="<?php echo get_option('hotelgest_pcode', '114'); ?>" name="pcode" id="pcode" placeholder="Código de propiedad"/>
                             </td>
                         </tr>
-                        <tr>
-                            <th scope="row">V3</th>
-                            <td>
-                                <input type="checkbox" name="v3" id="hg-v3" value="1" <?php echo ( get_option('hotelgest_v3', 0) == 1 ) ? 'checked="checked"' : ''; ?> />
-                            </td>
-                        </tr>
+
                         <tr>
                             <th scope="row">occupancy min</th>
                             <td>
-                                <input type="text" name="occupancy_min" id="hg-v3" value="<?php echo get_option('hotelgest_occupancy_min', ''); ?>" />
+                                <input type="text" name="occupancy_min" id="" value="<?php echo get_option('hotelgest_occupancy_min', ''); ?>" />
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">occupancy max</th>
                             <td>
-                                <input type="text" name="occupancy_max" id="hg-v3" value="<?php echo get_option('hotelgest_occupancy_max', ''); ?>" />
+                                <input type="text" name="occupancy_max" id="" value="<?php echo get_option('hotelgest_occupancy_max', ''); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">fbAnalytics</th>
+                            <td>
+                                <input type="text" name="fb_analytics" id="hg-fbAnalytics" value="<?php echo get_option('hotelgest_fb_analytics', ''); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Analytics</th>
+                            <td>
+                                <input type="text" name="analytics" id="hg-analytics" value="<?php echo get_option('hotelgest_analytics', ''); ?>" />
                             </td>
                         </tr>
                     </table>
@@ -126,7 +133,7 @@ if (!class_exists('HG_Admin')) :
                         <div class="welcome-panel-column">
                             <h3>
                                 <span class="dashicons dashicons-shield" aria-hidden="true"></span> 
-                                <?php echo esc_html(__("sortcode cvolendar home", 'hotelgest')); ?>
+                                <?php echo esc_html(__("Shortcode calendar", 'hotelgest')); ?>
                             </h3>
 
                             <p>[hg_booking] opcional </p>
@@ -136,25 +143,67 @@ if (!class_exists('HG_Admin')) :
                         <div class="welcome-panel-column">
                             <h3>
                                 <span class="dashicons dashicons-megaphone" aria-hidden="true"></span> 
-                                <?php echo esc_html(__("Contact Form 7 needs your support.", 'hotelgest')); ?>
+                                <?php echo esc_html(__("Shortcode reservation", 'hotelgest')); ?>
                             </h3>
 
-                            <p>Basic: [hg_calendar]<br> basic lang: [hg_calendar lang=es ]<br> basic lang external: [hg_calendar lang=es external= 1 ]</p>
+                            <p>Basic: <b>[hg_booking]</b><br> basic lang: <b>[hg_booking lang=es ]</b><br> basic lang external: <b>[hg_booking lang=es external= 1 ]</b></p>
 
 
                         </div>
 
-                        <div class="welcome-panel-column">
-                            <h3><span class="dashicons dashicons-editor-help" aria-hidden="true"></span> <?php echo esc_html(__("Before you cry over spilt mail&#8230;", 'hotelgest')); ?></h3>
-
-                            <p><?php echo esc_html(__("Contact Form 7 doesn&#8217;t store submitted messages anywhere. Therefore, you may lose important messages forever if your mail server has issues or you make a mistake in mail configuration.", 'hotelgest')); ?></p>
-
+                        <div class="welcome-panel-column" id="tableShortcode">
+                            <h3>
+                                <span class="dashicons dashicons-megaphone" aria-hidden="true"></span> 
+                                <?php echo esc_html(__("Shortcode reservation room", 'hotelgest')); ?>
+                            </h3>
+                            <div id="tableShortcode"></div>
                         </div>
-
 
                     </div>
                 </div>
             </div>
+            <script type="text/javascript">
+                (function ($) {
+
+                    //autocomplete
+                    var availableTags;
+                    function autocomplete() {
+
+                        var pcode = $('#pcode').val();
+                        $.ajax({
+                            url: 'https://api.hotelgest.com/v1/property/' + pcode + '/room/',
+                            dataType: "json",
+                            type: 'GET',
+                            success: function (data) {
+                                availableTags = $.map(data, function (item) {
+                                    return {
+                                        label: item.name + ' (' + item.rcode + ')',
+                                        value: item.rcode,
+                                        data: JSON.stringify(item)
+                                    };
+                                });
+
+                                $.each(data, function (i, item) {
+                                    $("#tableShortcode").append(item.name + ": <b>[hg_booking rtcode=" + item.rcode + "]</b><br>");
+                                   // console.log(item.name + ": <b>[hg_calendar rtcode=" + item.rcode + "]</b><br>");
+                                });
+
+                                /*  $("#rtcode").autocomplete({
+                                 source: availableTags
+                                 });*/
+
+                            }
+                        });
+                    }
+
+                    $(document).ready(function () {
+                        autocomplete();
+                    });
+
+
+
+                })(jQuery);
+            </script>
             <?php
         }
 
@@ -162,4 +211,4 @@ if (!class_exists('HG_Admin')) :
 
     endif;
 
- return new HG_Admin();
+return new HG_Admin();
