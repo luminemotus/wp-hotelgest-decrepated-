@@ -82,11 +82,11 @@ if (!class_exists('HG_Frontend_Scripts')) :
         }
         
         public static function booking( $addicionalParams = false) {
-            wp_enqueue_style('hg_booking_engine', HG_PLUGIN_URL . 'assets/css/booking_engine.css', false, '1.1', 'all');
+            //wp_enqueue_style('hg_booking_engine', HG_PLUGIN_URL . 'assets/css/booking_engine.css', false, '1.1', 'all');
             wp_enqueue_style('hg_booking-css', HG_PLUGIN_URL . 'assets/css/booking.css', false, '1.1', 'all');
-            wp_enqueue_style('bootstrap', 'https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false, '3.3.6', 'all');
+            wp_enqueue_style('bootstrap', 'https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', 1, '3.3.6', 'all');
             wp_enqueue_style( 'toastr','https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css',false,'2.1.3','all');
-             wp_enqueue_style('hg_calendar', HG_PLUGIN_URL . 'assets/css/calendar.css', false, '1.1', 'all');
+            wp_enqueue_style('hg_calendar', HG_PLUGIN_URL . 'assets/css/calendar.css', false, '1.1', 'all');
             
             wp_enqueue_script('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', false, '3.3.6', 'all');
             

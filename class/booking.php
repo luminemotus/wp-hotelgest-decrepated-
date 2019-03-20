@@ -241,6 +241,10 @@ if (!class_exists('HG_Booking')) :
 
                             $percentageValue = $property->paymentType->data->{$pId}->Percentage / 100;
                             $percentage = $property->paymentType->data->{$pId}->Percentage;
+                            $cleanInclude = ( isset($paymentType->data->{$pId}->cleanInclude) ) ? $paymentType->data->{$pId}->cleanInclude : 0;
+                            
+                              if ($cleanInclude == 1)
+                                  $total_tpv = $total_tpv + ( $price->roomclear * $percentageValue );
 
                             $total_tpv = $price->price * $percentageValue;
                         }

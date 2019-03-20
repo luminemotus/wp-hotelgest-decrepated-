@@ -52,11 +52,7 @@ if (!class_exists('HG_Shortcode')) :
 
             ob_start();
             $suffix = 'min';
-            //echo 'ssssss'.$action; 
-            echo plugin_dir_url(__FILE__) . 'assets/js/lib/hotel-datepicker/hotel-datepicker' . $suffix . '.js';
-            
             include( HG_PLUGIN_DIR."themes/shortcode_calendar.php" );
-            
             
             $html = ob_get_contents();
             ob_end_clean();
