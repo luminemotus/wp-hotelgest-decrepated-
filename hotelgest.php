@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Plugin Name: Hotelgest plugin
  * Plugin URI: http://www.hotelgest.com
  * Description: This plugin is for integration module of Hotelgest into  WordPress
- * Version: 1.0.0
+ * Version: 1.0.3
  * Author: hotelgest
  * Author URI: http://www.hotelgest.com
  * License: GPL2
@@ -18,15 +19,17 @@ if (!defined('ABSPATH')) {
 if (!class_exists('Hotelier')) :
 
     final class Hotelgest {
-        /**
-	 * @var string
-	 */
-	public $version = '1.0.0';
 
-	/**
-	 * @var Hotelier The single instance of the class
-	 */
-	private static $_instance = null;
+        /**
+         * @var string
+         */
+        public $version = '1.0.3';
+
+        /**
+         * @var Hotelier The single instance of the class
+         */
+        private static $_instance = null;
+
         /**
          * Main Instance
          *
@@ -67,13 +70,18 @@ if (!class_exists('Hotelier')) :
          */
         private function includes() {
             include( "utility/frontend_scripts.php" );
-            
-            include_once  'class/install.php';
-            $this->shortcode = include_once  'class/shortcode.php';
-            include_once  'class/booking.php';
-            
+
+            include_once 'class/install.php';
+            $this->shortcode = include_once 'class/shortcode.php';
+            include_once 'class/booking.php';
+
             if (is_admin()) {
-                include_once  'class/admin.php';
+                include_once 'class/admin.php';
+                
+                require HG_PLUGIN_DIR . 'utility/puc/plugin-update-checker.php';
+                $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+                                'https://apartamentoslatorrecambrils.com/wp-content/plugins/hotelgest-wp/hotelgest.json', __FILE__, 'wp-hotelgest'
+                );
             }
         }
 
