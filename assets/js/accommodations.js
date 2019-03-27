@@ -184,11 +184,12 @@ if (typeof query.fbAnalytics !== "undefined") {
 //alert(query.dto + '' + query.dfrom);
             $('#fromDate').val(query.dfrom);
             $('#toDate').val(query.dto);
-            urlmoment  = ( typeof hg_params === "undefined" ) ? "/js/i18n/moment/" : "assets/js/i18n/moment/" ;
+            urlmoment  = ( typeof hg_params === "undefined" ) ? "/lang/moment/" : "assets/js/i18n/moment/" ;
             $.getScript( baseurl + urlmoment + language.toLowerCase() + ".js",
                     function (result) {
                         var fromdayT = moment(query.dfrom, formatDate);
                         var todayT = moment(query.dto, formatDate);
+                        //alert(  fromdayT.format("D MMM YYYY") + " - " + todayT.format("D MMM YYYY")  );
                         $('#DateRangHotel').val(fromdayT.format("D MMM YYYY") + " - " + todayT.format("D MMM YYYY"));
                         moment.defineLocale(language.toLowerCase(), null);
                     }
@@ -656,9 +657,11 @@ if (typeof query.fbAnalytics !== "undefined") {
                     $dataProperty = data;
                     //title page
                     window.currencySymbol = data.currency;
-                    document.title = 'Booking ' + data.name;
-                    $('.page-header h1').html(data.name);
-                    $('.hotel-details h5').html(data.name);
+                    if ( typeof hg_params === "undefined" ){
+                      document.title = 'Booking ' + data.name;
+                      $('.page-header h1').html(data.name);
+                      $('.hotel-details h5').html(data.name);
+                    }
                     if (data.phone) {
 
                     }
@@ -776,8 +779,12 @@ if (typeof query.fbAnalytics !== "undefined") {
 
                             var percentageValue = paymentType.data[pId].Percentage / 100;
                             var percentage = paymentType.data[pId].Percentage;
+                            var cleanInclude = ( typeof paymentType.data[pId].cleanInclude !== 'undefined' )? paymentType.data[pId].cleanInclude : 0;
 
                             total_tpv = value.price * percentageValue;
+                            if ( cleanInclude == 1 )
+                                total_tpv = total_tpv + ( value.roomclear * percentageValue );
+
                             console.log(' payment_in = true; ');
                         }
                         if ($debug) {
@@ -1665,7 +1672,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                             }
 
                             var text_tax_adult = $dataProperty.tax_price_adult + ' ' + window.currencySymbol + ' x ' + value.occupancy + ' personas x ' + daytax + ' noche';
-                            adicionalTax += "<br> Impuesto municipal (" + text_tax_adult + ")" + translator.get("") + ": <b>" + accommodations.formatPrice(taxprice_adult) + "</b>";
+                            adicionalTax += "<br> " + translator.get("Impuesto municipal") + "  (" + text_tax_adult + ")" + translator.get("") + ": <b>" + accommodations.formatPrice(taxprice_adult) + "</b>";
                         }
 
                         if (value.idPack) {

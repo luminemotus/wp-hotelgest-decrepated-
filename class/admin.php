@@ -116,15 +116,16 @@ if (!class_exists('HG_APF_AddFields')) :
 
             $this->addSettingFields(
                     array(// Usuario
-                'field_id' => 'hotelgest_user',
-                'type' => 'text',
-                'title' => __('User', 'hotelgest'),
-                'description' => 'Usuario',
-                    ), array(
-                'field_id' => 'color_picker_field',
-                'title' => __('Color Picker', 'admin-page-framework-loader'),
+                'field_id' => 'section_primary_color',
                 'type' => 'color',
-                    ), array(// Submit button
+                'title' => __('Primary color', 'hotelgest'),
+                    ), 
+                    array(
+                'field_id' => 'section_secondary_color',
+                'title' => __('Secondary color', 'admin-page-framework-loader'),
+                'type' => 'color',
+                    ), 
+                    array(// Submit button
                 'field_id' => 'submit_button',
                 'type' => 'submit',
                     )
@@ -156,6 +157,9 @@ if (!class_exists('HG_APF_AddFields')) :
                 update_option('hotelgest_occupancy_max', AdminPageFramework::getOption('HG_Admin','occupancy_max') );
                 update_option('hotelgest_hg_analytics', AdminPageFramework::getOption('HG_Admin','hg_analytics') );
                 update_option('hotelgest_fb_analytics', AdminPageFramework::getOption('HG_Admin','hg_fbAnalytics') );
+                
+                update_option('hotelgest_primary_color', AdminPageFramework::getOption('HG_Admin','section_primary_color') );
+                update_option('hotelgest_secondary_color', AdminPageFramework::getOption('HG_Admin','section_secondary_color') );
             }
             
        // }   

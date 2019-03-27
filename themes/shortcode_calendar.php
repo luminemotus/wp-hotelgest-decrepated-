@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <input type="text" id="fromDateHg" name="dfrom" >
-    <input type="text" id="toDateHg" name="dto" >
+    <input type="hidden" id="fromDateHg" name="dfrom" >
+    <input type="hidden" id="toDateHg" name="dto" >
     <?php echo $postInput; ?>
 </form>
