@@ -1,3 +1,56 @@
+/* Main */
+hr {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    border: 0 !important;
+    border-top: 1px solid #e0e0e0 !important;
+}
+.no-padding {
+    padding: 0px !important;
+}
+.modal-xl {
+    top: 91px;
+}   
+.bottom-spacer-sml {
+    margin-bottom: 10px
+}
+/* confirm booking */
+#modalFinish{
+    top:25%;
+}
+/* booking */
+.modal .modal-dialog .modal-content {
+    border-radius: 2px;
+    padding: 20px;
+}
+.fa-times {
+    cursor: pointer !important;
+    color: #b13a3a;
+    float: right;
+    margin-left: 5px;
+}
+.panel-heading h3{
+    margin: 0;
+}
+
+#itemExtras .title{
+     width: 100%; 
+     height: auto; 
+    text-align: left;
+    /* z-index: 101; */
+    border-bottom-color: #eee;
+    display: inline;
+}
+#customerdetails .form-group {
+    margin-bottom: 5px;
+}
+.card {
+    margin: 5px auto;
+    display: block;
+    background-color: #f9f9f9;
+}
+/* fin booking */
+
 #itemExtras .price {
     display: block; }
 #itemExtras .price-type {
@@ -29,9 +82,56 @@
 .shopping-cart-menu {
     display: none;
 }
-.modal-xl {
-    top: 91px;
-}    
+ 
+.buttonGallery {
+    position: absolute;
+    top: 50%;
+    background-image: url(../img/search_icon.png);
+    display: block;
+    height: 25%;
+    width: 25%;
+    left: 50%;
+    margin: -12% 0 -12% -12%;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    z-index: 100;
+    transition: opacity .3s ease-out;
+    -moz-transition: opacity .3s ease-out;
+    -webkit-transition: opacity .3s ease-out;
+    -o-transition: opacity .3s ease-out;
+}
+.buttonGallery:hover {
+    opacity: 1;
+}
+.room .room-title {
+    margin-bottom: 5px
+}
+.room .room-title .room-remove {
+    position: relative;
+    top: -3px
+}
+.room .room-prices {
+    margin-bottom: 10px
+}
+.fromPrice{
+    font-size: 13px;
+}
+.room-prices {
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 15px;
+    font-size: 25px;
+    color: #252525;
+}
+.price_comparison {
+    display: block;
+    color: #d60807;
+    font-weight: bold;
+    font-size: 13px;
+}
+
 @keyframes spin {
     100% {
         transform: rotate(360deg); } 

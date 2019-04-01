@@ -20,7 +20,7 @@
     </div>
 
     <div id="tmplviewRoomDetails" style="display:none" >
-        <div class="well row">
+        <div class="well">
             <div class="row roomhasoffer ribbon" style="display: none;"> </div>
             <div class="row roomdetails"></div>
             <div class="row roomdetails">

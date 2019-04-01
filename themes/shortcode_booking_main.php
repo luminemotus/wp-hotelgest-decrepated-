@@ -32,9 +32,11 @@
                     </div>
                 </div>
                 <div class="row bottom-spacer-sml">
-                    <div class="col-xs-12">
+                    <div class="col-xs-6">
                         <label class="trn" data-toggle="collapse" data-target="#promoCodeMobile" >Promotional code</label>
-                        <input type="text" placeholder="Si lo tiene, escríbalo aquí." class="form-control discount-code collapse" id="promoCodeMobile" name="discount-code" >
+                    </div>
+                    <div class="col-xs-6">
+                        <input type="text" placeholder="Si lo tiene, escríbalo aquí." class="form-control discount-code collapse in" id="promoCodeMobile" name="discount-code" >
                     </div>
                 </div>
                 <button class="btn btn-success col-xs-12 trn" id="btn-search" type="button">Search</button>
@@ -65,7 +67,7 @@
     </div>
 </mobile-reservation-summary>
 
-<div class="main-content">
+<div class="main-content row">
 
     <div class="col-sm-12" id="right-container">
         <shopping-cart>
@@ -87,7 +89,7 @@
                                     $list = array('0', '1', '2', '3')
                                     ?>
                                     <?php foreach ($list as $l): ?>
-                                        <option <?php // ($reservas->type_vat == $l) ? 'selected' : '';  ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
+                                        <option <?php // ($reservas->type_vat == $l) ? 'selected' : '';   ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -122,7 +124,7 @@
                                     $list = array('1', '2', '3')
                                     ?>
                                     <?php foreach ($list as $l): ?>
-                                        <option <?php // ($reservas->type_vat == $l) ? 'selected' : '';  ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
+                                        <option <?php // ($reservas->type_vat == $l) ? 'selected' : '';   ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
                                     <?php endforeach; ?>
                                 </select>                                                
                             </div>
