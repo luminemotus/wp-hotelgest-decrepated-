@@ -161,7 +161,7 @@
 
             <div class='room-type-panel content-result'>
 
-                <div class='content-result-image clm-left-fixed col-sm-12'>
+                <div class='content-result-image clm-left-fixed '>
 
                     <!-- Carousel -->
                     <div id='myCarousel' class='carousel slide' data-ride='carousel'>

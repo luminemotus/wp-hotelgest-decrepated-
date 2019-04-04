@@ -130,7 +130,7 @@ if (!class_exists('HG_Frontend_Scripts')) :
             //Add the above custom CSS via wp_add_inline_style
             wp_add_inline_style('hg_booking-css', $slicknav_custom_css); //Pass the variable into the main style sheet ID
             //wp_enqueue_style('bootstrap', 'https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', 1, '3.3.6', 'all');
-            wp_enqueue_style('bootstrap', HG_PLUGIN_URL . 'assets/css/bootstrap.css', 1, '3.3.6', 'all');
+            wp_enqueue_style('bootstrap-hg', HG_PLUGIN_URL . 'assets/css/bootstrap-hg.css', 1, '3.3.6', 'all');
             wp_enqueue_style('toastr', 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css', false, '2.1.3', 'all');
             wp_enqueue_style('hg_calendar', HG_PLUGIN_URL . 'assets/css/calendar.css', false, '1.1', 'all');
 
