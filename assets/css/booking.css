@@ -52,8 +52,13 @@ hr {
 .number-of-nights{
     font-size: 15px; 
 }
-/* fin booking */
+/* Gallery */
 
+.content-result-image{
+    margin: 15px 0;
+}
+
+/* fin Img */
 #itemExtras .price {
     display: block; }
 #itemExtras .price-type {
