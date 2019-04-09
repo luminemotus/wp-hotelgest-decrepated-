@@ -33,6 +33,106 @@ hr {
     margin: 0;
 }
 
+.container-hg h1 {
+  margin: .67em 0;
+  font-size: 2em;
+}
+
+.container-hg h1 {
+  margin: .67em 0;
+  font-size: 2em;
+}
+
+.container-hg h1,
+.container-hg h2,
+.container-hg h3,
+.container-hg h4,
+.container-hg h5,
+.container-hg h6,
+.container-hg .h1,
+.container-hg .h2,
+.container-hg .h3,
+.container-hg .h4,
+.container-hg .h5,
+.container-hg .h6 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+.container-hg h1 small,
+.container-hg h2 small,
+.container-hg h3 small,
+.container-hg h4 small,
+.container-hg h5 small,
+.container-hg h6 small,
+.container-hg .h1 small,
+.container-hg .h2 small,
+.container-hg .h3 small,
+.container-hg .h4 small,
+.container-hg .h5 small,
+.container-hg .h6 small,
+.container-hg h1 .small,
+.container-hg h2 .small,
+.container-hg h3 .small,
+.container-hg h4 .small,
+.container-hg h5 .small,
+.container-hg h6 .small,
+.container-hg .h1 .small,
+.container-hg .h2 .small,
+.container-hg .h3 .small,
+.container-hg .h4 .small,
+.container-hg .h5 .small,
+.container-hg .h6 .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #777;
+}
+.container-hg h1,.container-hg .h1,.container-hg h2,.container-hg .h2,.container-hg h3,.container-hg .h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.container-hg h1 small, .container-hg .h1 small,
+.container-hg h2 small, .container-hg .h2 small,
+.container-hg h3 small, .container-hg .h3 small,
+.container-hg h1 .small, .container-hg .h1 .small,
+.container-hg h2 .small, container-hg .h2 .small,
+.container-hg h3 .small, .container-hg .h3 .small {
+  font-size: 65%;
+}
+.container-hg h4, container-hg .h4,
+.container-hg h5, .container-hg .h5,
+.container-hg h6, .container-hg .h6 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.container-hg h4 small, .container-hg .h4 small,
+.container-hg h5 small, .container-hg .h5 small,
+.container-hg h6 small, .container-hg .h6 small,
+.container-hg h4 .small, .container-hg .h4 .small,
+.container-hg h5 .small, .container-hg .h5 .small,
+.container-hg h6 .small, .container-hg .h6 .small {
+  font-size: 75%;
+}
+.container-hg h1,.container-hg .h1 {
+  font-size: 36px;
+}
+.container-hg h2,.container-hg .h2 {
+  font-size: 30px;
+}
+.container-hg h3,.container-hg .h3 {
+  font-size: 24px;
+}
+.container-hg h4,.container-hg .h4 {
+  font-size: 18px;
+}
+.container-hg h5,.container-hg .h5 {
+  font-size: 14px;
+}
+.container-hg h6,.container-hg .h6 {
+  font-size: 12px;
+}
+
 #itemExtras .title{
      width: 100%; 
      height: auto; 
@@ -52,12 +152,26 @@ hr {
 .number-of-nights{
     font-size: 15px; 
 }
+.description {
+  padding: 15px 0px 15px 0px;
+}
+.rate-room {
+  font-weight: bold;
+}
+.txt-more {
+  text-align: justify;
+}
+
+
 /* Gallery */
 
 .content-result-image{
     margin: 15px 0;
 }
-
+.room-gallery {
+  padding: 0px; 
+  top: 0px;
+}
 /* fin Img */
 #itemExtras .price {
     display: block; }
