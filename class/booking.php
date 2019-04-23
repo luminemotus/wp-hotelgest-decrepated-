@@ -181,7 +181,7 @@ if (!class_exists('HG_Booking')) :
             $untilDays = $a->diff($b)->days;
 
 //get info room
-            $booking = SDK_Hotelgest::cleanArray($bookingArray, $_POST);
+            $booking = $hotel->cleanArray($bookingArray, $_POST);
             unset($_POST['rooms']);
             foreach ($postRooms as $postR):
                 $postR = (array) $postR;
@@ -281,7 +281,7 @@ if (!class_exists('HG_Booking')) :
             $errorResev = false;
             foreach ($rooms as $p => $r):
                 $booking["products"] = $_POST['products'];
-                $booking = SDK_Hotelgest::cleanArray($bookingArray, $_POST);
+                $booking = $hotel->cleanArray($bookingArray, $_POST);
                 $booking = array_merge($booking, $bookingGeneral);
                 $booking['pcode'] = $p;
                 $booking['status'] = $status;

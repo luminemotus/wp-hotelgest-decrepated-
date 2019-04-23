@@ -133,7 +133,10 @@ if (typeof query.occupancy !== "undefined") {
     $booking_occupancy = query.occupancy;
     $('.booking-occupancy').val($booking_occupancy);
 }
-
+if (typeof query.promocode !== "undefined") {
+    $('#promoCode').val( query.promocode );
+    $('#promoCodeMobile').val( query.promocode );
+}
 if (typeof query.tpv !== "undefined") {
     if( query.tpv =='ok'){
         $('#modalFinish .reference').html( query.rscode );
@@ -711,7 +714,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                         $('.tax_included').show();
                     }
                     //logo
-                    var imageUrl = 'https://panel.hotelgest.com/files/logo/logo_' + $pcode + '.png';
+                    var imageUrl = 'https://panel.hotelgest.com/files/logo/' + data.logo ;
                     imageExists(imageUrl, function (exists) {
                         if (exists) {
                             $('.page-header h1').html('<img id="logo-img" src="' + imageUrl + '">');
@@ -780,12 +783,21 @@ if (typeof query.fbAnalytics !== "undefined") {
                             var percentageValue = paymentType.data[pId].Percentage / 100;
                             var percentage = paymentType.data[pId].Percentage;
                             var cleanInclude = ( typeof paymentType.data[pId].cleanInclude !== 'undefined' )? paymentType.data[pId].cleanInclude : 0;
+                            var taxInclude = ( typeof paymentType.data[pId].taxInclude !== 'undefined' )? paymentType.data[pId].taxInclude : 0;
 
-                            total_tpv = value.price * percentageValue;
-                            if ( cleanInclude == 1 )
-                                total_tpv = total_tpv + ( value.roomclear * percentageValue );
+                            total_tpv = total_tpv + (value.price * percentageValue );
+                            if ( cleanInclude == 1 ){
+                              total_tpv = total_tpv + ( value.roomclear * percentageValue );
+                            }
+                            if ( taxInclude == 1 ){
+                                var daytax = (window.totalDays > $dataProperty.tax_max_day) ? $dataProperty.tax_max_day : window.totalDays;
+                                if (daytax) {
+                                    var taxprice_adult = ($dataProperty.tax_price_adult * value.occupancy) * daytax;
+                                    total_tpv = total_tpv + taxprice_adult;
+                                }
+                            }
 
-                            console.log(' payment_in = true; ');
+                            console.log(' payment_in = true; total='+total_tpv);
                         }
                         if ($debug) {
                             console.log('paymentType: ' + parseInt(paymentType.data[pId].day) + ' > ' + parseInt(window.untilDays));
@@ -3082,6 +3094,9 @@ if (typeof query.fbAnalytics !== "undefined") {
             $("#booking-customer-zipcode").attr('placeholder', translator.get("Zip Code"));
             $("#booking-customer-country").attr('placeholder', translator.get("Country"));
             $("#booking-arrival-hour").attr('placeholder', translator.get("Arrival time"));
+            $("#booking-arrival-hour").on('click', function () {
+                $("#booking-arrival-hour").attr('type', 'time' );
+            });
             $("#cc_number").attr('placeholder', translator.get("Credit Card Number"));
             $("#cc_owner").attr('placeholder', translator.get("Credit Card Placeholder"));
             $("#cc_expiring").attr('placeholder', translator.get("Expiration date"));
