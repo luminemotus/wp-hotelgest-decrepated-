@@ -4,7 +4,7 @@ spl_autoload_register(function ($className) {
         return;
     }
 
-    $fileName = dirname(__DIR__).'/includes/';
+    $fileName = dirname(__DIR__).'/utility/';
 
     if ($lastNsPos = strripos($className, '\\')) {
         $namespace = substr($className, 0, $lastNsPos);
