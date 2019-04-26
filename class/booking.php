@@ -18,9 +18,10 @@ if (!class_exists('HG_Booking')) :
      * HG_Install Class
      */
     class HG_Booking {
-        
-        private $user_hotelgest ;
-        private $pass_hotelgest ;
+
+        private $user_hotelgest;
+        private $pass_hotelgest;
+
         /**
          * Constructor.
          */
@@ -30,7 +31,6 @@ if (!class_exists('HG_Booking')) :
 
             add_action('wp_ajax_tpv', array($this, 'hg_tpv'));
             add_action('wp_ajax_nopriv_tpv', array($this, 'hg_tpv'));
-
         }
 
         /**
@@ -41,7 +41,7 @@ if (!class_exists('HG_Booking')) :
             include HG_PLUGIN_DIR . 'utility/SDK_Hotelgest.php';
             include HG_PLUGIN_DIR . 'utility/autoload.php';
 
-            $user_hotelgest = get_option('hotelgest_user', false) ;
+            $user_hotelgest = get_option('hotelgest_user', false);
             $pass_hotelgest = get_option('hotelgest_password', false);
 
             $hotel = new SDK_Hotelgest($user_hotelgest, $pass_hotelgest);
@@ -86,8 +86,6 @@ if (!class_exists('HG_Booking')) :
                         )
                 );
 
-
-
                 $hotel->set_payment(
                         array(
                             'pcode' => $_GET['pcode'],
@@ -128,30 +126,30 @@ if (!class_exists('HG_Booking')) :
         }
 
         function hg_frontend_submit() {
-          include HG_PLUGIN_DIR . 'utility/SDK_Hotelgest.php';
-            
-         
-          /*  global $bookyourtravel_accommodation_helper;
-            $accommodation_results = $bookyourtravel_accommodation_helper->list_accommodations(@$paged, @$posts_per_page, @$sort_by, @$sort_order, @$parent_location_id, @$accommodation_type_ids, @$accommodation_tag_ids, array(), @$show_featured_only);
-            $roomList = array();
-            if ($accommodation_results)
-                foreach ($accommodation_results['results'] as $accommodation_result) :
-                    $accommodation_obj = new BookYourTravel_Accommodation($accommodation_result->ID);
-                    if ($accommodation_obj)
-                        $roomList[$accommodation_obj->get_rtcode()] = $accommodation_obj->get_custom_field('pcode');
-                endforeach;*/
+            include HG_PLUGIN_DIR . 'utility/SDK_Hotelgest.php';
 
 
-            $user_hotelgest = get_option('hotelgest_user', false) ;
+            /*  global $bookyourtravel_accommodation_helper;
+              $accommodation_results = $bookyourtravel_accommodation_helper->list_accommodations(@$paged, @$posts_per_page, @$sort_by, @$sort_order, @$parent_location_id, @$accommodation_type_ids, @$accommodation_tag_ids, array(), @$show_featured_only);
+              $roomList = array();
+              if ($accommodation_results)
+              foreach ($accommodation_results['results'] as $accommodation_result) :
+              $accommodation_obj = new BookYourTravel_Accommodation($accommodation_result->ID);
+              if ($accommodation_obj)
+              $roomList[$accommodation_obj->get_rtcode()] = $accommodation_obj->get_custom_field('pcode');
+              endforeach; */
+
+
+            $user_hotelgest = get_option('hotelgest_user', false);
             $pass_hotelgest = get_option('hotelgest_password', false);
 
             $hotel = new SDK_Hotelgest($user_hotelgest, $pass_hotelgest);
 
-            /*ob_start();
-            var_dump($_POST);
-            $log = ob_get_contents();
-            ob_end_clean();
-            $hotel->logFile($log);*/
+            /* ob_start();
+              var_dump($_POST);
+              $log = ob_get_contents();
+              ob_end_clean();
+              $hotel->logFile($log); */
 
 
             $customerArray = array('name', 'surname', 'email', 'country', 'city', 'address', 'zip', 'phone', 'language', 'language_iso');
@@ -191,7 +189,8 @@ if (!class_exists('HG_Booking')) :
 
                 //Caution Multiproperty
                 $setting = $hotel->getConfig($postR["pcode"]);
-                $property = $hotel->get_property($postR["pcode"]);
+                $propertyInfo = $hotel->get_property($postR["pcode"]);
+                $paymentType = ( isset($propertyInfo->paymentType) ) ? $propertyInfo->paymentType : false;
 
                 /* if room is empty */
                 if (isset($postR['rcode']) < 1)
@@ -233,20 +232,46 @@ if (!class_exists('HG_Booking')) :
                 $room['board'] = $postR['board'];
                 $room['policy'] = $postR['policy'];
 
-                if (@$property->paymentType) {
+                /* if (@$property->paymentType) {
+                  $pId = $room['policy'];
+                  if (in_array($pId, $property->paymentType->policyId)) {
+                  if ($property->paymentType->data->{$pId}->day > $untilDays) {
+                  $payment_in = true;
+
+                  $percentageValue = $property->paymentType->data->{$pId}->Percentage / 100;
+                  $percentage = $property->paymentType->data->{$pId}->Percentage;
+                  $cleanInclude = ( isset($paymentType->data->{$pId}->cleanInclude) ) ? $paymentType->data->{$pId}->cleanInclude : 0;
+
+                  if ($cleanInclude == 1)
+                  $total_tpv = $total_tpv + ( $price->roomclear * $percentageValue );
+
+                  $total_tpv = $price->price * $percentageValue;
+                  }
+                  }
+                  } */
+                if (@$paymentType) {
                     $pId = $room['policy'];
-                    if (in_array($pId, $property->paymentType->policyId)) {
-                        if ($property->paymentType->data->{$pId}->day > $untilDays) {
-                            $payment_in = true;
+                    if (in_array($pId, $propertyInfo->paymentType->policyId)) {
+                        if (!is_array($paymentType->data->{$pId})) {
+                            $paymentTypeArry = $paymentType->data->{$pId};
+                            $paymentType->data->{pId}[0] = $paymentTypeArry;
+                        }
 
-                            $percentageValue = $property->paymentType->data->{$pId}->Percentage / 100;
-                            $percentage = $property->paymentType->data->{$pId}->Percentage;
-                            $cleanInclude = ( isset($paymentType->data->{$pId}->cleanInclude) ) ? $paymentType->data->{$pId}->cleanInclude : 0;
-                            
-                              if ($cleanInclude == 1)
-                                  $total_tpv = $total_tpv + ( $price->roomclear * $percentageValue );
+                        foreach ($paymentType->data->{$pId} as $pay) {
+                            if ($pay->day > $untilDays) {
+                                $payment_in = true;
+                                $percentageValue = $pay->Percentage / 100;
+                                $percentage = $pay->Percentage;
+                                $cleanInclude = ( isset($pay->cleanInclude) ) ? $pay->cleanInclude : 0;
+                                $taxInclude = ( isset($pay->taxInclude) ) ? $pay->taxInclude : 0;
 
-                            $total_tpv = $price->price * $percentageValue;
+                                if ($cleanInclude == 1) {
+                                    $total_tpv = $total_tpv + ( $price->roomclear * $percentageValue );
+                                }
+
+                                $total_tpv = $price->price * $percentageValue;
+                                break;
+                            }
                         }
                     }
                 }
@@ -326,7 +351,7 @@ if (!class_exists('HG_Booking')) :
             $returnBooking = (object) array("success" => true, "data" => (object) array("customer" => $customer_id, "rscode" => $rscodeData), "errors" => "");
 
             if ($tpvActive) {//if (@$setting->tpv != '') {
-                 include HG_PLUGIN_DIR . 'utility/autoload.php';
+                include HG_PLUGIN_DIR . 'utility/autoload.php';
                 //var_dump($booking);
                 //var_dump($returnBooking);
 
@@ -353,7 +378,7 @@ if (!class_exists('HG_Booking')) :
                     'MerchantData' => $tpvData->merchantCode,
                     'Order' => $returnBooking->data->rscode,
                     'ProductDescription' => 'Descripcion del productos TMP',
-                    'Amount' => $totalAmount,
+                    'Amount' => $total_tpv,
                     'UrlOK' => $path . '?rscode=' . $returnBooking->data->rscode . '&tpv=ok',
                     'UrlKO' => $path . '?tpv=ko',
                     'MerchantURL' => admin_url('admin-ajax.php') . '?action=tpv&pcode=' . $pcode . '&rscode=' . $returnBooking->data->rscode

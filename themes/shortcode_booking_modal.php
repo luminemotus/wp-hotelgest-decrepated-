@@ -73,7 +73,7 @@
                                             <div id="pago" class="collapse"></div>
                                             <div id="noPayment" style="display: none">
                                                 <div class="card-wrapper col-xs-12 col-sm-5 hidden-xs" style="transform: scale(0.9);"></div>
-                                                <div class="ccard row form-group col-xs-12 col-sm-7" style="margin-top: 10px;">
+                                                <div class="ccard row form-group col-xs-12 col-sm-6 pull-right" style="margin-top: 10px;">
                                                     <div class="col-xs-12 ">
                                                         <input type="text" class="card form-control" id="cc_number" minlength="13" maxlength="19" name="number" placeholder="Número de tarjeta*" required />
                                                     </div>

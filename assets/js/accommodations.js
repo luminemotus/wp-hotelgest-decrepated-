@@ -237,6 +237,7 @@ if (typeof query.fbAnalytics !== "undefined") {
 
         $( ".booking-occupancy" ).change(function() {
             $('.booking-occupancy').val( $(this).val() );
+            $('#btn-search-main').trigger("click");
       	});
         $("#btn-search-main,#btn-search").on("click", function () {
             $firstLoad = false;
@@ -776,37 +777,45 @@ if (typeof query.fbAnalytics !== "undefined") {
             $.each($dataCart, function (index, value) {
                 pId = value.policyId;
                 try {
-                    if (paymentType.policyId.indexOf(pId) > -1) {
-                        if (parseInt(paymentType.data[pId].day) > parseInt(window.untilDays)) {
-                            payment_in = true;
+                  if (paymentType.policyId.indexOf(pId) > -1) {
 
-                            var percentageValue = paymentType.data[pId].Percentage / 100;
-                            var percentage = paymentType.data[pId].Percentage;
-                            var cleanInclude = ( typeof paymentType.data[pId].cleanInclude !== 'undefined' )? paymentType.data[pId].cleanInclude : 0;
-                            var taxInclude = ( typeof paymentType.data[pId].taxInclude !== 'undefined' )? paymentType.data[pId].taxInclude : 0;
+                      if (!Array.isArray(paymentType.data[pId])) {
+                          paymentTypeArry = paymentType.data[pId];
+                          paymentType.data[pId][0] = paymentTypeArry;
+                      }
 
-                            total_tpv = total_tpv + (value.price * percentageValue );
-                            if ( cleanInclude == 1 ){
-                              total_tpv = total_tpv + ( value.roomclear * percentageValue );
-                            }
-                            if ( taxInclude == 1 ){
-                                var daytax = (window.totalDays > $dataProperty.tax_max_day) ? $dataProperty.tax_max_day : window.totalDays;
-                                if (daytax) {
-                                    var taxprice_adult = ($dataProperty.tax_price_adult * value.occupancy) * daytax;
-                                    total_tpv = total_tpv + taxprice_adult;
-                                }
-                            }
+                      $.each(paymentType.data[pId], function (i, pay) {
+                          if ( parseInt(pay.day) > parseInt(window.untilDays) ) {
+                              payment_in = true;
+                              var percentageValue = pay.Percentage / 100;
+                              var percentage = pay.Percentage;
+                              var cleanInclude = (typeof pay.cleanInclude !== 'undefined') ? pay.cleanInclude : 0;
+                              var taxInclude = (typeof pay.taxInclude !== 'undefined') ? pay.taxInclude : 0;
 
-                            console.log(' payment_in = true; total='+total_tpv);
-                        }
-                        if ($debug) {
-                            console.log('paymentType: ' + parseInt(paymentType.data[pId].day) + ' > ' + parseInt(window.untilDays));
-                        }
-                    }
-                    if ($debug) {
+                              total_tpv = total_tpv + (value.price * percentageValue);
+                              if (cleanInclude == 1) {
+                                  total_tpv = total_tpv + (value.roomclear * percentageValue);
+                              }
+                              if (taxInclude == 1) {
+                                  var daytax = (window.totalDays > $dataProperty.tax_max_day) ? $dataProperty.tax_max_day : window.totalDays;
+                                  if (daytax) {
+                                      var taxprice_adult = ($dataProperty.tax_price_adult * value.occupancy) * daytax;
+                                      total_tpv = total_tpv + taxprice_adult;
+                                  }
+                              }
+                              console.log(' payment_in = true; total=' + total_tpv);
+                              return false;
+                          }
+                      });
+
+                      if ($debug) {
+                          console.log('paymentType: ' + parseInt(paymentType.data[pId].day) + ' > ' + parseInt(window.untilDays));
+                      }
+                  }
+                  if ($debug) {
                         console.log('----------');
                         console.log(JSON.stringify(paymentType.policyId) + '' + paymentType.policyId.indexOf(pId) + '_' + pId);
-                    }
+                  }
                 } catch (err) {
                     console.log('no tpv');
                 }
@@ -1663,11 +1672,19 @@ if (typeof query.fbAnalytics !== "undefined") {
                 console.log($dataCart);
                 var adicionalDesc = '';
                 var adicionalTax = '';
+                $('.payment_booking_engine').html('');
                 $.each($dataCart, function (index, value) {
                     //sumamos +1 a la lista que ya tenemos
                     if ($('.cartItem[data-key="' + value.key + '"]').length > 0) {
                         var numquantity = $('.cartItem[data-key="' + value.key + '"] .quantyCart');
-                        numquantity.html(parseInt(numquantity.html()) + 1);
+                        var totalQuantity = parseInt(numquantity.html()) + 1;
+                        numquantity.html( totalQuantity );
+                        var numquantity = $('.adicionalTax[data-key="' + value.key + '"] .quantyCart');
+                        numquantity.html( totalQuantity );
+                        var numquantity = $('.adicionalTax[data-key="' + value.key + '"] .taxpriceAdult');
+                        taxprice_adult = numquantity.data('price') ;
+                        taxprice_adult = taxprice_adult * totalQuantity;
+                        numquantity.text( accommodations.formatPrice(taxprice_adult)  );
                     } else {
                         var adicionalDesc = '';
                         if (countBookingLipiezas && value.roomclear > 0) {
@@ -1684,7 +1701,9 @@ if (typeof query.fbAnalytics !== "undefined") {
                             }
 
                             var text_tax_adult = $dataProperty.tax_price_adult + ' ' + window.currencySymbol + ' x ' + value.occupancy + ' personas x ' + daytax + ' noche';
-                            adicionalTax += "<br> " + translator.get("Impuesto municipal") + "  (" + text_tax_adult + ")" + translator.get("") + ": <b>" + accommodations.formatPrice(taxprice_adult) + "</b>";
+                            adicionalTax = '<p class="adicionalTax" data-key="' + value.key + '">'
+                                          + '   <span class="quantyCart">'+value.quantity+'</span> x ' + translator.get("Impuesto municipal") + '  (' + text_tax_adult + ')' + translator.get("") + ': <b class="taxpriceAdult" data-price="' + taxprice_adult + '">' + accommodations.formatPrice(taxprice_adult) + '</b>'
+                                          + '</p>';
                         }
 
                         if (value.idPack) {
@@ -1708,7 +1727,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                     + '<h6><span class="quantyCart">' + $quantity + '</span> x ' + $title + ': <span class="pull-right price">' + $price + '</span> </h6>'
                     + ' <p>' + $descript + ' ' + $adicionalDesc +'</p><hr></div>';
             $(item).appendTo('.bodyCart');
-			$('.payment_booking_engine').show().prepend( adicionalTax+'<br>' );
+			$('.payment_booking_engine').show().prepend( adicionalTax );
         },
         bindTotalCartEmbed: function ($totalprice) {
             $('#booking-price').val($totalprice);

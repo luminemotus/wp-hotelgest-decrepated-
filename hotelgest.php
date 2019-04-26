@@ -4,7 +4,7 @@
  * Plugin Name: Hotelgest plugin
  * Plugin URI: http://www.hotelgest.com
  * Description: This plugin is for integration module of Hotelgest into  WordPress
- * Version: 1.0.9
+ * Version: 1.0.10
  * Author: hotelgest
  * Author URI: http://www.hotelgest.com
  * License: GPL2
@@ -23,7 +23,7 @@ if (!class_exists('Hotelier')) :
         /**
          * @var string
          */
-        public $version = '1.0.9';
+        public $version = '1.0.10';
 
         /**
          * @var Hotelier The single instance of the class
@@ -80,7 +80,7 @@ if (!class_exists('Hotelier')) :
                 
                 require HG_PLUGIN_DIR . 'utility/puc/plugin-update-checker.php';
                 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-                                'https://apartamentoslatorrecambrils.com/wp-content/plugins/hotelgest-wp/hotelgest.json', __FILE__, 'wp-hotelgest'
+                                'https://plugin.webparahoteles.es/wp-content/plugins/hotelgest-wp/hotelgest.json', __FILE__, 'wp-hotelgest'
                 );
             }
         }
