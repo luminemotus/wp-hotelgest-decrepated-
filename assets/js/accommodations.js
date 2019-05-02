@@ -128,24 +128,7 @@ if (typeof query.onlyPack !== "undefined") {
 } else {
     var $onlyPack = 0;
 }
-if (typeof query.occupancy !== "undefined") {
-    $.removeCookie("booking_occupancy");
-    $booking_occupancy = query.occupancy;
-    $('.booking-occupancy').val($booking_occupancy);
-}
-if (typeof query.promocode !== "undefined") {
-    $('#promoCode').val( query.promocode );
-    $('#promoCodeMobile').val( query.promocode );
-}
-if (typeof query.tpv !== "undefined") {
-    if( query.tpv =='ok'){
-        $('#modalFinish .reference').html( query.rscode );
-        $('#modalFinish').modal('show');
-    }
-    if( query.tpv =='ko' ){
 
-    }
-}
 if (typeof query.fbAnalytics !== "undefined") {
     !function (f, b, e, v, n, t, s)
     {
@@ -173,6 +156,24 @@ if (typeof query.fbAnalytics !== "undefined") {
 }
 
 (function ($) {
+    if (typeof query.occupancy !== "undefined") {
+        $.removeCookie("booking_occupancy");
+        $booking_occupancy = query.occupancy;
+        $('.booking-occupancy').val($booking_occupancy);
+    }
+    if (typeof query.promocode !== "undefined") {
+        $('#promoCode').val( query.promocode );
+        $('#promoCodeMobile').val( query.promocode );
+    }
+    if (typeof query.tpv !== "undefined") {
+        if( query.tpv =='ok'){
+            $('#modalFinish .reference').html( query.rscode );
+            $('#modalFinish').modal('show');
+        }
+        if( query.tpv =='ko' ){
+
+        }
+    }
     //translate
     $('.not-available').html(mainlang["not_available"]);
 
@@ -356,7 +357,8 @@ if (typeof query.fbAnalytics !== "undefined") {
                 date_select_input.val(checkin_date_formatted.format("D MMM YYYY") + " - " + checkout_date_formatted.format("D MMM YYYY"));
                 // date_select_input.val(checkin_date_formatted + " - " + checkout_date_formatted);
                 checkin_input.val(chckin_d_format).attr('hdin', s1);
-                checkout_input.val(chckout_d_format).attr('hdout', s2);
+                checkout_input.val(chckout_d_format).attr('hdout', s2); 
+                $('#btn-search-main').trigger("click");
             }
         });
         var datepickerhg2 = new HotelDatepicker(document.getElementById('DateRangHotelMobile'), {
@@ -380,6 +382,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                 date_select_input.val(checkin_date_formatted.format("D MMM YYYY") + " - " + checkout_date_formatted.format("D MMM YYYY"));
                 checkin_input.val(chckin_d_format).attr('hdin', s1);
                 checkout_input.val(chckout_d_format).attr('hdout', s2);
+                $('#btn-search-main').trigger("click");
             }
         });
     });
@@ -466,7 +469,7 @@ if (typeof query.fbAnalytics !== "undefined") {
             moment.locale(language);
             translator = $('body').translate({lang: language, t: dict});
 
-            if (pcode > 0) {
+            if (pcode != 0) {
                 accommodations.initPropertyLang(pcode);
             }
 

@@ -114,11 +114,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-12">
+                                <div class="col-md-4 col-sm-12">
                                     <label class="trn">Arrival</label> <label class="trn">Departure</label>
                                     <input type="text" id="DateRangHotel" onfocus="blur();"  readonly="true" value="" placeholder="Seleccione fecha" name="fromDate" class="fromDate pull-right form-control">
                                 </div>
-                                <div class="col-md-3 col-sm-12">
+                                <div class="col-md-2 col-sm-12">
                                     <label class="trn">Persons</label>
                                     <select id="booking-occupancy" name="booking-occupancy" class="form-control m-p booking-occupancy">
                                         <?php
@@ -127,15 +127,15 @@
                                         <?php foreach ($list as $l): ?>
                                             <option <?php // ($reservas->type_vat == $l) ? 'selected' : '';    ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
                                         <?php endforeach; ?>
-                                    </select>                                                
+                                    </select>
                                 </div>
-                                <div class="col-md-3 col-sm-12">
+                                <div class="col-md-4 col-sm-12">
                                     <label class="trn">Promotional code</label>
                                     <input type="text" placeholder="Si lo tiene, escríbalo aquí." class="form-control discount-code" id="promoCode" name="discount-code" >
                                 </div>
-                                <div class="col-md-3 col-sm-12">
+                                <div class="col-md-2 col-sm-12">
                                     <label class="trn" style="visibility:hidden;">Search</label>
-                                    <button class="btn btn-success col-xs-12 trn" id="btn-search-main" type="button">Search</button>
+                                    <button class="btn col-xs-12 trn" id="btn-search-main" type="button">Apply</button>
                                 </div>
                                 <hr>
                                 <div class="mt20">
@@ -218,6 +218,3 @@
 
     </div>
 </div>
-
-
-

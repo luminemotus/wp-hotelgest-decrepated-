@@ -54,7 +54,7 @@
 
     <div id="tmplroom-details-board"  style="display:none" >
         <div class="col-xs-12 divider">
-            <div class="col-xs-5 nameboard hidden-xs">
+            <div class="col-xs-6 nameboard hidden-xs">
                 <i class="ico fa"></i>
                 <span class="txt">-</span>
                 <br>
@@ -64,7 +64,7 @@
                 <span class="price price-md">80</span><span class="priceDayList"></span>
                 <span class="striked-price">98</span>
             </div>
-            <div class="col-xs-12 col-sm-4 no-padding">
+            <div class="col-xs-12 col-sm-3 no-padding">
                 <button type="button" class="btn btn-primary addcart col-xs-12" data-id-cart="">
                     <span class="price col-xs-3 hidden-sm hidden-lg hidden-md">80</span>
                     <div class="col-xs-6 hidden-sm hidden-lg hidden-md nameboard">

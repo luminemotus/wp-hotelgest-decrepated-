@@ -1713,5 +1713,13 @@ var dict = {
       fr: "Promotion code applied",
       de: "Promotion code applied",
       eu: "Promotion code applied"
+  },
+    "Apply":{
+      es: "Aplicar",
+      en: "Apply",
+      ca: "Aplicar",
+      fr: "Aplicar",
+      de: "Apply",
+      eu: "Aplicar"
   }
 }

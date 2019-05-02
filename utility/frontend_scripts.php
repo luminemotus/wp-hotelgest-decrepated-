@@ -43,8 +43,13 @@ if (!class_exists('HG_Frontend_Scripts')) :
          * @return void
          */
         public function frontend_scripts() {
-            wp_deregister_script('jquery');
-            wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js');
+             $noconflict = get_option('hotelgest_noconflict_js');
+            if( $noconflict == 1 ){
+                ;
+            }else{
+                wp_deregister_script('jquery');
+            }
+            wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js');
             wp_enqueue_script('jqueryui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js', false, '1.12.0', true);
 
             $suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';

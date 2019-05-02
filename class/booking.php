@@ -82,6 +82,7 @@ if (!class_exists('HG_Booking')) :
                         array(
                             'pcode' => $_GET['pcode'],
                             'rscode' => $tpvRequest["Ds_Order"],
+                            'multi' => 1,
                             'status' => 1
                         )
                 );
@@ -269,7 +270,7 @@ if (!class_exists('HG_Booking')) :
                                     $total_tpv = $total_tpv + ( $price->roomclear * $percentageValue );
                                 }
 
-                                $total_tpv = $price->price * $percentageValue;
+                                $total_tpv += $price->price * $percentageValue;
                                 break;
                             }
                         }
@@ -372,7 +373,7 @@ if (!class_exists('HG_Booking')) :
                 # Cargamos la clase con los parámetros base
                 $TPV = new Redsys\Tpv\Tpv($config);
                 # Indicamos los campos para el pedido
-                $path = $_SERVER["HTTP_REFERER"];
+                $path = str_replace('?tpv=ko', '', $_SERVER["HTTP_REFERER"] ) ;
                 $TPV->setFormHiddens(array(
                     'TransactionType' => '0',
                     'MerchantData' => $tpvData->merchantCode,
@@ -383,8 +384,8 @@ if (!class_exists('HG_Booking')) :
                     'UrlKO' => $path . '?tpv=ko',
                     'MerchantURL' => admin_url('admin-ajax.php') . '?action=tpv&pcode=' . $pcode . '&rscode=' . $returnBooking->data->rscode
                 ));
-                $log = admin_url('admin-ajax.php') . '?action=tpv&pcode=' . $pcode . '&rscode=' . $returnBooking->data->rscode;
-                $hotel->logFile($log);
+                //$log = admin_url('admin-ajax.php') . '?action=tpv&pcode=' . $pcode . '&rscode=' . $returnBooking->data->rscode;
+                //$hotel->logFile($log);
                 // echo admin_url('admin-ajax.php'); 
                 //var_dump( $TPV->getFormHiddens() );
                 //var_dump( $TPV->getOption() );

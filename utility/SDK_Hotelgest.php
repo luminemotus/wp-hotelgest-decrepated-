@@ -37,7 +37,8 @@ class SDK_Hotelgest {
         $this->rcd = '';
 
         // overwrite url server
-        $this->srv = ( in_array($_SERVER ["HTTP_HOST"], array('', 'plugin.webparahoteles.es'))) ? 'https://sandboxapi.hotelgest.com/v1/' : $this->srv;
+        //$this->srv =  ( in_array($_SERVER ["HTTP_HOST"], array('', 'plugin.webparahoteles.es'))) ? 'https://sandboxapi.hotelgest.com/v1/' : $this->srv;
+        
         $this->get_token();
 
         $this->err = '';
@@ -288,7 +289,7 @@ class SDK_Hotelgest {
 
     public function isPack($args) {
         $args["token"] = $this->token;
-        $packList = (array) $this->curl_contents_json('price/Pack', $args, 'POST');
+        $packList = (array) $this->curl_contents_json('price/pack', $args, 'POST');
         $args["pack_code"] = (string) $args["pack_code"];
         foreach ($packList as $key => $pack):
             if ($key == $args["pack_code"]) {

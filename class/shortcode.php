@@ -24,6 +24,7 @@ if (!class_exists('HG_Shortcode')) :
         public function __construct() {
             add_shortcode('hg_calendar', array( $this, 'calendarHotelgest_plp'));
             add_shortcode("hg_booking", array($this, 'hostelgest_plp'));
+            add_shortcode("hg_day_price", array($this, 'dayprice_plp'));
         }
 
         function calendarHotelgest_plp($atts = null, $content = null, $tag = null) {
@@ -84,6 +85,44 @@ if (!class_exists('HG_Shortcode')) :
             $password = get_option('hotelgest_password', '');
 
             return "TPM-->" . $user . "--" . $password;*/
+        }
+        
+        function dayprice_plp($atts = null) {
+            if (!class_exists('SDK_Hotelgest')) {
+                include HG_PLUGIN_DIR . 'utility/SDK_Hotelgest.php';
+            }
+            
+            $atts = shortcode_atts(
+                    array(
+                'rtcode' => '',
+                'occupancy' => '',
+                'board' => '',
+                'policy' => ''      
+                    ), $atts);
+      
+            foreach( $atts as $key =>$att ):
+                if( !$att )
+                    unset( $atts[$key] );
+            endforeach;
+            
+            $user_hotelgest = get_option('hotelgest_user', false);
+            $pass_hotelgest = get_option('hotelgest_password', false);
+            $pcode = get_option('hotelgest_pcode', false);
+            $hotel = new SDK_Hotelgest($user_hotelgest, $pass_hotelgest);
+            
+            $occupancy = ( isset($atts['occupancy']) )? $atts['occupancy'] : 1; 
+            $board = ( isset($atts['board']) )? $atts['board'] : 'nb';
+            $policy = ( isset($atts['policy']) )? $atts['policy'] : 4;
+            $fromDate = date('Y-m-d');
+            $toDate = date('Y-m-d');
+            $todayDate = new DateTime(); 
+            $fromDate = $todayDate->format('Y-m-d');
+            $toDate = $todayDate->modify('+1 day')->format('Y-m-d');
+            $price = $hotel->get_price(array('pcode' => $pcode, 'fromDate' => $fromDate, 'toDate' => $toDate
+                    , 'rtcode' => $atts['rtcode'], 'occupancy' => $occupancy, 'board' => $board, 'policy' => $policy));
+         
+            echo $price[0]->price ;
+
         }
 
     }

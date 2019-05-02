@@ -308,6 +308,10 @@
  * HOTELGEST
  * ============================================================*/
 
+table.datepicker__month tr th{
+     padding: 5px;
+}
+
 @media (max-width: 700px) {
   .datepicker__topbar .datepicker__info--selected {
     width: 100% !important;
@@ -360,3 +364,4 @@
 #datepicker-DateRangHotelMobile .datepicker__topbar span.datepicker__info--selected-label{
     display: block ;
 }
+

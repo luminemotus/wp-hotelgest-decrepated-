@@ -4,7 +4,7 @@
  * Plugin Name: Hotelgest plugin
  * Plugin URI: http://www.hotelgest.com
  * Description: This plugin is for integration module of Hotelgest into  WordPress
- * Version: 1.0.10
+ * Version: 1.0.11
  * Author: hotelgest
  * Author URI: http://www.hotelgest.com
  * License: GPL2

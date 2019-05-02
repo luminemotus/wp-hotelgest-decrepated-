@@ -53,6 +53,9 @@ if (!class_exists('HG_APF_AddFields')) :
                     ), array(
                 'title' => 'Style', // tab title
                 'tab_slug' => 'style', // tab slug
+                    ), array(
+                'title' => 'Advanced', // tab title
+                'tab_slug' => 'advanced', // tab slug
                     )
             );
         }
@@ -131,6 +134,23 @@ if (!class_exists('HG_APF_AddFields')) :
                     )
             );
         }
+        
+         public function load_hotelgest_advanced($oAdminPage) {
+
+            $this->addSettingFields(
+                    array(
+                'field_id'    =>    'noconflict_js',
+                'type'    =>    'checkbox',
+                'title'    =>   __('No conflict jquery', 'hotelgest'),
+                'label'    =>    __( '', 'hotelgest' ),
+                'default'    =>    false,
+            ),
+                    array(// Submit button
+                'field_id' => 'submit_button',
+                'type' => 'submit',
+                    )
+            );
+        }
 
         /**
          * One of the pre-defined methods which is triggered when the page contents is going to be rendered.
@@ -160,6 +180,13 @@ if (!class_exists('HG_APF_AddFields')) :
                 
                 update_option('hotelgest_primary_color', AdminPageFramework::getOption('HG_Admin','section_primary_color') );
                 update_option('hotelgest_secondary_color', AdminPageFramework::getOption('HG_Admin','section_secondary_color') );
+                
+                AdminPageFramework::getOption('HG_Admin','noconflict_js');
+                if(  AdminPageFramework::getOption('HG_Admin','noconflict_js') == 1 ){
+                    update_option('hotelgest_noconflict_js', 1 );
+                }else{
+                    update_option('hotelgest_noconflict_js',0);
+                }
             }
             
        // }   
@@ -232,8 +259,13 @@ if (!class_exists('HG_APF_AddFields')) :
 
                     $(document).ready(function () {
                         autocomplete();
+                        
+                        $('.admin-page-framework-in-page-tab a').each(function( ){
+                            var href = $(this).prop( 'href' ).replace('&post_type=post','');
+                            $(this).prop( 'href' , href );
+                        });
+                        
                     });
-
 
 
                 })(jQuery);
