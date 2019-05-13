@@ -171,9 +171,9 @@ if (!class_exists('HG_Frontend_Scripts')) :
             $fbAnalytics = get_option('hotelgest_fb_analytics', '');
                     
             if( $analytics != '' )
-                echo $datepicker_params['analytics'] = $analytics;
+                 $datepicker_params['analytics'] = $analytics;
             if( $fbAnalytics != '' )
-                echo $datepicker_params['fbAnalytics'] = $fbAnalytics;
+                 $datepicker_params['fbAnalytics'] = $fbAnalytics;
             
             //die('kkkk');
             wp_localize_script('hg-accommodations', 'hg_params', $datepicker_params);
