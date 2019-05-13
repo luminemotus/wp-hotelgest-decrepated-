@@ -166,9 +166,18 @@ if (!class_exists('HG_Frontend_Scripts')) :
             );
             if ($addicionalParams)
                 $datepicker_params = array_merge($datepicker_params, $addicionalParams);
+            
+            $analytics = get_option('hotelgest_hg_analytics', '');
+            $fbAnalytics = get_option('hotelgest_fb_analytics', '');
+                    
+            if( $analytics != '' )
+                echo $datepicker_params['analytics'] = $analytics;
+            if( $fbAnalytics != '' )
+                echo $datepicker_params['fbAnalytics'] = $fbAnalytics;
+            
+            //die('kkkk');
             wp_localize_script('hg-accommodations', 'hg_params', $datepicker_params);
         }
-
     }
 
     new HG_Frontend_Scripts();

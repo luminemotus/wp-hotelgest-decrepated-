@@ -129,7 +129,12 @@ if (typeof query.onlyPack !== "undefined") {
     var $onlyPack = 0;
 }
 
-if (typeof query.fbAnalytics !== "undefined") {
+var fbAnalytics = false;
+if (typeof hg_params !== "undefined" &&  typeof hg_params.fbAnalytics !== "undefined")
+    fbAnalytics = hg_params.fbAnalytics;
+else if (typeof query.fbAnalytics !== "undefined")
+    fbAnalytics = query.fbAnalytics;
+if ( fbAnalytics ) {
     !function (f, b, e, v, n, t, s)
     {
         if (f.fbq)
@@ -151,8 +156,18 @@ if (typeof query.fbAnalytics !== "undefined") {
         s.parentNode.insertBefore(t, s)
     }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', query.fbAnalytics);
+    fbq('init', fbAnalytics);
     fbq('track', 'PageView');
+}
+
+var analytics = false;
+if ( typeof hg_params !== "undefined" && typeof hg_params.analytics !== "undefined")
+    analytics = hg_params.analytics;
+else if (typeof query.analytics !== "undefined")
+    analytics = query.analytics;
+if ( analytics ) {
+    ga('create', analytics, 'auto', 'clientTracker');
+    ga('clientTracker.send', 'pageview');
 }
 
 (function ($) {
@@ -174,6 +189,7 @@ if (typeof query.fbAnalytics !== "undefined") {
 
         }
     }
+
     //translate
     $('.not-available').html(mainlang["not_available"]);
 
@@ -213,11 +229,7 @@ if (typeof query.fbAnalytics !== "undefined") {
             occupancy_input.val($booking_occupancy); //.attr('value', date_out);
         }
 
-        if (typeof query.analytics !== "undefined") {
 
-            ga('create', query.analytics, 'auto', 'clientTracker');
-            ga('clientTracker.send', 'pageview');
-        }
         if (typeof query.currency !== "undefined") {
             $currency = query.currency;
         }
@@ -357,7 +369,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                 date_select_input.val(checkin_date_formatted.format("D MMM YYYY") + " - " + checkout_date_formatted.format("D MMM YYYY"));
                 // date_select_input.val(checkin_date_formatted + " - " + checkout_date_formatted);
                 checkin_input.val(chckin_d_format).attr('hdin', s1);
-                checkout_input.val(chckout_d_format).attr('hdout', s2); 
+                checkout_input.val(chckout_d_format).attr('hdout', s2);
                 $('#btn-search-main').trigger("click");
             }
         });
@@ -1128,8 +1140,10 @@ if (typeof query.fbAnalytics !== "undefined") {
                             console.log(boardObj);
                             var minstay = boardObj.minstay;
                             var maxstay = boardObj.maxstay;
+                            var selectQuantityOption = '';
                             if (boardObj.availability > 0) {
                                 $listRoom[$rtcode].is_availability = selector = boardObj.availability;
+                                selectQuantityOption = accommodations.quantityOptionHtml( selector );
                             } else {
                                 selector = 0;
                             }
@@ -1149,6 +1163,8 @@ if (typeof query.fbAnalytics !== "undefined") {
                             $('#tmplroom-details-board .addcart').attr('data-id-cart', boardObj.key);
                             $('#tmplroom-details-board .not-available').hide();
                             $('#tmplroom-details-board .avalibility').text(selector);
+                            $('#tmplroom-details-board #selectQuantity').hide();
+                            $('#tmplroom-details-board #selectQuantity').html( selectQuantityOption );
                             $('#tmplroom-details-board .addcart').hide();
                             $('#tmplroom-details-board .minstay').hide();
                             $('#tmplroom-details-board .maxstay').hide();
@@ -1174,6 +1190,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                                 //$('[data-id="' + $rcode + '"] .rate-room').append( '<div class="restriction">'+translator.get("minstay")+' '+minstay+' '+translator.get("nights")+'</div>');
                             } else {
                                 notAvail = false;
+                                $('#tmplroom-details-board #selectQuantity').show();
                                 $('#tmplroom-details-board .addcart').show();
                                 //$('.roomitem[data-id="' + $rtcode + '"] .btn-room-collapse .book-accommodation-select-dates.available').show();
                             }
@@ -1592,18 +1609,21 @@ if (typeof query.fbAnalytics !== "undefined") {
                 $divAvalibilityPack = mainDivAddPack.find('.avalibility'); //mainDivAddPack.closest(".itemsPack ").find('.avalibility');
 
                 //$numItem = mainDivAdd.find('.avalibility select option').length;
+                quantity = ( mainDivAdd.find('.selectQuantity').length )? mainDivAdd.find('.selectQuantity').val() : 1;
                 $numItem = parseInt($divAvalibility.html());
-                if ($numItem > 1) {
-
+                $numItem = $numItem - quantity;
+                if ($numItem > 0) {
                     //mainDivAdd.find('.avalibility select option:last-child').attr('disabled', 'disabled');
-                    $divAvalibility.html($numItem - 1);
-                    $divAvalibilityPack.html($numItem - 1);
+                    $divAvalibility.html( $numItem );
+                    $divAvalibilityPack.html( $numItem );
+                    mainDivAdd.find('.selectQuantity').html( accommodations.quantityOptionHtml( $numItem ) );
                 } else
-                if ($numItem == 1) {
+                if ($numItem == 0) {
                     $divAvalibility.html(0); // mainDivAdd.closest(".room-details-listitem").find('.avalibility').html(0);
                     //mainDivAdd.closest(".room-details-listitem").find('.avalibility').html(0);
                     mainDivAdd.find('.not-available').show();
                     mainDivAdd.find('.addcart').hide();
+                    mainDivAdd.find('.selectQuantity').hide();
                     $divAvalibilityPack.html(0); // mainDivAdd.closest(".room-details-listitem").find('.avalibility').html(0);
                     //mainDivAdd.closest(".room-details-listitem").find('.avalibility').html(0);
                     mainDivAddPack.find('.not-available').show();
@@ -1631,7 +1651,7 @@ if (typeof query.fbAnalytics !== "undefined") {
                     });
                     //cuando añadimos una reserva recalculamos los Nº procutos x dia x nº personas
                     $dataRoomItemTMP.type = 'booking';
-                    $dataRoomItemTMP.quantity = 1;
+                    $dataRoomItemTMP.quantity = quantity;
                     $dataRoomItemTMP.descript = ' ' + $dataRoomItemTMP.occupancy + ' ' + translator.get("Pax.") +
                             '<br> <span class="board">' + translator.get("board_" + $dataRoomItemTMP.board) + '</span>' +
                             '<br> <span class="policy">' + translator.get("policy_" + $dataRoomItemTMP.policyId) + '</span><span class="policytex">: ' + accommodations.readmore(policytextList[rtcode + '-' + policy], 150) + '</span>'
@@ -2094,6 +2114,8 @@ if (typeof query.fbAnalytics !== "undefined") {
                     //mainDivAdd.find('.avalibility select option:last-child').attr('disabled', 'disabled');
                     $divAvalibility.html($numItem + $addnum);
                     mainDivAddPack.find('.avalibility').html($numItem + $addnum);
+                    mainDivAdd.find('.selectQuantity').html( accommodations.quantityOptionHtml( $numItem + $addnum ) );
+                    mainDivAddPack.find('.selectQuantity').html( accommodations.quantityOptionHtml( $numItem + $addnum ) );
                 } else
                 if ($numItem == 0) {
                     //mainDivAdd.closest(".room-details-listitem").find('.avalibility select').show();
@@ -3212,6 +3234,13 @@ if (typeof query.fbAnalytics !== "undefined") {
             $('.more').unbind('click').on('click', function () {
                 accommodations.alert(readmoreList[$(this).data('id')]);
             });
+        },
+        quantityOptionHtml: function (selector) {
+            var selectQuantityOption = '';
+            for (i = 1; i <= selector; i++) {
+                selectQuantityOption +=  '<option value="'+i+'">'+i+'</option>';
+            }
+            return selectQuantityOption;
         },
         convertLocalToUTC: function (date) {
             return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());

@@ -21,19 +21,35 @@
 
     <div id="tmplviewRoomDetails" style="display:none" >
         <div class="well">
-            <div class="row roomhasoffer ribbon" style="display: none;"> </div>
-            <div class="row roomdetails"></div>
-            <div class="row roomdetails">
-                <div class="room-details">
-                    <div class="room-details-listitem"> </div>
-                </div>
-            </div>
-            <div class="row roomdetails">
-                <div class="col-lg-12 booking_form_controls ">
-                    <div class="datepicker_holder hasDatepicker">
+            <?php if ( get_option('show_first_roomrate', 1) ){ ?>
+                <div class="row roomhasoffer ribbon" style="display: none;"> </div>
+                <div class="row roomdetails"></div>
+                <div class="row roomdetails">
+                    <div class="room-details">
+                        <div class="room-details-listitem"> </div>
                     </div>
                 </div>
-            </div>
+                <div class="row roomdetails">
+                    <div class="col-lg-12 booking_form_controls ">
+                        <div class="datepicker_holder hasDatepicker">
+                        </div>
+                    </div>
+                </div>
+            <?php } else { ?>
+                <div class="row roomdetails">
+                    <div class="col-lg-12 booking_form_controls ">
+                        <div class="datepicker_holder hasDatepicker">
+                        </div>
+                    </div>
+                </div>
+                <div class="row roomhasoffer ribbon" style="display: none;"> </div>
+                <div class="row roomdetails"></div>
+                <div class="row roomdetails">
+                    <div class="room-details">
+                        <div class="room-details-listitem"> </div>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
     </div>
 
@@ -60,9 +76,12 @@
                 <br>
                 <small class="avalibility">-</small> <small class="trn">units left</small>
             </div>
-            <div class="col-xs-3 hidden-xs nopadding">
+            <div class="col-xs-2 hidden-xs nopadding">
                 <span class="price price-md">80</span><span class="priceDayList"></span>
                 <span class="striked-price">98</span>
+            </div>
+            <div class="col-xs-12 col-sm-1 no-padding">
+                <select id="selectQuantity" class="form-control m-p selectQuantity"> </select>
             </div>
             <div class="col-xs-12 col-sm-3 no-padding">
                 <button type="button" class="btn btn-primary addcart col-xs-12" data-id-cart="">

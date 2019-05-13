@@ -100,7 +100,15 @@ if (!class_exists('HG_APF_AddFields')) :
                 'title' => __('Occupancy max', 'hotelgest'),
                 'description' => __('Occupancy max', 'hotelgest'),
                 'default' => '3',
-                    ), array(// fbAnalytics
+                    ),
+                    array(// first
+                'field_id' => 'show_first_roomrate',
+                'type' => 'checkbox',
+                'title' => __('show first room rate ', 'hotelgest'),
+                'label'    =>    __( '', 'hotelgest' ),
+                'default'    =>    false,
+                    ), 
+                    array(// fbAnalytics
                 'field_id' => 'hg-fbAnalytics',
                 'type' => 'text',
                 'title' => __('fbAnalytics', 'hotelgest')
@@ -177,6 +185,7 @@ if (!class_exists('HG_APF_AddFields')) :
                 update_option('hotelgest_occupancy_max', AdminPageFramework::getOption('HG_Admin','occupancy_max') );
                 update_option('hotelgest_hg_analytics', AdminPageFramework::getOption('HG_Admin','hg_analytics') );
                 update_option('hotelgest_fb_analytics', AdminPageFramework::getOption('HG_Admin','hg_fbAnalytics') );
+                update_option('hotelgest_first_room_rate', AdminPageFramework::getOption('HG_Admin','first_room_rate') );
                 
                 update_option('hotelgest_primary_color', AdminPageFramework::getOption('HG_Admin','section_primary_color') );
                 update_option('hotelgest_secondary_color', AdminPageFramework::getOption('HG_Admin','section_secondary_color') );
@@ -203,7 +212,7 @@ if (!class_exists('HG_APF_AddFields')) :
                                 <span class="dashicons dashicons-shield" aria-hidden="true"></span> 
                                 <?php echo esc_html(__("Shortcode calendar", 'hotelgest')); ?>
                             </h3>
-                            <p>[hg_booking] opcional </p>
+                            <p>[hg_calendar] opcional </p>
                         </div>
 
                         <div class="welcome-panel-column">
