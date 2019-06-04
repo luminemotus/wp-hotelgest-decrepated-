@@ -160,6 +160,8 @@ hr {
 }
 .txt-more {
   text-align: justify;
+  font-size: 13px;
+  margin-bottom: 10px;
 }
 
 
@@ -169,7 +171,7 @@ hr {
     margin: 15px 0;
 }
 .room-gallery {
-  padding: 0px; 
+  padding: 0px !important;
   top: 0px;
 }
 /* fin Img */
@@ -243,7 +245,7 @@ hr {
 .room-prices {
     display: table-cell;
     vertical-align: middle;
-    padding-top: 15px;
+    /* padding-top: 15px; */
     font-size: 25px;
     color: #252525;
 }
@@ -285,3 +287,40 @@ hr {
 }
 
 /*# sourceMappingURL=booking.css.map */
+
+.roomitem {
+    padding: 0px 0px 0px 0px;
+    background-color: #f7f7f7;
+    border: 1px solid #c3c3c3;
+    margin-top: 10px;
+}
+
+.room-desc {
+    font-size: 13px;
+    text-align: justify;
+    font-weight: 400;
+    margin-bottom: 10px
+}
+
+.services {
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.web-rate-tag {
+    font-size: 15px;
+    font-weight: bold;
+    /* margin-bottom: 10px; */
+}
+
+.policyblock {
+    border-bottom: 1px solid #c3c3c3;
+    padding: 0px !important;
+}
+
+.divider {
+    margin: 0px 0px 0px 0px;
+    line-height: 30px;
+    padding: 10px 0px 10px 0px;
+}

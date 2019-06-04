@@ -102,7 +102,7 @@ if (!class_exists('HG_APF_AddFields')) :
                 'default' => '3',
                     ),
                     array(// first
-                'field_id' => 'show_first_roomrate',
+                'field_id' => 'topPack',
                 'type' => 'checkbox',
                 'title' => __('show first room rate ', 'hotelgest'),
                 'label'    =>    __( '', 'hotelgest' ),
@@ -185,7 +185,7 @@ if (!class_exists('HG_APF_AddFields')) :
                 update_option('hotelgest_occupancy_max', AdminPageFramework::getOption('HG_Admin','occupancy_max') );
                 update_option('hotelgest_hg_analytics', AdminPageFramework::getOption('HG_Admin','hg_analytics') );
                 update_option('hotelgest_fb_analytics', AdminPageFramework::getOption('HG_Admin','hg_fbAnalytics') );
-                update_option('hotelgest_first_room_rate', AdminPageFramework::getOption('HG_Admin','first_room_rate') );
+                update_option('hotelgest_topPack', AdminPageFramework::getOption('HG_Admin','topPack') );
                 
                 update_option('hotelgest_primary_color', AdminPageFramework::getOption('HG_Admin','section_primary_color') );
                 update_option('hotelgest_secondary_color', AdminPageFramework::getOption('HG_Admin','section_secondary_color') );

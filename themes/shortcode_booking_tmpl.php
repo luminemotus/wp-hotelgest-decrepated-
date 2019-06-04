@@ -20,8 +20,8 @@
     </div>
 
     <div id="tmplviewRoomDetails" style="display:none" >
-        <div class="well">
-            <?php if ( get_option('show_first_roomrate', 1) ){ ?>
+        <div class="well row">
+            <?php if ( get_option('topPack', 0) ){ ?>
                 <div class="row roomhasoffer ribbon" style="display: none;"> </div>
                 <div class="row roomdetails"></div>
                 <div class="row roomdetails">
@@ -41,14 +41,15 @@
                         <div class="datepicker_holder hasDatepicker">
                         </div>
                     </div>
-                </div>
-                <div class="row roomhasoffer ribbon" style="display: none;"> </div>
+                </div>  
                 <div class="row roomdetails"></div>
                 <div class="row roomdetails">
                     <div class="room-details">
                         <div class="room-details-listitem"> </div>
                     </div>
                 </div>
+                <div class="row roomhasoffer ribbon" style="display: none;"> </div>
+              
             <?php } ?>
         </div>
     </div>
@@ -70,13 +71,13 @@
 
     <div id="tmplroom-details-board"  style="display:none" >
         <div class="col-xs-12 divider">
-            <div class="col-xs-6 nameboard hidden-xs">
+            <div class="col-xs-5 nameboard hidden-xs">
                 <i class="ico fa"></i>
                 <span class="txt">-</span>
                 <br>
                 <small class="avalibility">-</small> <small class="trn">units left</small>
             </div>
-            <div class="col-xs-2 hidden-xs nopadding">
+            <div class="col-xs-3 hidden-xs nopadding">
                 <span class="price price-md">80</span><span class="priceDayList"></span>
                 <span class="striked-price">98</span>
             </div>

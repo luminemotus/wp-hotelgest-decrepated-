@@ -95,14 +95,18 @@ query = wbParseQueryString();
 if (typeof query.pcode !== "undefined")
     $pcode = query.pcode;
 
-try {
-      var $rcode = hg_params.rtcode;
+
+if ( typeof hg_params === "undefined" ){
+    if (typeof query.rtcode !== "undefined") {
+        $rcode = query.rtcode;
     }
-    catch(err) {
-      if (typeof query.rtcode !== "undefined") {
+}else{
+    var $rcode = hg_params.rtcode;
+    if (typeof query.rtcode !== "undefined" && typeof  $rcode === "undefined") {
         $rcode = query.rtcode;
     }
 }
+
 try {
    $lang = hg_params.lang;
 }
@@ -118,15 +122,38 @@ if (typeof query.css !== "undefined") {
 } else {
     var $css = '';
 }
-if (typeof query.pack !== "undefined") {
+/*if (typeof query.pack !== "undefined") {
     var $packSelected = query.pack;
 } else {
     var $packSelected = 0;
+}*/
+var $packSelected = 0;
+if ( typeof hg_params === "undefined" ){
+    if (typeof query.pack !== "undefined") {
+        $packSelected = query.pack;
+    }
+}else{
+  $packSelected = hg_params.pack;
+  if (typeof query.pack !== "undefined" && $packSelected == 0 ) {
+    $packSelected = query.pack;
+  }
 }
+/*
 if (typeof query.onlyPack !== "undefined") {
     var $onlyPack = 1;
 } else {
     var $onlyPack = 0;
+}*/
+var $onlyPack = 0;
+if ( typeof hg_params === "undefined" ){
+    if (typeof query.onlyPack !== "undefined") {
+        $onlyPack = query.onlyPack;
+    }
+}else{
+  $onlyPack = hg_params.onlyPack;
+  if (typeof query.onlyPack !== "undefined" && $onlyPack == 0 ) {
+    $onlyPack = query.pack;
+  }
 }
 
 var fbAnalytics = false;
@@ -686,6 +713,7 @@ if ( analytics ) {
                     }
                     if (data.max_occupancy) {
                         $('.booking-occupancy').html('');
+                        $booking_occupancy = ( $booking_occupancy <= data.min_occupancy )? data.min_occupancy : $booking_occupancy ;
                         for (i = data.min_occupancy; i <= data.max_occupancy; i++) {
                             $('.booking-occupancy').append($('<option>', {
                                 value: i,
@@ -1190,7 +1218,8 @@ if ( analytics ) {
                                 //$('[data-id="' + $rcode + '"] .rate-room').append( '<div class="restriction">'+translator.get("minstay")+' '+minstay+' '+translator.get("nights")+'</div>');
                             } else {
                                 notAvail = false;
-                                $('#tmplroom-details-board #selectQuantity').show();
+                                if (selector > 1 ) 
+                                    $('#tmplroom-details-board #selectQuantity').show();
                                 $('#tmplroom-details-board .addcart').show();
                                 //$('.roomitem[data-id="' + $rtcode + '"] .btn-room-collapse .book-accommodation-select-dates.available').show();
                             }
@@ -1276,7 +1305,7 @@ if ( analytics ) {
             var $toDate = window.toDate;
 
             var data = {
-                'pcode': $(this).attr('rscode'),
+                'pcode': pcode,
                 'rtcode': rtcode,
                 'fromDate': $fromDate,
                 'toDate': $toDate,
@@ -1348,6 +1377,9 @@ if ( analytics ) {
                     var listPackByPolice = {};
                     // recordemos que el avail viene de $listRoom[$rcode].is_availability
                     $.each(listPack, function (index, pack) {
+                        
+                        if (pack.iframe != 1)
+                            return;
                         if ($packSelected > 0) {
                             if ($packSelected != pack.code_pack)
                                 return true;
@@ -1597,7 +1629,8 @@ if ( analytics ) {
                  }*/
 
                 var type = $(this).data('type');
-                var mainDivAdd = $('#viewRoomDetails' + rtcode); //$(this).parent().parent();
+                var mainDivAdd = $('#viewRoomDetails' + rtcode); 
+                var mainDivAddThis = $(this).parent().parent();
                 var mainDivAddPack = $('#viewRoomPackDetails' + rtcode);
                 $('#cart,#modal-cart').show();
                 $("#btn-ViewPrice").effect("shake", {times: 4}, 1000);
@@ -1605,11 +1638,11 @@ if ( analytics ) {
                 //mainlang["add_booking"]
 
                 // remove quantity
-                $divAvalibility = mainDivAdd.find('.avalibility'); // mainDivAdd.closest(".room-details-listitem").find('.avalibility');
+                $divAvalibility = mainDivAddThis.find('.avalibility'); // mainDivAdd.closest(".room-details-listitem").find('.avalibility');
                 $divAvalibilityPack = mainDivAddPack.find('.avalibility'); //mainDivAddPack.closest(".itemsPack ").find('.avalibility');
 
                 //$numItem = mainDivAdd.find('.avalibility select option').length;
-                quantity = ( mainDivAdd.find('.selectQuantity').length )? mainDivAdd.find('.selectQuantity').val() : 1;
+                quantity = ( mainDivAddThis.find('.selectQuantity').length )? mainDivAddThis.find('.selectQuantity').val() : 1;
                 $numItem = parseInt($divAvalibility.html());
                 $numItem = $numItem - quantity;
                 if ($numItem > 0) {
@@ -1617,6 +1650,11 @@ if ( analytics ) {
                     $divAvalibility.html( $numItem );
                     $divAvalibilityPack.html( $numItem );
                     mainDivAdd.find('.selectQuantity').html( accommodations.quantityOptionHtml( $numItem ) );
+                    mainDivAddPack.find('.selectQuantity').html( accommodations.quantityOptionHtml( $numItem ) );
+                    if( $numItem == 1 ){
+                        mainDivAdd.find('.selectQuantity').hide();
+                        mainDivAddPack.find('.selectQuantity').hide();
+                    }
                 } else
                 if ($numItem == 0) {
                     $divAvalibility.html(0); // mainDivAdd.closest(".room-details-listitem").find('.avalibility').html(0);
@@ -1651,7 +1689,7 @@ if ( analytics ) {
                     });
                     //cuando añadimos una reserva recalculamos los Nº procutos x dia x nº personas
                     $dataRoomItemTMP.type = 'booking';
-                    $dataRoomItemTMP.quantity = quantity;
+                    $dataRoomItemTMP.quantity = 1;//quantity;
                     $dataRoomItemTMP.descript = ' ' + $dataRoomItemTMP.occupancy + ' ' + translator.get("Pax.") +
                             '<br> <span class="board">' + translator.get("board_" + $dataRoomItemTMP.board) + '</span>' +
                             '<br> <span class="policy">' + translator.get("policy_" + $dataRoomItemTMP.policyId) + '</span><span class="policytex">: ' + accommodations.readmore(policytextList[rtcode + '-' + policy], 150) + '</span>'
@@ -1666,7 +1704,10 @@ if ( analytics ) {
 
                     //$dataRoomItem[_rateKey].policyDesc = policytextList[_rateKey];
                     //$('.shopping-cart h4').html( JSON.stringify($dataRoomItemTMP) );
-                    $dataCart.push($dataRoomItemTMP);
+                    for (i = 1; i <= quantity; i++) { 
+                        $dataCart.push($dataRoomItemTMP);
+                    }
+                    //$dataCart.push($dataRoomItemTMP);
                     //alert( JSON.stringify($dataCart) );
                     //alert( JSON.stringify(policytextList ) );
 
@@ -2104,18 +2145,26 @@ if ( analytics ) {
                 var keyArry = key.split("-");
                 var rcode = keyArry[0];
                 //restauramos los items
-                var mainDivAdd = $('#viewRoomDetails' + rcode); //$('.addcart[data-id-cart="' + key + '"]').parent().parent();
+                var mainDivRemove = $('.addcart[data-id-cart="' + key + '"]').parent().parent();
+                var mainDivAdd = $('#viewRoomDetails' + rcode); 
                 var mainDivAddPack = $('#viewRoomPackDetails' + rcode);
                 //$numItem = mainDivAdd.find('.avalibility select option').length;
                 $divAvalibility = mainDivAdd.find('.avalibility');
                 $numItem = parseInt($divAvalibility.html());
-                $addnum = parseInt($(this).parent().find('.quantyCart').html());
+                $addnum = parseInt( $(this).closest('.cartItem').find('.quantyCart').html() );
+                alert('$addnum'+$addnum);
+                $numItem = $numItem + $addnum;
+                alert('$numItem'+$addnum);
                 if ($numItem >= 1) {
                     //mainDivAdd.find('.avalibility select option:last-child').attr('disabled', 'disabled');
-                    $divAvalibility.html($numItem + $addnum);
-                    mainDivAddPack.find('.avalibility').html($numItem + $addnum);
-                    mainDivAdd.find('.selectQuantity').html( accommodations.quantityOptionHtml( $numItem + $addnum ) );
-                    mainDivAddPack.find('.selectQuantity').html( accommodations.quantityOptionHtml( $numItem + $addnum ) );
+                    $divAvalibility.html( $numItem );//$numItem + $addnum);
+                    mainDivAddPack.find('.avalibility').html( $numItem );
+                    mainDivAdd.find('.selectQuantity').html( accommodations.quantityOptionHtml($numItem) ).val(1).show();
+                    mainDivAddPack.find('.selectQuantity').html( accommodations.quantityOptionHtml($numItem) ).val(1).show();
+                    if( $numItem == 1 ){
+                        mainDivAdd.find('.selectQuantity').hide();
+                        mainDivAddPack.find('.selectQuantity').hide();
+                    }
                 } else
                 if ($numItem == 0) {
                     //mainDivAdd.closest(".room-details-listitem").find('.avalibility select').show();

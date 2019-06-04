@@ -23,7 +23,7 @@ if (!class_exists('Hotelier')) :
         /**
          * @var string
          */
-        public $version = '1.0.12';
+        public $version = '1.0.13';
 
         /**
          * @var Hotelier The single instance of the class

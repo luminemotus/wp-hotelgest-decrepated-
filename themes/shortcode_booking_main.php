@@ -73,7 +73,7 @@
         <div class="col-sm-12" id="right-container">
             <shopping-cart>
                 <div ng-show="!rooms.isEmpty()" class="content-summary shopping-cart-menu ng-hide">
-                    <div class="content-right">
+                    <div class="content-right-head">
                         <div class="shopping-cart row ">
                             <div class="row">
                                 <div class="col-md-6">
@@ -135,7 +135,7 @@
                                 </div>
                                 <div class="col-md-2 col-sm-12">
                                     <label class="trn" style="visibility:hidden;">Search</label>
-                                    <button class="btn col-xs-12 trn" id="btn-search-main" type="button">Apply</button>
+                                    <button class="btn btn btn-primary col-xs-12 trn" id="btn-search-main" type="button">Apply</button>
                                 </div>
                                 <hr>
                                 <div class="mt20">
