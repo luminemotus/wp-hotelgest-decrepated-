@@ -42,6 +42,14 @@ var dict = {
         de: "Nur Zimmer",
         eu: "Ostatua bakarrik"
     },
+    "board_nb_descript": {
+        es: "Solo alojamiento descript",
+        en: "Room only descript",
+        ca: "Només allotjament descript",
+        fr: "Chambre seulement descript",
+        de: "Nur Zimmer descript",
+        eu: "Ostatua bakarrik descript"
+    },
     "board_hb": {
         es: "Media pensión",
         en: "Half board",

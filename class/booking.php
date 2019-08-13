@@ -92,7 +92,7 @@ if (!class_exists('HG_Booking')) :
                             'pcode' => $_GET['pcode'],
                             'rcode' => $tpvRequest["Ds_Order"],
                             'amount' => $tpvRequest["Ds_Amount"],
-                            'type' => "Tarjeta de crédito",
+                            'type' => "Virtual POS",
                             'reference' => $tpvRequest["Ds_AuthorisationCode"]
                         )
                 );
@@ -179,6 +179,10 @@ if (!class_exists('HG_Booking')) :
             $b = new DateTime($_POST['date_arrival']);
             $untilDays = $a->diff($b)->days;
 
+            $c = new DateTime($_POST['date_arrival']);
+            $d = new DateTime($_POST['date_departure']);
+            $totalDays = $c->diff($d)->days;
+            $totalAdult = 0;
 //get info room
             $booking = $hotel->cleanArray($bookingArray, $_POST);
             unset($_POST['rooms']);
@@ -223,10 +227,10 @@ if (!class_exists('HG_Booking')) :
                 $room['rtcode'] = $postR['rcode'];
                 if (isset($postR['children'])) {
                     $room['children'] = $postR['children'];
-                    $room['men'] = $postR['men'];
+                    $totalAdult += $room['men'] = $postR['men'];
                     $bookingTemp[$pcode]['occupancy'] = $booking['occupancy'] = $room['occupancy'] = $room['men'] + $room['children'];
                 } else {
-                    $bookingTemp[$pcode]['occupancy'] = $booking['occupancy'] = $room['occupancy'] = $room['men'] = $postR['occupancy'];
+                    $totalAdult += $bookingTemp[$pcode]['occupancy'] = $booking['occupancy'] = $room['occupancy'] = $room['men'] = $postR['occupancy'];
                     $room['children'] = 0;
                 }
 
@@ -255,7 +259,8 @@ if (!class_exists('HG_Booking')) :
                     if (in_array($pId, $propertyInfo->paymentType->policyId)) {
                         if (!is_array($paymentType->data->{$pId})) {
                             $paymentTypeArry = $paymentType->data->{$pId};
-                            $paymentType->data->{pId}[0] = $paymentTypeArry;
+                            $paymentType->data->{$pId} = [];
+                            $paymentType->data->{$pId}[0] = $paymentTypeArry;
                         }
 
                         foreach ($paymentType->data->{$pId} as $pay) {
@@ -268,6 +273,13 @@ if (!class_exists('HG_Booking')) :
 
                                 if ($cleanInclude == 1) {
                                     $total_tpv = $total_tpv + ( $price->roomclear * $percentageValue );
+                                }
+                                if ($taxInclude == 1) {
+                                    $daytax = ( $totalDays > $propertyInfo->tax_max_day )? $propertyInfo->tax_max_day :  $totalDays;
+                                    if ( $daytax) {
+                                        $taxprice_adult = ( $propertyInfo->tax_price_adult * $totalAdult ) * $daytax;
+                                        $total_tpv = $total_tpv +  $taxprice_adult;
+                                    }
                                 }
 
                                 $total_tpv += $price->price * $percentageValue;

@@ -156,13 +156,14 @@ if (!class_exists('HG_Frontend_Scripts')) :
             wp_enqueue_script('hg-accommodations', HG_PLUGIN_URL . 'assets/js/accommodations.js', false, '1.1.0', true);
 
             $lang = explode('-', get_bloginfo("language"))[0];
+            $pcode = ( $datepicker_params['pcode'] )? $datepicker_params['pcode'] : get_option('hotelgest_pcode', 114) ;
             $datepicker_params = array(
                 'language' => $lang,
                 'datepicker_format' => "D MMM YYYY",
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'baseurl' => HG_PLUGIN_URL,
                 'lang' => $lang,
-                'pcode' => get_option('hotelgest_pcode', 114)
+                'pcode' => $pcode
             );
             if ($addicionalParams)
                 $datepicker_params = array_merge($datepicker_params, $addicionalParams);

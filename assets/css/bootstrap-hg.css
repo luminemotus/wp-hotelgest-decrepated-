@@ -3827,6 +3827,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   z-index: 2;
   margin-left: -1px;
 }
+/*
 .nav {
   padding-left: 0;
   margin-bottom: 0;
@@ -4563,7 +4564,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .breadcrumb > .active {
   color: #777;
-}
+}*/
 .pagination {
   display: inline-block;
   padding-left: 0;

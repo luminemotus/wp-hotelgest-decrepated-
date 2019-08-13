@@ -31,6 +31,18 @@
                                 <?php endfor; ?>
                             </select>
                         </div>
+                        <div class="col-xs-4">
+                            <select id="booking-children" aria-label="Número de child" name="booking-children" class="form-control m-p booking-children">
+                                <?php  
+                                $min_occumpancy = get_option('hotelgest_occupancy_min', '');
+                                $max_occupancy = get_option('hotelgest_occupancy_max', '');
+
+                                for ($i = $min_occumpancy; $i <= $max_occupancy; $i++):
+                                    ?>
+                                    <option value="<?php echo $i; ?>"><?php echo $i; ?><p> <?php _e('Persons', "hotelgest"); ?> </p></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
                     </div>
                     <div class="row bottom-spacer-sml">
                         <div class="col-xs-6">
@@ -84,16 +96,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 hidden">
-                                    <select  id="booking-children" placeholder="Adultos" name="booking-children" class="form-control m-p ">
-                                        <?php
-                                        $list = array('0', '1', '2', '3')
-                                        ?>
-                                        <?php foreach ($list as $l): ?>
-                                            <option <?php // ($reservas->type_vat == $l) ? 'selected' : '';    ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
+                                
                             </div>
 
                             <div id="sticky-anchor-desktop"></div>
@@ -128,6 +131,30 @@
                                             <option <?php // ($reservas->type_vat == $l) ? 'selected' : '';    ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    
+                                    <div id="children-select" class="children-select" style="display:none">
+                                        <label class="trn">children</label>
+                                        <select   id="booking-children" placeholder="children" name="booking-children" class="form-control m-p toggleHG booking-occupancy-children">
+                                            <?php
+                                            $list = array(0, 1, 2, 3)
+                                            ?>
+                                            <?php foreach ($list as $l): ?>
+                                                <option <?php  echo ($l == 0) ? '': 'data-toggle="group-checkin-input-collapse"' ;    ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <div class="collapse" id="group-checkin-input-collapse" >
+                                            <label class="trn">Edad</label>
+                                            <select  id="booking-children" placeholder="children" name="booking-children" class="form-control m-p toggleHG">
+                                                <?php
+                                                $list = array('0', '1', '2', '3')
+                                                ?>
+                                                <?php for ($i=0;18 >= $i;$i++ ): ?>
+                                                    <option  class="trn" value="<?php echo $i;; ?>"><?php echo $i; ?> Años </option>
+                                                <?php endfor; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     <label class="trn">Promotional code</label>

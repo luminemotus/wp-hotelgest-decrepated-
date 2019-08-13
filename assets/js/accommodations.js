@@ -17,6 +17,7 @@ if (urls.indexOf(window.location.hostname) >= 0) {
 var $date_in_val = '';
 var $date_out_val = '';
 var $booking_occupancy = 1;
+var $booking_occupancy_children = 0;
 var formatDate = 'DD-MM-YYYY';
 try {
   var $pcode = hg_params.pcode;
@@ -203,6 +204,11 @@ if ( analytics ) {
         $booking_occupancy = query.occupancy;
         $('.booking-occupancy').val($booking_occupancy);
     }
+    if (typeof query.occupancy !== "undefined") {
+        $.removeCookie("booking_occupancy_children");
+        $booking_occupancy_children = query.occupancy_children;
+        $('.booking-occupancy').val($booking_occupancy_children);
+    }
     if (typeof query.promocode !== "undefined") {
         $('#promoCode').val( query.promocode );
         $('#promoCodeMobile').val( query.promocode );
@@ -223,6 +229,7 @@ if ( analytics ) {
     var checkin_input = $('#fromDate'); // $('#fromDate');
     var checkout_input = $('#toDate'); //$('#toDate');
     var occupancy_input = $('.booking-occupancy'); //$('#toDate');
+    var occupancy_children_input = $('.booking-occupancy-children'); //$('#toDate');
 
     $(document).ready(function () {
 
@@ -255,6 +262,10 @@ if ( analytics ) {
             $booking_occupancy = $.cookie('booking_occupancy'); //.format(formatDate);
             occupancy_input.val($booking_occupancy); //.attr('value', date_out);
         }
+        if ($.cookie('booking_occupancy_children') != null) {
+            $booking_occupancy_children = $.cookie('booking_occupancy_children'); //.format(formatDate);
+            occupancy_children_input.val($booking_occupancy_children); //.attr('value', date_out);
+        }
 
 
         if (typeof query.currency !== "undefined") {
@@ -284,6 +295,7 @@ if ( analytics ) {
             var date_in_val = checkin_input.val();
             var date_out_val = checkout_input.val();
             var booking_occupancy_val = $booking_occupancy =  $('.booking-occupancy').val();//occupancy_input.val();
+            var booking_occupancy_children_val = $booking_occupancy_children =  $('.booking-occupancy-children').val();//occupancy_input.val();
             var d1a = new Date(date_in_val);
             var d2a = new Date(date_out_val);
             var d1b = new Date(window.fromDate);
@@ -326,6 +338,22 @@ if ( analytics ) {
                 }
             }
         });
+        
+         $(".toggleHG").change(function () {
+            if ($(this).children('option').length) {
+                $.each($(this).children('option'), function (index, valClass) {
+                    $("#" + $(this).data("toggle")).hide();
+                });
+                $("#" + $(this).find(':selected').data("toggle")).show();
+            } else {
+                var hidden = $("#" + $(this).data("toggle"));
+                if ($(this).is(':checked')) {
+                    hidden.show();
+                } else {
+                    hidden.hide();
+                }
+            }
+        });
         /* $('#fromDate,#toDate').daterangepicker({
          autoApply: true,
          "minDate": moment().format("DD/MM/YYYY"),
@@ -345,7 +373,9 @@ if ( analytics ) {
         accommodations.init();
         accommodations.initCurrency();
         accommodations.browserLanguage($pcode, $lang);
-        accommodations.cssIframe($pcode);
+        
+        if (typeof hg_params === "undefined" )
+            accommodations.cssIframe($pcode);
         accommodations.bindDate();
         accommodations.addBooking();
         var datepicker_params = {
@@ -712,6 +742,7 @@ if ( analytics ) {
 
                     }
                     if (data.max_occupancy) {
+                        oldOccupancy = $('.booking-occupancy').val();
                         $('.booking-occupancy').html('');
                         $booking_occupancy = ( $booking_occupancy <= data.min_occupancy )? data.min_occupancy : $booking_occupancy ;
                         for (i = data.min_occupancy; i <= data.max_occupancy; i++) {
@@ -720,6 +751,7 @@ if ( analytics ) {
                                 text: i
                             }));
                         }
+                        $('.booking-occupancy').val(oldOccupancy); 
                     }
                     if (data.phone) {
                         $('[ng-show="property.phone_number"] .ng-binding').html(data.phone);
@@ -1072,7 +1104,46 @@ if ( analytics ) {
                     listroomTemp = listroom[0];
                     var minpriceKey = $rtcode + '-' + listroom[0].occupancy + '-' + listroom[0].board + '-' + listroom[0].policy;
                     $isExistRoom = false;
+                    $isExistRoomChildren = false;
+                    
+                    
+                    listroomTmp = JSON.parse(JSON.stringify(listroom));
+                    
+                    $.each(listroomTmp, function (indexRoom, priceTmp) {
+                        price = JSON.parse(JSON.stringify(priceTmp));
+
+                        if(  price.occupancy_data != null ){
+  
+                            occupancy_data  =  JSON.parse( price.occupancy_data )[0];
+                            //if( occupancy_data.child == 0) return;
+                            
+                            //for( var i = 1 ;  occupancy_data.child >= i ; i++){
+                            for( var i = occupancy_data.child ;  0 < i  ; i--){
+                                price_ = JSON.parse(JSON.stringify(price));
+                                console.log( i );
+                                price_.occupancyChildren = i;//occupancy_data.child ;
+                                price_.price = price.price + ( i * occupancy_data.supplement * window.totalDays );
+
+                                if (Object.keys(price_.ancillary).length > 1) {
+                                    $.each(price_.ancillary, function (index, dayPrice) {
+                                        price_.ancillary[index].price = parseFloat(dayPrice.price) + ( i * parseFloat(occupancy_data.supplement) );
+
+                                    });
+
+                                } 
+                                listroom.splice( indexRoom, 0, price_ );
+                                //listroom.unshift( price_ )
+                            }
+                            //listroom.push( price );
+                        }
+                    });
+                    
+                    console.log('listroomChildre');console.log(listroom );
+                    
                     $.each(listroom, function (index, price) {
+                        if( price.occupancy_data == null ){
+                            price.occupancyChildren = 0;
+                        }
 
                         if (price.availability > 0) {
                             $listRoom[$rtcode].is_availability = selector = price.availability;
@@ -1080,12 +1151,29 @@ if ( analytics ) {
                             selector = 0;
                         }
                         //filter um person
-                        if (parseInt(price.occupancy) >= parseInt($booking_occupancy) && ((!$isExistRoom) || (price.occupancy == $isExistRoom))) {
-                            $isExistRoom = parseInt(price.occupancy);
+                        if (parseInt(price.occupancy) >= parseInt($booking_occupancy) && ((!$isExistRoom) || (price.occupancy == $isExistRoom)) && !$isExistRoomChildren ) {
                             // alert( 'true'+price.occupancy + '=>'+ price.price); alert( price.occupancy >= $booking_occupancy+' &&'+ ( (!$isExistRoom)  || (price.occupancy =  $isExistRoom ))  );
+                                console.log(  ' $booking_occupancy_children '     );
+                                console.log(  parseInt(price.occupancyChildren) +'>='+ parseInt( $booking_occupancy_children )           );
+                              // if (parseInt(price.occupancy) >= parseInt($booking_occupancy) && ((!$isExistRoom) || (price.occupancy == $isExistRoom))) {                         
+                                    $isExistRoom = parseInt(price.occupancy);
+                               
+                           //console.log( price.occupancy +'>='+ $booking_occupancy+' &&  ( (!'+ $isExistRoom + ')  || ('+price.occupancy+' = '+ $isExistRoom+' ))  true '+price.occupancy + '=>'+ price.price+ '=>'+ $isExistRoom ) ;
                         } else {
                             return true;
                         }
+                        
+                        if ( parseInt(price.occupancyChildren)  > 0  && $booking_occupancy_children > 0 )
+                                if (parseInt(price.occupancyChildren) >= parseInt( $booking_occupancy_children )  && ((!$isExistRoom) || (price.occupancy =  $isExistRoom) ) &&  ((!$isExistRoomChildren) || (price.occupancyChildren =  $isExistRoomChildren) )  ) {
+
+                                    $isExistRoomChildren = parseInt(price.occupancyChildren);
+                                    console.log( 'true'+price.occupancy + '=>'+ price.price+ '=>'+ $isExistRoom ) ;
+                                    //return true;
+                                } else {
+                                 return true;
+                             }    
+                        
+                            
 
                         var minstay = price.minstay;
                         var maxstay = price.maxstay;
@@ -1131,6 +1219,7 @@ if ( analytics ) {
 
                         listRoomByBoard = price;
                         listRoomByBoard.descript = translator.get("board_" + price.board);
+                        listRoomByBoard.descript_long = translator.get("board_" + price.board+"_descript");
                         // listRoomByBoard.policytext = policytext;
 
                         if ($.isEmptyObject(listRoomByPoliceArry[price.policy]))
@@ -1175,7 +1264,10 @@ if ( analytics ) {
                             } else {
                                 selector = 0;
                             }
-                            $('#tmplroom-details-board .nameboard .txt').html(boardObj.descript);
+                            $('#tmplroom-details-board .nameboard .txt').prop('title',boardObj.descript_long)
+                            $('#tmplroom-details-board .nameboard .txt').attr('toggle','tooltip');
+                            
+                            //var infoBoard  = ' <i title="kk'+boardObj.descript_long+'" toggle="tooltip" class="fa fa-info"></i>';
                             var $class = accommodations.icoBoard(board);
                             $('#tmplroom-details-board .nameboard .txt').html(boardObj.descript);
                             $('#tmplroom-details-board .nameboard .ico').addClass($class);
@@ -1277,6 +1369,8 @@ if ( analytics ) {
                     }
 
                     $('#viewRoomDetails' + $rtcode).html($('#tmplviewRoomDetails').html());
+                    $('[toggle="tooltip"]').tooltip();   
+                    
                     var $pop = $('[data-toggle="popover"]');
                     $pop.popover({
                         html: 'true',
@@ -1494,15 +1588,19 @@ if ( analytics ) {
                                 $('#tmplroom-details-board .maxstay').hide();
                                 $('#tmplroom-details-board .maxoccupancy').hide();
 
+                                selectQuantity = 0;
                                 if (selector == '') {
+                                    selectQuantity = 1;
                                     $('#tmplroom-details-board .not-available').show();
                                 } else if (minstay > window.totalDays) { //restricciones Alert
                                     $('#tmplroom-details-board .minstay').show();
                                     $('#tmplroom-details-board .num-minstay').html(minstay);
+                                    selectQuantity = 1;
                                     //$('[data-id="' + $rcode + '"] .rate-room').append( '<div class="restriction">'+translator.get("minstay")+' '+minstay+' '+translator.get("nights")+'</div>');
                                 } else if (maxstay < window.totalDays && maxstay > 0) { //restricciones Alert
                                     $('#tmplroom-details-board .maxstay').show();
                                     $('#tmplroom-details-board .num-maxstay').html(maxstay);
+                                    selectQuantity = 1;
                                     /* } else if ( boardObj.occupancy == $booking_occupancy) { //restricciones Alert
                                      $('#tmplroom-details-board .maxoccupancy').show();
                                      $('#tmplroom-details-board .num-maxoccupancy').html( boardObj.occupancy );*/
@@ -1514,6 +1612,11 @@ if ( analytics ) {
                                 //mount board i policy
                                 $('#tmplroom-details-board .avalibility').html(selector);
                                 $('#tmplroom-details-item .details-board').append($('#tmplroom-details-board').html());
+                                
+                                if( selectQuantity ){
+                                    $('#tmplroom-details-item .details-board #selectQuantity').remove();
+                                    $('#tmplroom-details-item .details-board .addcart').remove();
+                                }
                                 //remove ico
                                 $('#tmplroom-details-board .nameboard .ico').removeClass($class);
                                 //remove
@@ -1683,6 +1786,9 @@ if ( analytics ) {
                     toastr.success(translator.get("add_booking_success"));
                     //cargamos el modal de confirmacion
                     $('#modalConfirmBooking').modal('show');
+                    $('#modalConfirmBooking').on('show.bs.modal', function (e) {
+                        $('body').removeClass('modal-open');
+                    });
                     $('#btn-customerdetails').trigger("click");
                     $('#btn-continueCustomDetails').unbind('click').on('click', function (e) {
                         $('#btn-customerdetails').trigger("click");
@@ -2152,9 +2258,9 @@ if ( analytics ) {
                 $divAvalibility = mainDivAdd.find('.avalibility');
                 $numItem = parseInt($divAvalibility.html());
                 $addnum = parseInt( $(this).closest('.cartItem').find('.quantyCart').html() );
-                alert('$addnum'+$addnum);
+                //alert('$addnum'+$addnum);
                 $numItem = $numItem + $addnum;
-                alert('$numItem'+$addnum);
+               // alert('$numItem'+$addnum);
                 if ($numItem >= 1) {
                     //mainDivAdd.find('.avalibility select option:last-child').attr('disabled', 'disabled');
                     $divAvalibility.html( $numItem );//$numItem + $addnum);
@@ -2165,6 +2271,10 @@ if ( analytics ) {
                         mainDivAdd.find('.selectQuantity').hide();
                         mainDivAddPack.find('.selectQuantity').hide();
                     }
+                    console.log( '.addcart[data-id-cart="' + key + '"]' );
+                    console.log( mainDivRemove.html() );
+                    mainDivRemove.find('.not-available').hide();
+                    mainDivRemove.find('.addcart').show();
                 } else
                 if ($numItem == 0) {
                     //mainDivAdd.closest(".room-details-listitem").find('.avalibility select').show();
@@ -2176,7 +2286,9 @@ if ( analytics ) {
                     mainDivAddPack.find('.addcart').show();
                 }
 
-
+                if( $dataCart.length == 0 ){
+                    $('#modalConfirmBooking').modal('hide');
+                }
             });
             /*$('.cancel-accommodation-booking').unbind('click');
              $('.cancel-accommodation-booking').on('click', function (event) {
@@ -2669,7 +2781,7 @@ if ( analytics ) {
                 var customer_name = $('#booking-customer-name').val();
                 var customer_surname = $('#booking-customer-surname').val();
                 var customer_email = $('#booking-customer-email').val();
-                var customer_zip = $('#booking-customer-zip').val();
+                var customer_zip = $('#booking-customer-zipcode').val();
                 var customer_notes = $('#booking-customer-notes').val();
                 var customer_address = $('#booking-customer-address').val();
                 var customer_city = $('#booking-customer-city').val();
@@ -3274,14 +3386,16 @@ if ( analytics ) {
                 $return = text;
             }
             $('.more').unbind('click').on('click', function () {
-                accommodations.alert(readmoreList[$(this).data('id')]);
+                var read_ = readmoreList[$(this).data('id')].replace(/\n/g, "<br />");
+                accommodations.alert(read_);
             });
             return $return;
             //return new Date(year, month, 0).getDate();
         },
         readmoreUpdate: function (text, limit, addicionaltext) {
             $('.more').unbind('click').on('click', function () {
-                accommodations.alert(readmoreList[$(this).data('id')]);
+                var read_ = readmoreList[$(this).data('id')].replace(/\n/g, "<br />");
+                accommodations.alert(read_);
             });
         },
         quantityOptionHtml: function (selector) {
