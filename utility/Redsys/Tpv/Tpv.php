@@ -26,7 +26,7 @@ class Tpv
         'real' => 'https://sis.redsys.es/sis'
     );
 
-    private $values = array();
+    public $values = array();
 
     public function __construct(array $options)
     {
@@ -104,7 +104,7 @@ class Tpv
         }
 
         if (isset($options['Amount'])) {
-            $options['Amount'] = $this->getAmount($options['Amount']);
+            $options['Amount'] = (int)$this->getAmount($options['Amount']);
         }
 
         $this->setValueDefault($options, 'Currency');

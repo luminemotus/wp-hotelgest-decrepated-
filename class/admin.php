@@ -100,15 +100,13 @@ if (!class_exists('HG_APF_AddFields')) :
                 'title' => __('Occupancy max', 'hotelgest'),
                 'description' => __('Occupancy max', 'hotelgest'),
                 'default' => '3',
-                    ),
-                    array(// first
+                    ), array(// first
                 'field_id' => 'topPack',
                 'type' => 'checkbox',
                 'title' => __('show first room rate ', 'hotelgest'),
-                'label'    =>    __( '', 'hotelgest' ),
-                'default'    =>    false,
-                    ), 
-                    array(// fbAnalytics
+                'label' => __('', 'hotelgest'),
+                'default' => false,
+                    ), array(// fbAnalytics
                 'field_id' => 'hg-fbAnalytics',
                 'type' => 'text',
                 'title' => __('fbAnalytics', 'hotelgest')
@@ -130,30 +128,33 @@ if (!class_exists('HG_APF_AddFields')) :
                 'field_id' => 'section_primary_color',
                 'type' => 'color',
                 'title' => __('Primary color', 'hotelgest'),
-                    ), 
-                    array(
+                    ), array(
                 'field_id' => 'section_secondary_color',
                 'title' => __('Secondary color', 'admin-page-framework-loader'),
                 'type' => 'color',
-                    ), 
-                    array(// Submit button
+                    ), array(// Submit button
                 'field_id' => 'submit_button',
                 'type' => 'submit',
                     )
             );
         }
-        
-         public function load_hotelgest_advanced($oAdminPage) {
+
+        public function load_hotelgest_advanced($oAdminPage) {
 
             $this->addSettingFields(
                     array(
-                'field_id'    =>    'noconflict_js',
-                'type'    =>    'checkbox',
-                'title'    =>   __('No conflict jquery', 'hotelgest'),
-                'label'    =>    __( '', 'hotelgest' ),
-                'default'    =>    false,
-            ),
-                    array(// Submit button
+                'field_id' => 'noconflict_js',
+                'type' => 'checkbox',
+                'title' => __('No conflict jquery', 'hotelgest'),
+                'label' => __('', 'hotelgest'),
+                'default' => false,
+                    ), array(
+                'field_id' => 'hotelgest_tpv_debug',
+                'type' => 'checkbox',
+                'title' => __('Debug tpv log', 'hotelgest'),
+                'label' => __('', 'hotelgest'),
+                'default' => false,
+                    ), array(// Submit button
                 'field_id' => 'submit_button',
                 'type' => 'submit',
                     )
@@ -177,40 +178,45 @@ if (!class_exists('HG_APF_AddFields')) :
         }
 
         function do_hotelgest() {
-             if ( AdminPageFramework::getOption('HG_Admin') ) {
-                update_option('hotelgest_user', AdminPageFramework::getOption('HG_Admin','hotelgest_user') );
-                update_option('hotelgest_password', AdminPageFramework::getOption('HG_Admin','hotelgest_password') );
-                update_option('hotelgest_pcode', AdminPageFramework::getOption('HG_Admin','pcode') );
-                update_option('hotelgest_occupancy_min', AdminPageFramework::getOption('HG_Admin','occupancy_min') );
-                update_option('hotelgest_occupancy_max', AdminPageFramework::getOption('HG_Admin','occupancy_max') );
-                update_option('hotelgest_hg_analytics', AdminPageFramework::getOption('HG_Admin','hg_analytics') );
-                update_option('hotelgest_fb_analytics', AdminPageFramework::getOption('HG_Admin','hg_fbAnalytics') );
-                update_option('hotelgest_topPack', AdminPageFramework::getOption('HG_Admin','topPack') );
-                
-                update_option('hotelgest_primary_color', AdminPageFramework::getOption('HG_Admin','section_primary_color') );
-                update_option('hotelgest_secondary_color', AdminPageFramework::getOption('HG_Admin','section_secondary_color') );
-                
-                AdminPageFramework::getOption('HG_Admin','noconflict_js');
-                if(  AdminPageFramework::getOption('HG_Admin','noconflict_js') == 1 ){
-                    update_option('hotelgest_noconflict_js', 1 );
-                }else{
-                    update_option('hotelgest_noconflict_js',0);
+            if (AdminPageFramework::getOption('HG_Admin')) {
+                update_option('hotelgest_user', AdminPageFramework::getOption('HG_Admin', 'hotelgest_user'));
+                update_option('hotelgest_password', AdminPageFramework::getOption('HG_Admin', 'hotelgest_password'));
+                update_option('hotelgest_pcode', AdminPageFramework::getOption('HG_Admin', 'pcode'));
+                update_option('hotelgest_occupancy_min', AdminPageFramework::getOption('HG_Admin', 'occupancy_min'));
+                update_option('hotelgest_occupancy_max', AdminPageFramework::getOption('HG_Admin', 'occupancy_max'));
+                update_option('hotelgest_hg_analytics', AdminPageFramework::getOption('HG_Admin', 'hg_analytics'));
+                update_option('hotelgest_fb_analytics', AdminPageFramework::getOption('HG_Admin', 'hg_fbAnalytics'));
+                update_option('hotelgest_topPack', AdminPageFramework::getOption('HG_Admin', 'topPack'));
+
+                update_option('hotelgest_primary_color', AdminPageFramework::getOption('HG_Admin', 'section_primary_color'));
+                update_option('hotelgest_secondary_color', AdminPageFramework::getOption('HG_Admin', 'section_secondary_color'));
+
+                AdminPageFramework::getOption('HG_Admin', 'noconflict_js');
+                if (AdminPageFramework::getOption('HG_Admin', 'noconflict_js') == 1) {
+                    update_option('hotelgest_noconflict_js', 1);
+                } else {
+                    update_option('hotelgest_noconflict_js', 0);
+                }
+                 if (AdminPageFramework::getOption('HG_Admin', 'hotelgest_tpv_debug') == 1) {
+                    update_option('hotelgest_tpv_debug', 1);
+                } else {
+                    update_option('hotelgest_tpv_debug', 0);
                 }
             }
-            
-       // }   
-        // function content() {   
+
+            // }   
+            // function content() {   
             $classes = 'welcome-panel';
             ?>
             <div id="welcome-panel" class="<?php echo esc_attr($classes); ?>">
-                <?php wp_nonce_field('wpcf7-welcome-panel-nonce', 'welcomepanelnonce', false); ?>
+            <?php wp_nonce_field('wpcf7-welcome-panel-nonce', 'welcomepanelnonce', false); ?>
                 <div class="welcome-panel-content">
                     <div class="welcome-panel-column-container">
 
                         <div class="welcome-panel-column">
                             <h3>
                                 <span class="dashicons dashicons-shield" aria-hidden="true"></span> 
-                                <?php echo esc_html(__("Shortcode calendar", 'hotelgest')); ?>
+            <?php echo esc_html(__("Shortcode calendar", 'hotelgest')); ?>
                             </h3>
                             <p>[hg_calendar] opcional </p>
                         </div>
@@ -218,7 +224,7 @@ if (!class_exists('HG_APF_AddFields')) :
                         <div class="welcome-panel-column">
                             <h3>
                                 <span class="dashicons dashicons-megaphone" aria-hidden="true"></span> 
-                                <?php echo esc_html(__("Shortcode reservation", 'hotelgest')); ?>
+            <?php echo esc_html(__("Shortcode reservation", 'hotelgest')); ?>
                             </h3>
                             <p>Basic: <b>[hg_booking]</b><br> basic lang: <b>[hg_booking lang=es ]</b><br> basic lang external: <b>[hg_booking lang=es external= 1 ]</b></p>
                         </div>
@@ -226,7 +232,7 @@ if (!class_exists('HG_APF_AddFields')) :
                         <div class="welcome-panel-column" id="tableShortcode">
                             <h3>
                                 <span class="dashicons dashicons-megaphone" aria-hidden="true"></span> 
-                                <?php echo esc_html(__("Shortcode reservation room", 'hotelgest')); ?>
+            <?php echo esc_html(__("Shortcode reservation room", 'hotelgest')); ?>
                             </h3>
                             <div id="tableShortcode"></div>
                         </div>
@@ -268,12 +274,12 @@ if (!class_exists('HG_APF_AddFields')) :
 
                     $(document).ready(function () {
                         autocomplete();
-                        
-                        $('.admin-page-framework-in-page-tab a').each(function( ){
-                            var href = $(this).prop( 'href' ).replace('&post_type=post','');
-                            $(this).prop( 'href' , href );
+
+                        $('.admin-page-framework-in-page-tab a').each(function ( ) {
+                            var href = $(this).prop('href').replace('&post_type=post', '');
+                            $(this).prop('href', href);
                         });
-                        
+
                     });
 
 

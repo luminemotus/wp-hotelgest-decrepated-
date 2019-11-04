@@ -741,18 +741,21 @@ if ( analytics ) {
                     if (data.phone) {
 
                     }
-                    if (data.max_occupancy) {
-                        oldOccupancy = $('.booking-occupancy').val();
-                        $('.booking-occupancy').html('');
-                        $booking_occupancy = ( $booking_occupancy <= data.min_occupancy )? data.min_occupancy : $booking_occupancy ;
-                        for (i = data.min_occupancy; i <= data.max_occupancy; i++) {
+                    data.max_occupancy = ( data.max_occupancy >1 )? data.max_occupancy : 3;
+                    data.min_occupancy = ( data.min_occupancy >1 )? data.min_occupancy : 1;
+                    data.max_occupancy = ( hg_params.max_occupancy >1 )? hg_params.max_occupancy : data.max_occupancy ;
+                    data.min_occupancy = ( hg_params.min_occupancy >1 )? hg_params.min_occupancy: data.min_occupancy ;
+                    oldOccupancy = $('.booking-occupancy').val();
+                    $('.booking-occupancy').html('');
+                    $booking_occupancy = ( $booking_occupancy <= data.min_occupancy )? data.min_occupancy : $booking_occupancy ;
+                    for (i = data.min_occupancy; i <= data.max_occupancy; i++) {
                             $('.booking-occupancy').append($('<option>', {
                                 value: i,
                                 text: i
                             }));
-                        }
-                        $('.booking-occupancy').val(oldOccupancy); 
                     }
+                    $('.booking-occupancy').val(oldOccupancy); 
+                   
                     if (data.phone) {
                         $('[ng-show="property.phone_number"] .ng-binding').html(data.phone);
                         $('[ng-show="property.phone_number"] .ng-binding').prop("href",'tel: '+data.phone );
@@ -1112,8 +1115,8 @@ if ( analytics ) {
                     $.each(listroomTmp, function (indexRoom, priceTmp) {
                         price = JSON.parse(JSON.stringify(priceTmp));
 
-                        if(  price.occupancy_data != null ){
-  
+                        //if(  price.occupancy_data != null ){
+                        try {
                             occupancy_data  =  JSON.parse( price.occupancy_data )[0];
                             //if( occupancy_data.child == 0) return;
                             
@@ -1135,6 +1138,8 @@ if ( analytics ) {
                                 //listroom.unshift( price_ )
                             }
                             //listroom.push( price );
+                        }catch (e) {
+                            console.log(e);
                         }
                     });
                     
@@ -1421,11 +1426,12 @@ if ( analytics ) {
                         isExist = false;
                         //console.log('----------  getChannel  ----------');
                         //console.log(value);
-                        $.each(value[keych].ancillary[$fromDate].data, function (index, dataplan) {
-                            if (dataplan.type == 'planchannel') {
-                                isExist = true;
-                            }
-                        });
+                        if (typeof value[keych] != 'undefined') 
+                            $.each(value[keych].ancillary[$fromDate].data, function (index, dataplan) {
+                                if (dataplan.type == 'planchannel') {
+                                    isExist = true;
+                                }
+                            });
                         // if( isExist === true) { continue; }
                         if (isExist) {
 
@@ -1789,9 +1795,9 @@ if ( analytics ) {
                     $('#modalConfirmBooking').on('show.bs.modal', function (e) {
                         $('body').removeClass('modal-open');
                     });
-                    $('#btn-customerdetails').trigger("click");
+                    document.getElementById("btn-customerdetails").click();
                     $('#btn-continueCustomDetails').unbind('click').on('click', function (e) {
-                        $('#btn-customerdetails').trigger("click");
+                        document.getElementById("btn-customerdetails").click();
                     });
                     //cuando añadimos una reserva recalculamos los Nº procutos x dia x nº personas
                     $dataRoomItemTMP.type = 'booking';

@@ -156,14 +156,18 @@ if (!class_exists('HG_Frontend_Scripts')) :
             wp_enqueue_script('hg-accommodations', HG_PLUGIN_URL . 'assets/js/accommodations.js', false, '1.1.0', true);
 
             $lang = explode('-', get_bloginfo("language"))[0];
-            $pcode = ( $datepicker_params['pcode'] )? $datepicker_params['pcode'] : get_option('hotelgest_pcode', 114) ;
+            $pcode = ( isset($addicionalParams['pcode']) )? $addicionalParams['pcode'] : get_option('hotelgest_pcode', 114) ;
+            $min_occupancy = ( isset($addicionalParams['min_occupancy']) )? $addicionalParams['min_occupancy'] : get_option('hotelgest_occupancy_min', 1) ;
+            $max_occupancy = ( isset($addicionalParams['max_occupancy']) )? $addicionalParams['max_occupancy'] : get_option('hotelgest_occupancy_max', 3) ;
             $datepicker_params = array(
                 'language' => $lang,
                 'datepicker_format' => "D MMM YYYY",
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'baseurl' => HG_PLUGIN_URL,
                 'lang' => $lang,
-                'pcode' => $pcode
+                'pcode' => $pcode,
+                'min_occupancy' => $min_occupancy,
+                'max_occupancy' => $max_occupancy,
             );
             if ($addicionalParams)
                 $datepicker_params = array_merge($datepicker_params, $addicionalParams);

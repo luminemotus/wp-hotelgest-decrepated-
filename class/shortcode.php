@@ -80,6 +80,9 @@ if (!class_exists('HG_Shortcode')) :
                       'pcode' => false,
                       'rtcode' => '',
                       'lang' => false,
+                      'occupancy' => false,
+                      'min_occupancy' => false,
+                      'max_occupancy' => false,  
                     ), $atts);
 
             foreach ($atts as $key => $att):

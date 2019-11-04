@@ -185,12 +185,15 @@ if (!class_exists('HG_Booking')) :
             $totalAdult = 0;
 //get info room
             $booking = $hotel->cleanArray($bookingArray, $_POST);
+            
+            $promoCode = ( isset($_POST['promoCode']) ) ? $_POST['promoCode'] : '';
             unset($_POST['rooms']);
             foreach ($postRooms as $postR):
                 $postR = (array) $postR;
 
                 // $pcode = $roomList[$postR['rcode']];
                 $pcode = $postR['pcode'] = ( isset($postR['pcode']) ) ? $postR['pcode'] : $_POST['pcode'];
+                
 
                 //Caution Multiproperty
                 $setting = $hotel->getConfig($postR["pcode"]);
@@ -206,7 +209,7 @@ if (!class_exists('HG_Booking')) :
                             'rcode' => $postR['rtcode'], 'pcode' => $postR['pcode'])) : 0;
 
                 $price = $hotel->get_price(array('pcode' => $pcode, 'fromDate' => $booking['date_arrival'], 'toDate' => $booking['date_departure']
-                    , 'rtcode' => $postR['rtcode'], 'occupancy' => $postR['occupancy'], 'board' => $postR['board'], 'policy' => $postR['policy']));
+                    , 'rtcode' => $postR['rtcode'], 'occupancy' => $postR['occupancy'], 'board' => $postR['board'], 'policy' => $postR['policy'],'promoCode'=> $promoCode));
 
                 $price = $price[0];
                 if (isset($postR['pack'])) {
@@ -404,12 +407,16 @@ if (!class_exists('HG_Booking')) :
                 $dataRedsys = (object) array(
                             'Ds_SignatureVersion' => $TPV->getSignatureVersion(),
                             'Ds_MerchantParameters' => $TPV->getMerchantParametersEncoded(),
-                            'Ds_Signature' => $TPV->getValuesSignature()
+                            'Ds_Signature' => $TPV->getValuesSignature(),
+                            'Ds_Merchant_Amount' => $TPV->values["Ds_Merchant_Amount"]
                 );
                 /* return $this->getInputHidden('SignatureVersion', $this->options['SignatureVersion'])
                   .$this->getInputHidden('MerchantParameters', $this->getMerchantParametersEncoded())
                   .$this->getInputHidden('Signature', $this->getValuesSignature());
                  */
+                if( get_option('hotelgest_tpv_debug', false) ){
+                  $hotel->logFile( json_encode( $TPV->values ) , 'tpv.log');
+                }  
 
                 $returnBooking = array("success" => true, "data" => $returnBooking->data, "tpv" => array('fields' => $dataRedsys, 'path' => $TPV->getPath('/realizarPago')));
             }
