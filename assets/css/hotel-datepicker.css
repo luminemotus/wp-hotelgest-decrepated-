@@ -327,7 +327,7 @@ table.datepicker__month tr th{
     z-index: 10000;
     left: 0;
 }
-#datepicker-DateRangHotelMobile .datepicker__info--selected{
+#datepicker-DateRangHotelMobile .datepicker__info--selected{
     width: 75%;
     float: left;
 }
