@@ -45,7 +45,7 @@
             </div>
             <div class="row roomhasoffer ribbon" style="display: none;"> </div>
             <div class="row roomdetails">
-                <div class="col-lg-12 booking_form_controls ">
+                <div class="col-lg-12 booking_form_controls no-padding">
                     <div class="datepicker_holder hasDatepicker"> </div>
                 </div>
             </div>             
@@ -54,7 +54,7 @@
 </div>
 
 <div id="tmplroom-details-item" class="roww" style="display:none" >
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
         <div class="hg-rate-plan-header hg-webrate-header">
             <div class="web-rate-tag">WEB RATE<a class="hg-rate-condition-link" href="#"><i class="fa fa-info-circle"></i></a></div>
             <div class="hg-policy-descr-container">
@@ -63,20 +63,20 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6 ">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
         <div class="row details-board"></div>
     </div>
 </div>
 
 <div id="tmplroom-details-board"  style="display:none" >
     <div class="col-xs-12 divider">
-        <div class="col-xs-5 nameboard hidden-xs">
+        <div class="col-xs-5 nameboard no-padding hidden-xs">
             <i class="ico fa"></i>
             <span class="txt">-</span>
             <br>
             <small class="avalibility">-</small> <small class="trn">units left</small>
         </div>
-        <div class="col-xs-3 hidden-xs nopadding">
+        <div class="col-xs-3 hidden-xs no-padding center">
             <span class="price price-md">80</span><span class="priceDayList"></span>
             <span class="striked-price">98</span>
         </div>

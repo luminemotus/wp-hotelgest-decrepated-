@@ -1729,5 +1729,13 @@ var dict = {
       fr: "Aplicar",
       de: "Apply",
       eu: "Aplicar"
+  },
+    "board_hb_descript": {
+       es: "Desayuno + cena",
+       en: "Breakfast + dinner",
+       ca: "Esmorzar + sopar",
+       fr: "Petit déjeuner + diner",
+       de: "Frühstück + Abendessen",
+       eu: "Gosaria + afaria"
   }
 }

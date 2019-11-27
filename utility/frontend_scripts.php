@@ -73,6 +73,7 @@ if (!class_exists('HG_Frontend_Scripts')) :
          * @return void
          */
         public static function frontend_calendar() {
+            wp_enqueue_style('bootstrap-hg', HG_PLUGIN_URL . 'assets/css/bootstrap-hg.css', 1, '3.3.6', 'all');
             wp_enqueue_style('hg-shortcode-calendar', HG_PLUGIN_URL . 'assets/css/shortcode-calendar.css', false, '1.1', 'all');
             wp_enqueue_script('moment', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js', false, '2.18.1', 'all');
             wp_enqueue_script('moment-with-locales', HG_PLUGIN_URL . 'assets/js/lib/moment/moment-with-locales.js', false, '1.1.0', true);

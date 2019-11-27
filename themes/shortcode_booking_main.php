@@ -16,10 +16,10 @@
                         </div>
                     </div>
                     <div class="row bottom-spacer-sml">
-                        <div class="col-xs-8">
+                        <div class="col-xs-6">
                             <label class="trn">Persons</label>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-6">
                             <select id="group_adults" aria-label="Número de adultos" name="booking-occupancy" class="form-control m-p booking-occupancy">
                                 <?php
                                 $min_occumpancy = get_option('hotelgest_occupancy_min', '');
@@ -31,7 +31,7 @@
                                 <?php endfor; ?>
                             </select>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-4 hidden">
                             <select id="booking-children" aria-label="Número de child" name="booking-children" class="form-control m-p booking-children">
                                 <?php  
                                 $min_occumpancy = get_option('hotelgest_occupancy_min', '');
@@ -45,10 +45,10 @@
                         </div>
                     </div>
                     <div class="row bottom-spacer-sml">
-                        <div class="col-xs-6">
+                        <div class="col-xs-12">
                             <label class="trn" data-toggle="collapse" data-target="#promoCodeMobile" >Promotional code</label>
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-12">
                             <input type="text" placeholder="Si lo tiene, escríbalo aquí." class="form-control discount-code collapse in" id="promoCodeMobile" name="discount-code" >
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-12">
-                                    <label class="trn">Arrival</label> <label class="trn">Departure</label>
+                                    <label class="trn">Arrival</label> - <label class="trn">Departure</label>
                                     <input type="text" id="DateRangHotel" onfocus="blur();"  readonly="true" value="" placeholder="Seleccione fecha" name="fromDate" class="fromDate pull-right form-control">
                                 </div>
                                 <div class="col-md-2 col-sm-12">
@@ -162,7 +162,7 @@
                                 </div>
                                 <div class="col-md-2 col-sm-12">
                                     <label class="trn" style="visibility:hidden;">Search</label>
-                                    <button class="btn btn btn-primary col-xs-12 trn" id="btn-search-main" type="button">Apply</button>
+                                    <button class="btn btn btn-primary col-xs-12 trn" id="btn-search-main" type="button">Book now</button>
                                 </div>
                                 <hr>
                                 <div class="mt20">
