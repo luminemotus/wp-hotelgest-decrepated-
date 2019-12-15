@@ -132,6 +132,15 @@ if (!class_exists('HG_Frontend_Scripts')) :
             .datepicker__month-day--selected, #mobile-menu-container #main-menu > ul > li > a:after, #mobile-menu-container #main-menu > ul > li > span:after {
                 background-color: {$secondary_color} !important;
             }";
+                
+            $hideSlide = get_option('hotelgest_hide_slide');    
+            if( $hideSlide )    
+                $slicknav_custom_css .= "#myCarousel { display: none; }";
+            
+            $hideTextDescription = get_option('hotelgest_hide_preText');    
+            if( $hideTextDescription )    
+                $slicknav_custom_css .= ".content-room > .description { display: none; }";
+            
 
             //Add the above custom CSS via wp_add_inline_style
             wp_add_inline_style('hg_booking-css', $slicknav_custom_css); //Pass the variable into the main style sheet ID

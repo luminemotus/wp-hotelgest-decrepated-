@@ -15,6 +15,8 @@ Like any other WordPress plugin, place it in `/wp-content/plugins/` (the extract
 #### Overwrite theme
 {theme_wp}/wp-hotelgest/themes/{shorcode_theme}.php
 
+#### compatibility wpml
+
 
 ## Scope of this repository ##
 

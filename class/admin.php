@@ -132,6 +132,18 @@ if (!class_exists('HG_APF_AddFields')) :
                 'field_id' => 'section_secondary_color',
                 'title' => __('Secondary color', 'admin-page-framework-loader'),
                 'type' => 'color',
+                    ), array(
+                'field_id' => 'hotelgest_hide_slide',
+                'type' => 'checkbox',
+                'title' => __('hide slideshow', 'hotelgest'),
+                'label' => __('', 'hotelgest'),
+                'default' => false,
+                    ), array(
+                'field_id' => 'hotelgest_hide_preText',
+                'type' => 'checkbox',
+                'title' => __('hide pre text', 'hotelgest'),
+                'label' => __('', 'hotelgest'),
+                'default' => false,
                     ), array(// Submit button
                 'field_id' => 'submit_button',
                 'type' => 'submit',
