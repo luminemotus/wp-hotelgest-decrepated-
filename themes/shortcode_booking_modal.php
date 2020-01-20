@@ -18,12 +18,12 @@
                             <div class="panel">
                                 <div class="panel-heading">
                                     <h3>
-                                        <a id="btn-customerdetails" data-toggle="collapse" data-parent="#checkoutbook" data-target="#customerdetails">
+                                        <a id="btn-customerdetails" data-toggle="collapse" data-parent="#checkoutbook" href="#customerdetails">
                                             <span class="trn">Your details</span><i class="fa fa-angle-down rotate-icon"></i>
                                         </a>
                                     </h3>
                                 </div>
-                                <div id="customerdetails" class="panel-collapse collapse">
+                                <div id="customerdetails" class="panel-collapse collapse in">
                                     <div class="panel-body">
 
                                         <div class="row form-group">
@@ -64,7 +64,7 @@
                                                 <input value=""  id="booking-customer-country" placeholder="Country" type="text" class="form-control customer-country" name="customer-address" >
                                             </div>
                                             <div class="col-xs-12 col-sm-4 form-group">
-                                                <input value=""  id="booking-customer-time" placeholder="Arrival time" type="time" class="form-control customer-arrival-time" name="customer-arrival-time" >
+                                                <input value=""  id="booking-customer-address" placeholder="Arrival time" type="time" class="form-control customer-arrival-time" name="customer-arrival-time" >
                                             </div>
                                         </div>
                                         <hr>
@@ -155,7 +155,7 @@
                                         <div class="form-group">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" value="" required> <span class="trn">I accept the </span> <a data-toggle="collapse" data-target="#lopd"><span class="trn">privacy data policy</span></a> <a data-toggle="collapse" data-target="#additional_info"><span class="trn">cancellation and additional information policy</span></a>
+                                                    <input type="checkbox" value="" required> <span class="trn">I accept the </span> <a data-toggle="collapse" data-target="#lopd" style="display: inline;"><span class="trn">privacy data policy</span></a> <a data-toggle="collapse" data-target="#additional_info" style="display: inline;"><span class="trn">cancellation and additional information policy</span></a>
                                                 </label>
                                             </div>
                                         </div>
@@ -178,7 +178,7 @@
                             <div class="panel">
                                 <div class="panel-heading">
                                     <h3>
-                                        <a class="trn " id="btn-extrasContainer" data-toggle="collapse" data-parent="#checkoutbook" data-target="#extrasContainer">
+                                        <a class="trn " id="btn-extrasContainer" data-toggle="collapse" data-parent="#checkoutbook" href="#extrasContainer">
                                             Extras <i class="fa fa-angle-down rotate-icon"></i>
                                         </a>
                                     </h3>

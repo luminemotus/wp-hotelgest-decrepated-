@@ -178,6 +178,7 @@ if (!class_exists('HG_Frontend_Scripts')) :
                 'pcode' => $pcode,
                 'min_occupancy' => $min_occupancy,
                 'max_occupancy' => $max_occupancy,
+                'max_occupancy' => $hideSlide
             );
             if ($addicionalParams)
                 $datepicker_params = array_merge($datepicker_params, $addicionalParams);

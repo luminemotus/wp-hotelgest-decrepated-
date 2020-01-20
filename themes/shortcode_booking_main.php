@@ -17,7 +17,7 @@
                     </div>
                     <div class="row bottom-spacer-sml">
                         <div class="col-xs-6">
-                            <label class="trn">Persons</label>
+                            <label class="trn label-occupancy">Persons</label>
                         </div>
                         <div class="col-xs-6">
                             <select id="group_adults" aria-label="Número de adultos" name="booking-occupancy" class="form-control m-p booking-occupancy">
@@ -122,7 +122,7 @@
                                     <input type="text" id="DateRangHotel" onfocus="blur();"  readonly="true" value="" placeholder="Seleccione fecha" name="fromDate" class="fromDate pull-right form-control">
                                 </div>
                                 <div class="col-md-2 col-sm-12">
-                                    <label class="trn">Persons</label>
+                                    <label class="trn label-occupancy">Persons</label>
                                     <select id="booking-occupancy" name="booking-occupancy" class="form-control m-p booking-occupancy">
                                         <?php
                                         $list = array('1', '2', '3')
@@ -164,7 +164,6 @@
                                     <label class="trn" style="visibility:hidden;">Search</label>
                                     <button class="btn btn btn-primary col-xs-12 trn" id="btn-search-main" type="button">Book now</button>
                                 </div>
-                                <hr>
                                 <div class="mt20">
 
                                 </div>

@@ -26,6 +26,10 @@
             <div class="row roomdetails"></div>
             <div class="row roomdetails">
                 <div class="room-details">
+                    <div class="room-details-listitem-head row">
+                      <div class="col-md-offset-8 col-lg-1 trn ">Price</div>
+                      <div class="col-lg-1 trn units">Units</div>
+                    </div>
                     <div class="room-details-listitem"> </div>
                 </div>
             </div>
@@ -40,6 +44,10 @@
             <div class="row roomdetails"></div>
             <div class="row roomdetails">
                 <div class="room-details">
+                    <div class="room-details-listitem-head row">
+                      <div class="col-md-offset-8 col-lg-1 trn ">Price</div>
+                      <div class="col-lg-1 trn units">Units</div>
+                    </div>
                     <div class="room-details-listitem"> </div>
                 </div>
             </div>
