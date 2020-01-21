@@ -80,7 +80,7 @@ if (!class_exists('Hotelier')) :
                 
                 require HG_PLUGIN_DIR . 'utility/puc/plugin-update-checker.php';
                 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-                                'https://plugin.webparahoteles.es/wp-content/plugins/hotelgest-wp/hotelgest.json', __FILE__, 'wp-hotelgest'
+                                'https://raw.githubusercontent.com/luminemotus/wp-hotelgest/master/hotelgest.json', __FILE__, 'wp-hotelgest'
                 );
             }
         }
