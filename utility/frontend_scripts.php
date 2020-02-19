@@ -169,6 +169,8 @@ if (!class_exists('HG_Frontend_Scripts')) :
             $pcode = ( isset($addicionalParams['pcode']) )? $addicionalParams['pcode'] : get_option('hotelgest_pcode', 114) ;
             $min_occupancy = ( isset($addicionalParams['min_occupancy']) )? $addicionalParams['min_occupancy'] : get_option('hotelgest_occupancy_min', 1) ;
             $max_occupancy = ( isset($addicionalParams['max_occupancy']) )? $addicionalParams['max_occupancy'] : get_option('hotelgest_occupancy_max', 3) ;
+            $hideSlideHome = ( $hideSlide )? 0 : 1;
+            $hide_persons = get_option('hotelgest_hide_persons');
             $datepicker_params = array(
                 'language' => $lang,
                 'datepicker_format' => "D MMM YYYY",
@@ -178,7 +180,8 @@ if (!class_exists('HG_Frontend_Scripts')) :
                 'pcode' => $pcode,
                 'min_occupancy' => $min_occupancy,
                 'max_occupancy' => $max_occupancy,
-                'max_occupancy' => $hideSlide
+                'showSlideHome' => $hideSlideHome,
+                'hidePersons' => $hide_persons
             );
             if ($addicionalParams)
                 $datepicker_params = array_merge($datepicker_params, $addicionalParams);

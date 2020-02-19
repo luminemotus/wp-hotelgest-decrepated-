@@ -144,6 +144,12 @@ if (!class_exists('HG_APF_AddFields')) :
                 'title' => __('hide pre text', 'hotelgest'),
                 'label' => __('', 'hotelgest'),
                 'default' => false,
+                    ), array(
+                'field_id' => 'hotelgest_hide_persons',
+                'type' => 'checkbox',
+                'title' => __('hide select persons', 'hotelgest'),
+                'label' => __('', 'hotelgest'),
+                'default' => false,
                     ), array(// Submit button
                 'field_id' => 'submit_button',
                 'type' => 'submit',

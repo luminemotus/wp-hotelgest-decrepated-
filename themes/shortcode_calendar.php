@@ -6,7 +6,7 @@
         </div>
         <div class="col-md-2 col-sm-12">
             <label class="trn"><?php _e('Persons', "hotelgest"); ?> </label>
-            <select id="booking-occupancy" name="booking-occupancy" class="form-control m-p booking-occupancy">
+            <select id="booking-occupancy" name="occupancy" class="form-control m-p booking-occupancy">
                 <?php
                 $min_occumpancy = get_option('hotelgest_occupancy_min', '');
                 $max_occupancy = get_option('hotelgest_occupancy_max', '');
@@ -19,7 +19,7 @@
         </div>
         <div class="col-md-4 col-sm-12">
             <label class="trn"><?php _e('Promotional code', "hotelgest"); ?> </label>
-            <input type="text" placeholder="Si lo tiene, escríbalo aquí." class="form-control discount-code" id="promoCode" name="discount-code" >
+            <input type="text" placeholder="Si lo tiene, escríbalo aquí." class="form-control discount-code" id="promoCode" name="promocode" >
         </div>
         <div class="col-md-2 col-sm-12">
             <label class="trn" style="visibility:hidden;"><?php _e('Book now', "hotelgest"); ?></label>

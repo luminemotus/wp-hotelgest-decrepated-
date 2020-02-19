@@ -150,7 +150,8 @@ hr {
     background-color: #f9f9f9;
 }
 .number-of-nights{
-    font-size: 15px; 
+    font-size: 15px;
+    padding: 0px !important;
 }
 .description {
     padding: 15px 0px 15px 0px;
@@ -245,8 +246,7 @@ hr {
 .room-prices {
     display: table-cell;
     vertical-align: middle;
-    /* padding-top: 15px; */
-    font-size: 25px;
+    font-size: 20px;
     color: #252525;
 }
 .price_comparison {
@@ -299,7 +299,13 @@ hr {
     font-size: 13px;
     text-align: justify;
     font-weight: 400;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    margin-bottom: 5px;
+    line-height: 17px;
+}
+
+.services .list-inline > li {
+    padding-left: 0px;
 }
 
 .services {
@@ -317,6 +323,7 @@ hr {
 .policyblock {
     border-bottom: 1px solid #c3c3c3;
     padding: 0px !important;
+    margin-top: 10px;
 }
 
 .divider {
@@ -329,4 +336,8 @@ hr {
     text-decoration: line-through;
     color: red;
     font-weight: bold;
+}
+
+.container-hg .center{
+    text-align: center;
 }
