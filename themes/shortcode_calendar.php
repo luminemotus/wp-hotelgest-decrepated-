@@ -1,11 +1,11 @@
 <form action="<?php echo $action; ?>" method="get">
     <div id="hp-calendar-home">
-        <div class="col-md-4 col-sm-12">
-            <label class="trn"><?php _e('Arrival - Departure', "hotelgest"); ?> </label>
+        <div class="col-md-4 col-sm-12" style="z-index: 2;">
+            <label class="trn"><?php _e('Book now', "hotelgest"); ?> </label>
             <input type="text" id="DateRangHotel" onfocus="blur();"  readonly="true" value="" placeholder="Seleccione fecha"  class="pull-right form-control DateRangHotel">
         </div>
         <div class="col-md-2 col-sm-12">
-            <label class="trn"><?php _e('Persons', "hotelgest"); ?> </label>
+            <label class="trn" style="visibility: hidden;"><?php _e('Persons', "hotelgest"); ?> </label>
             <select id="booking-occupancy" name="occupancy" class="form-control m-p booking-occupancy">
                 <?php
                 $min_occumpancy = get_option('hotelgest_occupancy_min', '');
@@ -18,8 +18,8 @@
             </select>                                                
         </div>
         <div class="col-md-4 col-sm-12">
-            <label class="trn"><?php _e('Promotional code', "hotelgest"); ?> </label>
-            <input type="text" placeholder="Si lo tiene, escríbalo aquí." class="form-control discount-code" id="promoCode" name="promocode" >
+            <label class="trn" style="visibility: hidden;"><?php _e('Promotional code', "hotelgest"); ?> </label>
+            <input type="text" placeholder="<?php _e('Promotional code', "hotelgest"); ?>" class="form-control discount-code" id="promoCode" name="promocode" >
         </div>
         <div class="col-md-2 col-sm-12">
             <label class="trn" style="visibility:hidden;"><?php _e('Book now', "hotelgest"); ?></label>

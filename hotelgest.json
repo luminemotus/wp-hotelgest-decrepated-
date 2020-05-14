@@ -1,6 +1,6 @@
  {
  	"name" : "Hotelgest plugin",
- 	"version" : "1.0.18",
+ 	"version" : "1.0.19",
  	"download_url" : "https://github.com/luminemotus/wp-hotelgest/archive/master.zip",
  	"sections" : {
  		"description" : "This plugin is for integration module of Hotelgest into  WordPress."

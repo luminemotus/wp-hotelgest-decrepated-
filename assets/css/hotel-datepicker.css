@@ -4,7 +4,7 @@
 .datepicker {
   box-sizing: border-box;
   overflow: hidden;
-  position: absolute;
+/*  position: absolute;*/
   width: 260px;
   z-index: 1;
 }
@@ -61,7 +61,6 @@
   border-radius: 5px;
   box-shadow: 8px 8px 40px 5px rgba(0, 0, 0, 0.08);
   color: #484c55;
-  font-family: 'Helvetica', 'Helvetica Neue', 'Arial', sans-serif;
   font-size: 14px;
   line-height: 14px;
 }
@@ -247,7 +246,6 @@
 @media (max-width: 700px) {
   .datepicker {
     width: 100% !important;
-    position: absolute !important;
     display: grid;
     z-index: 60;
 }

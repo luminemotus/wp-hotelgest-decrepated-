@@ -83,9 +83,10 @@
                                                     <div class="col-xs-12">
                                                         <input type="text" class="card form-control" id="cc_expiring" maxlength="9" name="expiry" placeholder="Fecha expiración MM/AAAA*" required />
                                                     </div>
+                                                    <?php /*
                                                     <div class="col-xs-12">
                                                         <input type="text" class="card form-control" id="cc_cvv" maxlength="9" name="cvc" placeholder="CVV" required />
-                                                    </div>
+                                                    </div>*/?>
                                                 </div>
                                             </div>
                                             <div id="tpvPayment" class="alert alert-success" style="display: none">

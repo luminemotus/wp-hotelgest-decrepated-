@@ -977,7 +977,7 @@ if ( analytics ) {
                                 + '         <p class="number-of-nights ng-scope hidden-xs"><span>' + translator.get("Price of") + '</span> ' + window.totalDays + ' <span class="trn">' + translator.get("nights") + '</span> </p>'
                                 + '     </div> '
                                 + '         <button type="button" style="display:none" class="btn btn-primary book-accommodation-select-dates available col-xs-12 mb20" data-toggle="collapse"  data-target="#viewRoomDetails' + room.rcode + '" aria-expanded="false" aria-controls="viewRoomDetails' + room.rcode + '"> ' + translator.get("Details & book") + '</button>'
-                                + '         <button type="button" style="display:none" class="btn btn-primary book-accommodation-select-dates not-available trn col-xs-12 mb20" data-toggle="collapse"  data-target="#viewRoomDetails' + room.rcode + '" aria-expanded="false" aria-controls="viewRoomDetails' + room.rcode + '">+ ' + translator.get("Not available") +' '+ translator.get("& More info") + '</button>'
+                                + '         <button type="button" style="display:none" class="btn btn-primary book-accommodation-select-dates not-available trn col-xs-12 mb20" data-toggle="collapse"  data-target="#viewRoomDetails' + room.rcode + '" aria-expanded="false" aria-controls="viewRoomDetails' + room.rcode + '">+ ' + translator.get("Not available") +' ' + '</button>'
                                 + '     </div>'
                                 + '</div>'
                                 + '<div class="collapse" id="viewRoomDetails' + room.rcode + '"></div>'

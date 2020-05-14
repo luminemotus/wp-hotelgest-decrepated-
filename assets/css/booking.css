@@ -156,6 +156,17 @@ hr {
 .description {
     padding: 15px 0px 15px 0px;
 }
+.ribbon {
+    background: #eef1f3;
+    padding: 10px;
+}
+.offer {
+    padding: 7px;
+    background: #fbfbfb;
+    color: #ff1c0b;
+    border-radius: 0px;
+    margin-top: 30px;
+}
 .rate-room {
     font-weight: bold;
 }
@@ -163,6 +174,8 @@ hr {
     text-align: justify;
     font-size: 13px;
     margin-bottom: 10px;
+    display: block;
+    font-weight: 500;
 }
 
 

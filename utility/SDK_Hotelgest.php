@@ -259,7 +259,7 @@ class SDK_Hotelgest {
      * @return type
      */
     public function get_price($args) {
-        $booking_values = $this->curl_contents_json('price/room', $args, 'GET');
+        $booking_values = $this->curl_contents_json('price/room', $args, 'POST');
         return $booking_values;
     }
 

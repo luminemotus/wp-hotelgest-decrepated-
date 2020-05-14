@@ -226,13 +226,16 @@ var dict = {
         de: "Hinzufügen",
         eu: "Gehitu"
     },
-    "Not available": {
-        es: "Completo",
-        en: "No vacancy",
-        ca: "Esgotat",
-        fr: "Pas de disponibilité",
-        de: "nicht verfügbar",
-        eu: "Disponibilitaterik ez"
+      "Not available": {
+        es: "No disponible para estas fechas",
+        en: "Not available for these dates",
+        ca: "No disponible per aquestes dates",
+        fr: "Non disponible pour ces dates",
+        de: "Für diese Daten nicht verfügbar",
+        eu: "Disponibilitaterik ez",
+        ru: "Недоступный",
+        it: "Non disponibile per queste date",
+        gl: "Completo"
     },
     "Close": {
         es: "Cerrar",
