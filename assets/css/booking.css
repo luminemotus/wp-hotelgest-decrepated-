@@ -285,7 +285,7 @@ hr {
         display: none
     }
     .shopping-cart-menu {
-        display: none;
+        display: block;
     }
 }
 @media (min-width: 992px) {
