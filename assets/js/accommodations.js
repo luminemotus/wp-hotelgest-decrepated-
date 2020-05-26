@@ -47,6 +47,12 @@ var discountObj = {};
 var $currencyObj = [];
 var $promoCode = false;
 var isPremium = false;
+//payment
+var $paymentSecurity = false;
+var $typePay = false;
+var $paytpvOrder = false;
+var $timesRefreshedIframe = 0
+
 // langaujes
 var language = '';
 var translator;
@@ -130,6 +136,11 @@ if (typeof query.onlyPack !== "undefined") {
     var $onlyPack = 1;
 } else {
     var $onlyPack = 0;
+}
+if (typeof query.noslider !== "undefined") {
+    var $noslider = 0;
+} else {
+    var $noslider = 1;
 }
 
 var fbAnalytics = false;
@@ -745,13 +756,15 @@ if ( analytics ) {
                             $('.page-header h1').html('<img id="logo-img" src="' + imageUrl + '">');
                         }
                     });
-                    if (data.gallery) {
+                    if (data.gallery && $noslider) {
                         //create object images
                         $.each(data.gallery, function (index, value) {
                             $gallery.push(value);
                         });
                         //create display gallery
                         accommodations.displayGallery();
+                    }else{
+                      $('#myCarousel').remove();
                     }
                     if (data.description) {
                         //alert( JSON.stringify( data.description[language] ) );
@@ -782,6 +795,18 @@ if ( analytics ) {
                     } else {
                         isPremium = false;
                     }
+
+                    //paycomet
+                    if ( data.typePay == 'paycomet' ) {
+                        //$.get( "https://sandboxapi.hotelgest.com/payment/paycomet/?p="+accommodations.create_UUID(), function( data ) {
+                        $paytpvOrder = create_UUID;
+                        $.get( "api/?task=paycomet&pcode"+$pcode+"&p="+$paytpvOrder, function( data ) {
+                            var dataR =JSON.parse(data)
+                            $('#paycometIframe').prop('src',dataR.urlRedirect);
+                        });
+                        $paymentSecurity = 1;
+                    }
+
                     accommodations.bindPremium();
                     //hidden
                     $('[ng-show="site_setting.show_abn_field & amp; & amp; property.abn"]').hide();
@@ -949,8 +974,9 @@ if ( analytics ) {
                             }
                         }
 
+                        var onlyPackCss = ( $onlyPack )?  'onlyPack' : '' ;
 
-                        $baseV3 = '<div class="row roomitem" data-id="' + room.rcode + '" >   '
+                        $baseV3 = '<div class="row roomitem '+onlyPackCss+'" data-id="' + room.rcode + '"  >   '
                                 + '     <div class="col-xs-12 col-sm-3 col-md-3 room-gallery">'
                                 + '       <div id="myCarousel' + room.rcode + '" class="carousel slide" data-interval="false" >'
 
@@ -2787,6 +2813,44 @@ if ( analytics ) {
             }
 
 
+            function preConfirmBooking() {
+
+                 $("iframe#paycometIframe").load(function(){
+                    confirmBooking();
+                    /*//if second refresh, change frame src - ie dont count first load
+                    if($timesRefreshedIframe == 1){
+                        confirmBooking();
+                        //alert('ssss'+$timesRefreshedIframe);
+                    }
+                    //add to times resreshed counter
+                    $timesRefreshedIframe++;*/
+                });
+
+
+            }
+
+        /*    $confirmBookingForm.submit(function (event) {
+                  event.preventDefault();
+                  $(this).validator('validate');
+                  if ($btnConfirmBooking.hasClass("disabled")) {
+                      return false;
+                  } else {
+                      //alert($rateForm.prop('class'));
+                      preConfirmBooking();//confirmBooking();
+                      if( $paymentSecurity ){
+                          $btnConfirmBooking.hide();
+                          $('.extrasPanel, .customerdetailsPanel').hide();
+                          $('#paymentContainer').addClass('in');
+
+                      }else{
+                          $btnConfirmBooking.attr("disabled", "disabled");
+                      }
+                  }
+                  event.preventDefault();
+                  return false;
+              });*/
+
+
             // Fix submit
             $confirmBookingForm.submit(function (event) {
                 event.preventDefault();
@@ -3299,6 +3363,16 @@ if ( analytics ) {
                 return str.substr(0, str.length - 1);
             }
             return str;
+        },
+        create_UUID: function (){
+            var dt = new Date().getTime();
+            var uuid = $pcode+'-'+dt+'4-xxx-yxxx-xxxxxx'.replace(/[xy]/g, function(c) {
+                var r = (dt + Math.random()*16)%16 | 0;
+                dt = Math.floor(dt/16);
+                return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+            });
+
+            return uuid;
         },
         insertParam: function (key, value) {
             key = encodeURI(key);

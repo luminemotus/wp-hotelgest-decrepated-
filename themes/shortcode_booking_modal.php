@@ -72,7 +72,8 @@
                                         <div class="row form-group">
                                             <div id="pago" class="collapse"></div>
                                             <div id="noPayment" style="display: none">
-                                                <div class="card-wrapper col-xs-12 col-sm-5 hidden-xs" style="transform: scale(0.9);"></div>
+                                                <?php /*<div class="card-wrapper col-xs-12 col-sm-5 hidden-xs" style="transform: scale(0.9);"></div>
+                                                
                                                 <div class="ccard row form-group col-xs-12 col-sm-6 pull-right" style="margin-top: 10px;">
                                                     <div class="col-xs-12 ">
                                                         <input type="text" class="card form-control" id="cc_number" minlength="13" maxlength="19" name="number" placeholder="Número de tarjeta*" required />
@@ -83,11 +84,11 @@
                                                     <div class="col-xs-12">
                                                         <input type="text" class="card form-control" id="cc_expiring" maxlength="9" name="expiry" placeholder="Fecha expiración MM/AAAA*" required />
                                                     </div>
-                                                    <?php /*
-                                                    <div class="col-xs-12">
-                                                        <input type="text" class="card form-control" id="cc_cvv" maxlength="9" name="cvc" placeholder="CVV" required />
-                                                    </div>*/?>
-                                                </div>
+                                                    <?php 
+                                                    //<div class="col-xs-12">
+                                                       // <input type="text" class="card form-control" id="cc_cvv" maxlength="9" name="cvc" placeholder="CVV" required />
+                                                    //</div>?>
+                                                </div>*/?>
                                             </div>
                                             <div id="tpvPayment" class="alert alert-success" style="display: none">
                                                 <span class="trn">You will be redirected to the payment gateway. The total amount to pay to confirm this booking is:</span>
@@ -103,7 +104,7 @@
                                                             e.stopPropagation();
                                                         }
                                                     });
-
+                                                    <?php /*
                                                     var card = new Card({
                                                         // a selector or DOM element for the form where users will
                                                         // be entering their information
@@ -132,7 +133,7 @@
                                                         },
                                                         // if true, will log helpful messages for setting up Card
                                                         debug: false // optional - default false
-                                                    });
+                                                    });*/?>
                                                 });
                                             })(jQuery);
                                         </script>
