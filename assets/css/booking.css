@@ -354,3 +354,28 @@ hr {
 .container-hg .center{
     text-align: center;
 }
+
+
+/*loading */
+.hide{
+    display: none;
+}
+#page-load-mask {
+    background-color: #f2f2f2;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 5000;
+    opacity: 0.8;
+    height: 100vh;
+}
+#page-load-mask .load-content {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    text-align: center;
+}
+#page-load-mask .load-content i {
+    font-size: 64px;
+    color: #2494d1;
+}

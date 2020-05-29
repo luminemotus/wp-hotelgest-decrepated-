@@ -1740,5 +1740,45 @@ var dict = {
        fr: "Petit déjeuner + diner",
        de: "Frühstück + Abendessen",
        eu: "Gosaria + afaria"
+  },
+    "Payment": {
+       es: "Método de pago",
+       en: "Payment method",
+       ca: "Payment method",
+       fr: "Procédé de paiement",
+       de: "Bezahlverfahren",
+       eu: "Ordaintzeko modua"
+  },
+    "Units": {
+       es: "Unidades",
+       en: "Units",
+       ca: "Unitats",
+       fr: "Unités",
+       de: "Einheiten",
+       eu: "Unitateak"
+  },
+    "not available": {
+       es: "No disponible",
+       en: "Not available",
+       ca: "No disponible",
+       fr: "Non disponible",
+       de: "Nicht verfügbar",
+       eu: "Ez dago eskuragarri"
+  },
+    "for": {
+       es: "para",
+       en: "for",
+       ca: "per a",
+       fr: "pour",
+       de: "zum",
+       eu: "egiteko"
+  },
+    "validating": {
+       es: "Validando...",
+       en: "Validating...",
+       ca: "Validant...",
+       fr: "Validation...",
+       de: "Validieren...",
+       eu: "Validando..."
   }
 }

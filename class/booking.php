@@ -29,6 +29,9 @@ if (!class_exists('HG_Booking')) :
             add_action('wp_ajax_hg_frontend_submit', array($this, 'hg_frontend_submit'));
             add_action('wp_ajax_nopriv_hg_frontend_submit', array($this, 'hg_frontend_submit'));
 
+            add_action('wp_ajax_hg_paycomet', array($this, 'hg_paycomet'));
+            add_action('wp_ajax_nopriv_hg_paycomet', array($this, 'hg_paycomet'));
+
             add_action('wp_ajax_tpv', array($this, 'hg_tpv'));
             add_action('wp_ajax_nopriv_tpv', array($this, 'hg_tpv'));
         }
@@ -126,6 +129,21 @@ if (!class_exists('HG_Booking')) :
             die();
         }
 
+        function hg_paycomet() {
+            include HG_PLUGIN_DIR . 'utility/SDK_Hotelgest.php';
+
+            $session = $_GET['p'];
+            $pcode = $_GET['pcode'];
+            $user_hotelgest = get_option('hotelgest_user', false);
+            $pass_hotelgest = get_option('hotelgest_password', false);
+
+            $hotel = new SDK_Hotelgest($user_hotelgest, $pass_hotelgest);
+            
+            echo $hotel->paycomet(['pcode' => $pcode, 'session' => $session]);
+
+            die();
+        }
+
         function hg_frontend_submit() {
             include HG_PLUGIN_DIR . 'utility/SDK_Hotelgest.php';
 
@@ -185,7 +203,7 @@ if (!class_exists('HG_Booking')) :
             $totalAdult = 0;
 //get info room
             $booking = $hotel->cleanArray($bookingArray, $_POST);
-            
+
             $promoCode = ( isset($_POST['promoCode']) ) ? $_POST['promoCode'] : '';
             unset($_POST['rooms']);
             foreach ($postRooms as $postR):
@@ -193,7 +211,7 @@ if (!class_exists('HG_Booking')) :
 
                 // $pcode = $roomList[$postR['rcode']];
                 $pcode = $postR['pcode'] = ( isset($postR['pcode']) ) ? $postR['pcode'] : $_POST['pcode'];
-                
+
 
                 //Caution Multiproperty
                 $setting = $hotel->getConfig($postR["pcode"]);
@@ -209,7 +227,7 @@ if (!class_exists('HG_Booking')) :
                             'rcode' => $postR['rtcode'], 'pcode' => $postR['pcode'])) : 0;
 
                 $price = $hotel->get_price(array('pcode' => $pcode, 'fromDate' => $booking['date_arrival'], 'toDate' => $booking['date_departure']
-                    , 'rtcode' => $postR['rtcode'], 'occupancy' => $postR['occupancy'], 'board' => $postR['board'], 'policy' => $postR['policy'],'promoCode'=> $promoCode));
+                    , 'rtcode' => $postR['rtcode'], 'occupancy' => $postR['occupancy'], 'board' => $postR['board'], 'policy' => $postR['policy'], 'promoCode' => $promoCode));
 
                 $price = $price[0];
                 if (isset($postR['pack'])) {
@@ -278,10 +296,10 @@ if (!class_exists('HG_Booking')) :
                                     $total_tpv = $total_tpv + ( $price->roomclear * $percentageValue );
                                 }
                                 if ($taxInclude == 1) {
-                                    $daytax = ( $totalDays > $propertyInfo->tax_max_day )? $propertyInfo->tax_max_day :  $totalDays;
-                                    if ( $daytax) {
+                                    $daytax = ( $totalDays > $propertyInfo->tax_max_day ) ? $propertyInfo->tax_max_day : $totalDays;
+                                    if ($daytax) {
                                         $taxprice_adult = ( $propertyInfo->tax_price_adult * $totalAdult ) * $daytax;
-                                        $total_tpv = $total_tpv +  $taxprice_adult;
+                                        $total_tpv = $total_tpv + $taxprice_adult;
                                     }
                                 }
 
@@ -334,7 +352,9 @@ if (!class_exists('HG_Booking')) :
                 $booking["id_channel"] = 999;
                 $booking["reservation_code_num"] = 1;
                 $booking["product"] = $booking["products"] = json_encode($products, JSON_FORCE_OBJECT);
-                ;
+                if (isset($_POST['paytpvOrder'])) {
+                    $booking["paytpvOrder"] = $_POST['paytpvOrder'];
+                }
 
                 // $curl_post_data['fount'] = 1946;
 
@@ -389,7 +409,7 @@ if (!class_exists('HG_Booking')) :
                 # Cargamos la clase con los parámetros base
                 $TPV = new Redsys\Tpv\Tpv($config);
                 # Indicamos los campos para el pedido
-                $path = str_replace('?tpv=ko', '', $_SERVER["HTTP_REFERER"] ) ;
+                $path = str_replace('?tpv=ko', '', $_SERVER["HTTP_REFERER"]);
                 $TPV->setFormHiddens(array(
                     'TransactionType' => '0',
                     'MerchantData' => $tpvData->merchantCode,
@@ -415,9 +435,9 @@ if (!class_exists('HG_Booking')) :
                   .$this->getInputHidden('MerchantParameters', $this->getMerchantParametersEncoded())
                   .$this->getInputHidden('Signature', $this->getValuesSignature());
                  */
-                if( get_option('hotelgest_tpv_debug', false) ){
-                  $hotel->logFile( json_encode( $TPV->values ) , 'tpv.log');
-                }  
+                if (get_option('hotelgest_tpv_debug', false)) {
+                    $hotel->logFile(json_encode($TPV->values), 'tpv.log');
+                }
 
                 $returnBooking = array("success" => true, "data" => $returnBooking->data, "tpv" => array('fields' => $dataRedsys, 'path' => $TPV->getPath('/realizarPago')));
             }

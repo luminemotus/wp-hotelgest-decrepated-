@@ -332,6 +332,12 @@ class SDK_Hotelgest {
         $args["token"] = $this->token;
         return $this->curl_contents_json('reservation/changeStatus', $args, 'POST');
     }
+    
+    public function paycomet($args) {
+        $args["token"] = $this->token;
+        $this->srv = str_replace('v1', 'panel', $this->srv);
+        return $this->curl_contents_json('thirdPart/paycometCardTokenIframe', $args, 'POST',0);
+    }
 
     public function logFile($args, $log_file = 'debug.log') {
         $log_file = __DIR__ . '/' . $log_file;

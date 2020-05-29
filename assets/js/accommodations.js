@@ -459,7 +459,7 @@ if ( analytics ) {
             $.cookie('discountCode', discountObj, {expires: 1, path: '/'});
         },
         browserLanguage: function (pcode, $lang) {
-            var languaguesArray = ['', 'fr', 'en', 'es', 'ca', 'eu', 'de', 'it', 'ru'];
+            var languaguesArray = ['', 'fr', 'en', 'es', 'ca', 'eu', 'de', 'it', 'ru', 'gl'];
             if ($lang) {
                 if ($.inArray($lang, languaguesArray) !== -1) {
                     language = $lang;
@@ -799,8 +799,10 @@ if ( analytics ) {
                     //paycomet
                     if ( data.typePay == 'paycomet' ) {
                         //$.get( "https://sandboxapi.hotelgest.com/payment/paycomet/?p="+accommodations.create_UUID(), function( data ) {
-                        $paytpvOrder = create_UUID;
-                        $.get( "api/?task=paycomet&pcode"+$pcode+"&p="+$paytpvOrder, function( data ) {
+                        var uuid = accommodations.create_UUID();
+                        $paytpvOrder = 'newToken-'+uuid;
+                        getPaymentUrl = ( typeof hg_params === "undefined" ) ? baseurl + '/api/' : hg_params.ajaxurl ;
+                        $.get( getPaymentUrl+"?action=hg_paycomet&task=paycomet&pcode="+$pcode+"&p="+$paytpvOrder, function( data ) {
                             var dataR =JSON.parse(data)
                             $('#paycometIframe').prop('src',dataR.urlRedirect);
                         });
@@ -1254,7 +1256,7 @@ if ( analytics ) {
                     }
 
                     if ($minprice == parseFloat(10000000000)) {
-                        noOccupancy = 'No disponible' + '<span class="errorOccupancy"> Para: ' + $booking_occupancy + ' ' + translator.get("Persons") + '</span>';
+                        noOccupancy = translator.get("not available")  + '<span class="errorOccupancy"> '+translator.get("for") +': ' + $booking_occupancy + ' ' + translator.get("Persons") + '</span>';
                         $('#onlyRoom [data-id="' + $rtcode + '"] .fromPrice').hide();
                         $('#onlyRoom [data-id="' + $rtcode + '"] .room-price').html(noOccupancy);
                     } else {
@@ -2773,6 +2775,9 @@ if ( analytics ) {
                     'reservation_code': price_policy,
                     'item': item
                 };
+                if( $paymentSecurity ){
+                   data['paytpvOrder'] = $paytpvOrder;
+                }
                 //alert( JSON.stringify(data) );return;
                 confirmBookingUrl = ( typeof hg_params === "undefined" ) ? baseurl + '/ajaxbooking.php' : hg_params.ajaxurl ;
                 $.ajax({
@@ -2782,6 +2787,8 @@ if ( analytics ) {
                     data: data,
                     dataType: 'json',
                     success: function (data) {
+                        $("#page-load-mask").addClass("hide");
+                        
                         if (data.success) {
 
                             //tpv
@@ -2816,6 +2823,8 @@ if ( analytics ) {
             function preConfirmBooking() {
 
                  $("iframe#paycometIframe").load(function(){
+                    $("#page-load-mask").removeClass("hide");
+                     
                     confirmBooking();
                     /*//if second refresh, change frame src - ie dont count first load
                     if($timesRefreshedIframe == 1){
@@ -2829,29 +2838,38 @@ if ( analytics ) {
 
             }
 
-        /*    $confirmBookingForm.submit(function (event) {
+           $confirmBookingForm.submit(function (event) {
                   event.preventDefault();
                   $(this).validator('validate');
                   if ($btnConfirmBooking.hasClass("disabled")) {
                       return false;
                   } else {
                       //alert($rateForm.prop('class'));
-                      preConfirmBooking();//confirmBooking();
+                      if( $pcode == 245 ){
+                        //console.log($paymentSecurity);
+                        //return false;
+                      }
+
+
                       if( $paymentSecurity ){
+                          $('.paymentPanel').show();
+                          preConfirmBooking();//confirmBooking();
                           $btnConfirmBooking.hide();
                           $('.extrasPanel, .customerdetailsPanel').hide();
                           $('#paymentContainer').addClass('in');
 
                       }else{
+                          confirmBooking();
                           $btnConfirmBooking.attr("disabled", "disabled");
                       }
                   }
                   event.preventDefault();
                   return false;
-              });*/
+              });
 
 
             // Fix submit
+              /*
             $confirmBookingForm.submit(function (event) {
                 event.preventDefault();
                 $(this).validator('validate');
@@ -2864,7 +2882,7 @@ if ( analytics ) {
                 }
                 event.preventDefault();
                 return false;
-            });
+            });*/
         },
         payConfirmation: function (rscode) {
 
