@@ -324,7 +324,7 @@ if (!class_exists('HG_Booking')) :
             if ($payment_in and @ $setting->tpv != '') {
                 $tpvData = json_decode($setting->tpv);
                 $tpvActive = 1;
-                $status = 5;
+                $status = 1;
                 $bookingGeneral["tpv"] = 1;
                 $bookingGeneral["push"] = 0;
                 $bookingGeneral["pushAdmin"] = 0;
