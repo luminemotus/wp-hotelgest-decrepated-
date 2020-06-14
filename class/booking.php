@@ -379,7 +379,6 @@ if (!class_exists('HG_Booking')) :
             endforeach;
 
             if ($errorResev) {
-
                 echo json_encode(array("success" => false, "data" => array(), "errors" => ""));
                 wp_die();
             }

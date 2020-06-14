@@ -90,6 +90,15 @@
                                                 </div>
                                             </div>
                                             <hr>
+                                            <div class="row form-group paymenTypeDefault">
+                                                <div id="pago" class="collapse"></div>
+                                                <div id="noPayment" style="display: none"></div>
+                                                <div id="tpvPayment" class="alert alert-success" style="display: none">
+                                                    <h6><a data-toggle="collapse" data-target="#pago" class="trn">Payment</a></h6>
+                                                    <span class="trn">You will be redirected to the payment gateway. The total amount to pay to confirm this booking is:</span>
+                                                    <span class="price"> </span>
+                                                </div>
+                                            </div>                                        
                                             <?php /*
                                             <h3><a data-toggle="collapse" data-target="#pago" class="trn">Payment</a></h3>
                                             <div class="row form-group">
