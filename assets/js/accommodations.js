@@ -728,7 +728,7 @@ if ( analytics ) {
                         var url_address = data.address + ", " + data.num + ", " + data.province + " (" + data.name + ")";
                         //alert(encodeURIComponent(url_address));
                         $('[ng-show="property.address_line_1 || property.address_line_2"] a').prop('href', "http://maps.google.com/?q=" + encodeURIComponent(url_address));
-                        $('[ng-show="property.address_line_1 || property.address_line_2"] .ng-binding').html(data.address + ', ' + data.num + ', ' + data.province);
+                        $('[ng-show="property.address_line_1 || property.address_line_2"] .ng-binding').html(data.address + ', ' + data.num + ', ' + data.zip + ' ' + data.city + ' ('+data.province +')' );
                     } else {
                         $('[ng-show="property.address_line_1 || property.address_line_2"]').hide();
                     }
@@ -1033,7 +1033,18 @@ if ( analytics ) {
 
                     //exist rcode url
                     if (typeof $rcode !== "undefined" && !Array.isArray($rcode) ) {
+
+                      if ( $rcode.indexOf(',') > -1){
+                        var rcodeList = $rcode.split(",");
+                        for(var i = 0; i < rcodeList.length; i++){
+                            //document.write("<p>" + rcodeList[i] + "</p>");
+                            $('.roomitem[data-id=' + rcodeList[i] + ']').find('.book-accommodation-select-dates').trigger("click");
+                        }
+
+                      }else{
                         $('.roomitem[data-id=' + $rcode + ']').find('.book-accommodation-select-dates').trigger("click");
+
+                      }
                         /*setTimeout(function () {
                          accommodations.bindAddCart();
                          }, 1000);*/
@@ -1251,8 +1262,10 @@ if ( analytics ) {
 
                     if( notAvail ){
                         $('.roomitem[data-id="' + $rtcode + '"] .btn-room-collapse .book-accommodation-select-dates.not-available').show();
+                        $('.roomitem[data-id="' + $rtcode + '"]').addClass('room-not-available');
                     }else{
                         $('.roomitem[data-id="' + $rtcode + '"] .btn-room-collapse .book-accommodation-select-dates.available').show();
+                        $('.roomitem[data-id="' + $rtcode + '"]').removeClass('room-not-available');
                     }
 
                     if ($minprice == parseFloat(10000000000)) {
@@ -2787,8 +2800,6 @@ if ( analytics ) {
                     data: data,
                     dataType: 'json',
                     success: function (data) {
-                        $("#page-load-mask").addClass("hide");
-                        
                         if (data.success) {
 
                             //tpv
@@ -2823,8 +2834,6 @@ if ( analytics ) {
             function preConfirmBooking() {
 
                  $("iframe#paycometIframe").load(function(){
-                    $("#page-load-mask").removeClass("hide");
-                     
                     confirmBooking();
                     /*//if second refresh, change frame src - ie dont count first load
                     if($timesRefreshedIframe == 1){
