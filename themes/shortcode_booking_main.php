@@ -9,10 +9,10 @@
                             <input type="text" id="DateRangHotelMobile" onfocus="blur();"  readonly="true" value="" placeholder="Seleccione fecha" name="fromtoDateMobile" class="fromDate pull-right form-control">
                         </div>
                         <div class="col-xs-6">
-                            <input type="date" data-date-format="YYYY-MM-DD" id="fromDateMobile" placeholder="Llegada" value="<?php echo date("Y-m-d") ?>" name="fromDate" class="fromDate col-xs-12 hide form-control">
+                            <input type="date" data-date-format="YYYY-MM-DD" id="fromDateMobile" placeholder="Llegada" value="" name="fromDate" class="fromDate col-xs-12 hide form-control">
                         </div>
                         <div class="col-xs-6">
-                            <input type="date" data-date-format="YYYY-MM-DD" id="toDateMobile" placeholder="Salida" value="<?php echo date("Y-m-d", strtotime("+1 day", strtotime(date('Y-m-d')))); ?>" name="toDate" class="toDate col-xs-12 hide form-control">
+                            <input type="date" data-date-format="YYYY-MM-DD" id="toDateMobile" placeholder="Salida" value="" name="toDate" class="toDate col-xs-12 hide form-control">
                         </div>
                     </div>
                     <div class="row bottom-spacer-sml">
