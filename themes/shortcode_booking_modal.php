@@ -1,8 +1,7 @@
     <div version="2.0">
         <?php //include_once '_confirmbooking.php';  ?>
         <?php /* <script src="<?php echo $baseurl; ?>/js/card.js" type="text/javascript"></script> */ ?>
-
-        <script src="<?php echo $baseurl; ?>/js/jquery.card.js" type="text/javascript"></script>
+        <?php /*<script src="<?php echo $baseurl; ?>/js/jquery.card.js" type="text/javascript"></script>*/?>
 
         <div role="dialog" tabindex="-1" id="modalConfirmBooking" class="modal inmodal fade in">
             <div class="modal-dialog modal-xl">

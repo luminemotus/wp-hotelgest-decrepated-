@@ -151,7 +151,7 @@ if (!class_exists('HG_Frontend_Scripts')) :
 
             wp_enqueue_script('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', false, '3.3.6', 'all');
 
-            wp_enqueue_script('jquery.card', HG_PLUGIN_URL . 'assets/js/lib/jquery.card.js', false, '1.1.0', true);
+           // wp_enqueue_script('jquery.card', HG_PLUGIN_URL . 'assets/js/lib/jquery.card.js', false, '1.1.0', true);
             wp_enqueue_script('nivo-lightbox', HG_PLUGIN_URL . 'assets/js/lib/slider/nivo-lightbox.min.js', false, '2.1.3', true);
             wp_enqueue_script('toastr', 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js', false, '1.1', 'all');
             wp_enqueue_script('datepicker', HG_PLUGIN_URL . 'assets/js/lib/datepicker.min.js', false, '1.1.0', true);
