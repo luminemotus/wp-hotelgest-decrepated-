@@ -1780,5 +1780,13 @@ var dict = {
        fr: "Validation...",
        de: "Validieren...",
        eu: "Validando..."
+  },
+   "Promotional code": {
+       es: "Código promocional",
+       en: "Promotional code",
+       ca: "Códi promocional",
+       fr: "Code promo",
+       de: "Angebotscode",
+       eu: "Promozio kodea"
   }
 }

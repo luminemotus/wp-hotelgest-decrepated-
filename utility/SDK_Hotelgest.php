@@ -61,6 +61,8 @@ class SDK_Hotelgest {
         $curl = curl_init($this->srv . $service);
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         if ($type == 'POST') {
             curl_setopt($curl, CURLOPT_POST, true);
         }

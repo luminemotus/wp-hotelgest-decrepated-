@@ -6,7 +6,7 @@
                 <div class="content-shopping-cart  dark">
                     <div class="row bottom-spacer-sml">
                         <div class="col-md-12">
-                            <input type="text" id="DateRangHotelMobile" onfocus="blur();"  readonly="true" value="" placeholder="Seleccione fecha" name="fromtoDateMobile" class="fromDate pull-right form-control">
+                            <input type="text" id="DateRangHotelMobile" onfocus="blur();"  readonly="true" value="" placeholder="<?php _e('Seleccione fecha', "hotelgest"); ?>" name="fromtoDateMobile" class="fromDate pull-right form-control">
                         </div>
                         <div class="col-xs-6">
                             <input type="date" data-date-format="YYYY-MM-DD" id="fromDateMobile" placeholder="Llegada" value="" name="fromDate" class="fromDate col-xs-12 hide form-control">
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     <label class="trn">Arrival</label> - <label class="trn">Departure</label>
-                                    <input type="text" id="DateRangHotel" onfocus="blur();"  readonly="true" value="" placeholder="Seleccione fecha" name="fromDate" class="fromDate pull-right form-control">
+                                    <input type="text" id="DateRangHotel" onfocus="blur();"  readonly="true" value="" placeholder="<?php _e('Seleccione fecha', "hotelgest"); ?>" name="fromDate" class="fromDate pull-right form-control">
                                 </div>
                                 <div class="col-md-2 col-sm-12">
                                     <label class="trn label-occupancy">Persons</label>

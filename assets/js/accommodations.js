@@ -3284,6 +3284,11 @@ if ( analytics ) {
             $("#cc_number").attr('placeholder', translator.get("Credit Card Number"));
             $("#cc_owner").attr('placeholder', translator.get("Credit Card Placeholder"));
             $("#cc_expiring").attr('placeholder', translator.get("Expiration date"));
+            
+            $("#DateRangHotelMobile").attr('placeholder', translator.get("Select date"));
+            $("#DateRangHotel").attr('placeholder', translator.get("Select date"));
+            $("#promoCode").attr('placeholder', translator.get("Promotional code"));
+            
             $("#comments,#booking-customer-notes").attr('placeholder', translator.get("Please write any special requirement."));
             return;
         },
