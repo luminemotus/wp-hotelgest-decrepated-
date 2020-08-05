@@ -91,8 +91,8 @@ if (!class_exists('HG_Frontend_Scripts')) :
             //wp_enqueue_style('hg_booking_engine', HG_PLUGIN_URL . 'assets/css/booking_engine.css', false, '1.1', 'all');
             wp_enqueue_style('hg_booking-css', HG_PLUGIN_URL . 'assets/css/booking.css', false, '1.1', 'all');
 
-            $primary_color = get_option('hotelgest_primary_color');
-            $secondary_color = get_option('hotelgest_secondary_color');
+            $primary_color = get_option('hotelgest_primary_color', '#212121');
+            $secondary_color = get_option('hotelgest_secondary_color', '#212121');
 
             //All the user input CSS settings as set in the plugin settings
             $slicknav_custom_css = " 

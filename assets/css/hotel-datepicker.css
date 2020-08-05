@@ -320,6 +320,11 @@ table.datepicker__month tr th{
   }
 }
 
+div#datepicker-DateRangHotel table {
+    width: auto !important;
+    border: none !important;
+}
+
 #datepicker-DateRangHotelMobile{
     top: 0;
     z-index: 10000;

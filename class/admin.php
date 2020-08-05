@@ -128,10 +128,12 @@ if (!class_exists('HG_APF_AddFields')) :
                 'field_id' => 'section_primary_color',
                 'type' => 'color',
                 'title' => __('Primary color', 'hotelgest'),
+                'default' => '#212121',        
                     ), array(
                 'field_id' => 'section_secondary_color',
                 'title' => __('Secondary color', 'admin-page-framework-loader'),
                 'type' => 'color',
+                'default' => '#212121',       
                     ), array(
                 'field_id' => 'hotelgest_hide_slide',
                 'type' => 'checkbox',
