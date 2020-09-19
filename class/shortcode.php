@@ -43,11 +43,16 @@ if (!class_exists('HG_Shortcode')) :
                 'bookrooms' => '',
                 'layout' => '',
                 'pageid' => '',
+                'url' => false,
                 'lang' => '',
                     ), $atts);
 
             $postInput = "";
-            if ((int) $atts["external"] > 0) {
+                 
+            if( $atts["url"] ){
+               $action = $atts["url"];
+                
+            }else if ((int) $atts["external"] > 0) {
                 $action = 'https://booking.hotelgest.com/';
                 $action .= ( get_option('hotelgest_v3', 0) ) ? 'v3' : '';
             } else {

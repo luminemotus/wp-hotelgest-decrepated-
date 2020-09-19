@@ -2,7 +2,7 @@
     <div id="hp-calendar-home">
         <div class="col-md-4 col-sm-12" style="z-index: 2;">
             <label class="trn"><?php _e('Book now', "hotelgest"); ?> </label>
-            <input type="text" id="DateRangHotel" onfocus="blur();"  readonly="true" value="" placeholder="Seleccione fecha"  class="pull-right form-control DateRangHotel">
+            <input type="text" id="DateRangHotel" onfocus="blur();"  readonly="true" value="" placeholder="<?php _e('Select date', "hotelgest"); ?>"  class="pull-right form-control DateRangHotel">
         </div>
         <div class="col-md-2 col-sm-12">
             <label class="trn" style="visibility: hidden;"><?php _e('Persons', "hotelgest"); ?> </label>

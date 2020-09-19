@@ -174,7 +174,13 @@ if (!class_exists('HG_APF_AddFields')) :
                 'title' => __('Debug tpv log', 'hotelgest'),
                 'label' => __('', 'hotelgest'),
                 'default' => false,
-                    ), array(// Submit button
+                    ), array(
+                'field_id' => 'hotelgest_noconflict_Bootstrap',
+                'type' => 'checkbox',
+                'title' => __('Bootstrap conflict', 'hotelgest'),
+                'label' => __('', 'hotelgest'),
+                'default' => false,
+                    ),array(// Submit button
                 'field_id' => 'submit_button',
                 'type' => 'submit',
                     )
@@ -217,6 +223,11 @@ if (!class_exists('HG_APF_AddFields')) :
                 } else {
                     update_option('hotelgest_noconflict_js', 0);
                 }
+                if (AdminPageFramework::getOption('HG_Admin', 'hotelgest_noconflict_Bootstrap') == 1) {
+                    update_option('hotelgest_noconflict_Bootstrap', 1);
+                } else {
+                    update_option('hotelgest_noconflict_Bootstrap', 0);
+                }
                  if (AdminPageFramework::getOption('HG_Admin', 'hotelgest_tpv_debug') == 1) {
                     update_option('hotelgest_tpv_debug', 1);
                 } else {
@@ -238,7 +249,8 @@ if (!class_exists('HG_APF_AddFields')) :
                                 <span class="dashicons dashicons-shield" aria-hidden="true"></span> 
             <?php echo esc_html(__("Shortcode calendar", 'hotelgest')); ?>
                             </h3>
-                            <p>[hg_calendar] opcional </p>
+                            <p>Basic: <b>[hg_calendar]</b></p>
+                            <p>External url : <b>[hg_calendar externalUrl="https://booking.hotelgest.com/v3/114" ]</b></p>
                         </div>
 
                         <div class="welcome-panel-column">

@@ -4,7 +4,7 @@
  * Plugin Name: Hotelgest plugin
  * Plugin URI: http://www.hotelgest.com
  * Description: This plugin is for integration module of Hotelgest into  WordPress
- * Version: 1.0.29
+ * Version: 1.0.30
  * Author: hotelgest
  * Author URI: http://www.hotelgest.com
  * License: GPL2
@@ -23,7 +23,7 @@ if (!class_exists('Hotelier')) :
         /**
          * @var string
          */
-        public $version = '1.0.29';
+        public $version = '1.0.30';
 
         /**
          * @var Hotelier The single instance of the class
@@ -47,11 +47,32 @@ if (!class_exists('Hotelier')) :
         }
 
         public function __construct() {
+            $this->plugin_name = 'hotelgest-wp';
+            
+            $this->setLocalization();
             $this->setup_constants();
             $this->includes();
             $this->init_hooks();
 
+
+
             do_action('hotegest_loaded');
+        }
+
+        /**
+         * Load localization files.
+         *
+         * @callback    action      init
+         */
+        public function setLocalization() {
+
+             load_plugin_textdomain(
+			$this->plugin_name,
+			false,
+			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+		);
+
+           
         }
 
         /**
@@ -77,7 +98,7 @@ if (!class_exists('Hotelier')) :
 
             if (is_admin()) {
                 include_once 'class/admin.php';
-                
+
                 require HG_PLUGIN_DIR . 'utility/puc/plugin-update-checker.php';
                 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
                                 'https://raw.githubusercontent.com/luminemotus/wp-hotelgest/master/hotelgest.json', __FILE__, 'wp-hotelgest'

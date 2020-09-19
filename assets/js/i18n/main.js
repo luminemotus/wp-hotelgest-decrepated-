@@ -1697,7 +1697,7 @@ var dict = {
       es: "Detalles y reserva",
       en: "Details & book",
       ca: "Detalils i reserva",
-      fr: "Details & book",
+      fr: "Détails et réservation",
       de: "Details & book",
       eu: "Details & book"
     },

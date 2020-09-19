@@ -149,7 +149,10 @@ if (!class_exists('HG_Frontend_Scripts')) :
             wp_enqueue_style('toastr', 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css', false, '2.1.3', 'all');
             wp_enqueue_style('hg_calendar', HG_PLUGIN_URL . 'assets/css/calendar.css', false, '1.1', 'all');
 
-            wp_enqueue_script('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', false, '3.3.6', 'all');
+            
+            $hotelgest_noconflict_Bootstrap = get_option('hotelgest_noconflict_Bootstrap');    
+            if( $hotelgest_noconflict_Bootstrap  < 1 )  
+                wp_enqueue_script('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', false, '3.3.6', 'all');
 
            // wp_enqueue_script('jquery.card', HG_PLUGIN_URL . 'assets/js/lib/jquery.card.js', false, '1.1.0', true);
             wp_enqueue_script('nivo-lightbox', HG_PLUGIN_URL . 'assets/js/lib/slider/nivo-lightbox.min.js', false, '2.1.3', true);
@@ -161,7 +164,12 @@ if (!class_exists('HG_Frontend_Scripts')) :
             wp_enqueue_script('jquery.translate.', HG_PLUGIN_URL . 'assets/js/lib/jquery.translate.js', false, '0.9', true);
             wp_enqueue_script('bootstrap-validator', HG_PLUGIN_URL . 'assets/js/lib/validator.min.js', false, '0.11.5', true);
 
-            wp_enqueue_script('hotel-accommodations-translate', HG_PLUGIN_URL . 'assets/js/i18n/main.js', false, '1.1.0', true);
+             if (file_exists(get_template_directory() . '/wp-hotelgest/themes/main.js')) {
+                wp_enqueue_script('hotel-accommodations-translate', get_template_directory() . '/wp-hotelgest/themes/main.js', false, '1.1.0', true);
+            } else {
+                wp_enqueue_script('hotel-accommodations-translate', HG_PLUGIN_URL . 'assets/js/i18n/main.js', false, '1.1.0', true);
+            }
+           
 
             wp_enqueue_script('hg-accommodations', HG_PLUGIN_URL . 'assets/js/accommodations.js', false, '1.1.0', true);
 
