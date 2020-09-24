@@ -250,7 +250,7 @@ if (!class_exists('HG_APF_AddFields')) :
             <?php echo esc_html(__("Shortcode calendar", 'hotelgest')); ?>
                             </h3>
                             <p>Basic: <b>[hg_calendar]</b></p>
-                            <p>External url : <b>[hg_calendar externalUrl="https://booking.hotelgest.com/v3/114" ]</b></p>
+                            <p>External url : <b>[hg_calendar url="https://booking.hotelgest.com/v3/114" ]</b></p>
                         </div>
 
                         <div class="welcome-panel-column">

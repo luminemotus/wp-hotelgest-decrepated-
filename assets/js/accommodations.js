@@ -995,7 +995,7 @@ if ( analytics ) {
                                 + '         <a class="buttonGallery buttonGallery' + room.rcode + '" href="#"></a>'
                                 + '     </div>'
                                 + '     <div class="col-xs-12 col-sm-6 "><div class="rate-room">' + room.name + '</div> <hr>'
-                                + '                  ' + room.occupancy + ' x <i class="fa fa-user"></i> ' + translator.get("Max") + ' ' + room.sqft + ' m<sup>2</sup>  <hr>'
+                                + '             <spam class="roomOccupancy ">' + room.occupancy + ' x <i class="fa fa-user"></i></spam> <spam class="roomSqft">' + translator.get("Max") + ' ' + room.sqft + ' m<sup>2</sup></spam>  <hr>'
                                 + '             <div class="room-desc">' + readmore + '</div>'
                                 + '             <div class="services">' + feacture + '</div>'
                                 + '     </div>'
