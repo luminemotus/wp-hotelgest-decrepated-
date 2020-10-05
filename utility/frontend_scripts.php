@@ -148,6 +148,8 @@ if (!class_exists('HG_Frontend_Scripts')) :
             wp_enqueue_style('bootstrap-hg', HG_PLUGIN_URL . 'assets/css/bootstrap-hg.css', 1, '3.3.6', 'all');
             wp_enqueue_style('toastr', 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css', false, '2.1.3', 'all');
             wp_enqueue_style('hg_calendar', HG_PLUGIN_URL . 'assets/css/calendar.css', false, '1.1', 'all');
+            wp_enqueue_style('nivo-lightbox', HG_PLUGIN_URL . 'assets/css/nivo-lightbox.css', false, '1.2.0', 'all');
+            wp_enqueue_style('nivo-lightbox-default', HG_PLUGIN_URL . 'assets/css/nivo-lightbox/default/default.css', false, '1.2.0', 'all');
 
             
             $hotelgest_noconflict_Bootstrap = get_option('hotelgest_noconflict_Bootstrap');    
