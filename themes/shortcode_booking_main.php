@@ -124,12 +124,20 @@
                                 <div class="col-md-2 col-sm-12">
                                     <label class="trn label-occupancy">Persons</label>
                                     <select id="booking-occupancy" name="booking-occupancy" class="form-control m-p booking-occupancy">
-                                        <?php
-                                        $list = array('1', '2', '3')
-                                        ?>
-                                        <?php foreach ($list as $l): ?>
-                                            <option <?php // ($reservas->type_vat == $l) ? 'selected' : '';    ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
-                                        <?php endforeach; ?>
+                                      <?php
+                                      $min_occumpancy = get_option('hotelgest_occupancy_min', '');
+                                      $max_occupancy = get_option('hotelgest_occupancy_max', '');
+
+                                      for ($i = $min_occumpancy; $i <= $max_occupancy; $i++):
+                                          ?>
+                                          <option value="<?php echo $i; ?>"><?php echo $i; ?><p> <?php _e('Persons', "hotelgest"); ?> </p></option>
+                                      <?php endfor; ?>
+                                      <?php /*
+                                      $list = array('1', '2', '3')
+                                      ?>
+                                      <?php foreach ($list as $l): ?>
+                                          <option <?php // ($reservas->type_vat == $l) ? 'selected' : '';    ?> value="<?php echo $l; ?>"><?php echo $l; ?></option>
+                                      <?php endforeach; */ ?>
                                     </select>
                                     
                                     <div id="children-select" class="children-select" style="display:none">
