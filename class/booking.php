@@ -409,14 +409,16 @@ if (!class_exists('HG_Booking')) :
                 $TPV = new Redsys\Tpv\Tpv($config);
                 # Indicamos los campos para el pedido
                 $path = str_replace('?tpv=ko', '', $_SERVER["HTTP_REFERER"]);
+                //modified nocolor.es
+                if (strpos($path, '?') !== false) {$path.='&'; } else { $path.='?'; }
                 $TPV->setFormHiddens(array(
                     'TransactionType' => '0',
                     'MerchantData' => $tpvData->merchantCode,
                     'Order' => $returnBooking->data->rscode,
                     'ProductDescription' => 'Descripcion del productos TMP',
                     'Amount' => $total_tpv,
-                    'UrlOK' => $path . '?rscode=' . $returnBooking->data->rscode . '&tpv=ok',
-                    'UrlKO' => $path . '?tpv=ko',
+                    'UrlOK' => $path . 'rscode=' . $returnBooking->data->rscode . '&tpv=ok',
+                    'UrlKO' => $path . 'tpv=ko',
                     'MerchantURL' => admin_url('admin-ajax.php') . '?action=tpv&pcode=' . $pcode . '&rscode=' . $returnBooking->data->rscode
                 ));
                 //$log = admin_url('admin-ajax.php') . '?action=tpv&pcode=' . $pcode . '&rscode=' . $returnBooking->data->rscode;
