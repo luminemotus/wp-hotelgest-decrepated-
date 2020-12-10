@@ -402,7 +402,7 @@ if (!class_exists('HG_Booking')) :
                     'Titular' => $tpvData->merchantName,
                     'ProductDescription' => 'Descripcion del productos',
                     'ConsumerLanguage' => '001',
-                    'SignatureVersion' => 'HMAC_SHA256_V1'
+                    'SignatureVersion' => 'HMAC_SHA256_V1' 
                 );
 
                 # Cargamos la clase con los parámetros base
