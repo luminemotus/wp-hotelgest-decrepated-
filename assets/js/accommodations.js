@@ -216,19 +216,36 @@ if ( analytics ) {
 
         accommodations.browserLanguage(0, $lang);
         if (typeof query.dto !== "undefined" && typeof query.dfrom !== "undefined") {
-//alert(query.dto + '' + query.dfrom);
-            $('#fromDate').val(query.dfrom);
-            $('#toDate').val(query.dto);
-            urlmoment  = ( typeof hg_params === "undefined" ) ? "/lang/moment/" : "assets/js/i18n/moment/" ;
-            $.getScript( baseurl + urlmoment + language.toLowerCase() + ".js",
-                    function (result) {
-                        var fromdayT = moment(query.dfrom, formatDate);
-                        var todayT = moment(query.dto, formatDate);
-                        //alert(  fromdayT.format("D MMM YYYY") + " - " + todayT.format("D MMM YYYY")  );
-                        $('#DateRangHotel').val(fromdayT.format("D MMM YYYY") + " - " + todayT.format("D MMM YYYY"));
-                        moment.defineLocale(language.toLowerCase(), null);
-                    }
-            );
+            //alert(query.dto + '' + query.dfrom);
+            var fromdayT = moment(query.dfrom, formatDate);
+            var todayT = moment(query.dto, formatDate);
+
+            var todayLimit = moment();
+            /*
+            console.log(  "moment(todayT).diff(todayLimit,'days')" );
+            console.log(  moment(todayT).diff(todayLimit,'days') );
+            console.log(  "moment(todayT).diff(todayLimit,'days')" );
+            console.log(  moment(fromdayT).diff(todayLimit,'days')  );
+            */
+            if( 0 >  moment(todayT).diff(todayLimit,'days')   ||  0 >  moment(fromdayT).diff(todayLimit,'days')  ){
+              	query.dfrom = '';
+                query.dto = '';
+                $.removeCookie("date_in");
+                $.removeCookie("date_out");
+            }else{
+                $('#fromDate').val(query.dfrom);
+                $('#toDate').val(query.dto);
+                urlmoment  = ( typeof hg_params === "undefined" ) ? "/lang/moment/" : "assets/js/i18n/moment/" ;
+                $.getScript( baseurl + urlmoment + language.toLowerCase() + ".js",
+                        function (result) {
+                            var fromdayT = moment(query.dfrom, formatDate);
+                            var todayT = moment(query.dto, formatDate);
+                            //alert(  fromdayT.format("D MMM YYYY") + " - " + todayT.format("D MMM YYYY")  );
+                            $('#DateRangHotel').val(fromdayT.format("D MMM YYYY") + " - " + todayT.format("D MMM YYYY"));
+                            moment.defineLocale(language.toLowerCase(), null);
+                        }
+                );
+            }
             accommodations.bindDate();
         } else if ($.cookie('date_in') != null && $.cookie('date_out') != null) {
             $date_in_val = $.cookie('date_in'); //.format(formatDate);
