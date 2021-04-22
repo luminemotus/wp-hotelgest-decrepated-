@@ -298,20 +298,38 @@ class Tpv
 
     public function getAmount($amount)
     {
-        
         if (empty($amount)) {
             return '000';
         }
 
+        $amount = preg_replace('/[^0-9,\.]/', '', $amount);
+
+        // Remove pretty number format: 1.234,56 > 1234,56
         if (preg_match('/[\d]+\.[\d]+,[\d]+/', $amount)) {
             $amount = str_replace('.', '', $amount);
         }
 
-        if (strpos($amount, ',') !== false) {
-            $amount = floatval(str_replace(',', '.', $amount));
+        // Remove pretty number format: 1,234.56 > 1234.56
+        if (preg_match('/[\d]+,[\d]+\.[\d]+/', $amount)) {
+            $amount = str_replace(',', '', $amount);
         }
 
-        return (round($amount, 2) * 100);
+        // Remove comma as decimal separator: 1234,56 > 1234.56
+        if (strpos($amount, ',') !== false) {
+            $amount = str_replace(',', '.', $amount);
+        }
+
+        $amount = floatval($amount);
+
+        // Truncate float from second decimal (not rounded): 1.119 > 1.11
+        if (($point = strpos($amount, '.')) !== false) {
+            $amount = substr($amount, 0, $point + 1 + 2);
+        }
+
+        // Set as Redsys valid amount value: 12.34 = 1234
+        // Avoid to use intval, round or sprintf without remove decimals before
+        // because this functions applies a round.
+        return sprintf('%03d', preg_replace('/\.[0-9]+$/', '', $amount * 100));
     }
 
     public function getValuesSignature()

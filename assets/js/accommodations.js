@@ -843,7 +843,7 @@ if ( analytics ) {
             var payment_in = false;
             var total_tpv = 0;
             $.each($dataCart, function (index, value) {
-                pId = value.policyId;
+                pId = parseFloat(value.policyId);
                 try {
                   if (paymentType.policyId.indexOf(pId) > -1) {
 
