@@ -1681,7 +1681,8 @@ if ( analytics ) {
 
                 var mainDivAddPack = $('#viewRoomPackDetails' + rtcode);
                 $('#cart,#modal-cart').show();
-                $("#btn-ViewPrice").effect("shake", {times: 4}, 1000);
+                //$("#btn-ViewPrice").effect("shake", {times: 4}, 1000);
+                
                 //mainDivAdd
                 //mainlang["add_booking"]
 
