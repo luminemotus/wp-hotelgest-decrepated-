@@ -841,24 +841,37 @@ if ( analytics ) {
             }
             //try {
             var payment_in = false;
+            var extraTotal = 0;
+            var extraInclude = 0;
             var total_tpv = 0;
             $.each($dataCart, function (index, value) {
                 pId = parseFloat(value.policyId);
+                extraTotal = extraTotal + (value.price * value.quantity );
+
                 try {
-                  if (paymentType.policyId.indexOf(pId) > -1) {
+                  console.log('policyId  rscode:'+ pId);
+                  console.log( paymentType.policyId );
+                  console.log( paymentType.policyId.indexOf(pId) );
+                  //if (paymentType.policyId.indexOf(pId) > -1) {
+                  if ( paymentType.data[pId] !== undefined) {
+                       console.log('it has:');
 
                       if (!Array.isArray(paymentType.data[pId])) {
                           paymentTypeArry = paymentType.data[pId];
                           paymentType.data[pId][0] = paymentTypeArry;
+                          console.log(paymentTypeArry);
                       }
+                      
 
                       $.each(paymentType.data[pId], function (i, pay) {
                           if ( parseInt(pay.day) > parseInt(window.untilDays) ) {
                               payment_in = true;
+
                               var percentageValue = pay.Percentage / 100;
                               var percentage = pay.Percentage;
                               var cleanInclude = (typeof pay.cleanInclude !== 'undefined') ? pay.cleanInclude : 0;
                               var taxInclude = (typeof pay.taxInclude !== 'undefined') ? pay.taxInclude : 0;
+                              extraInclude = (typeof pay.extraInclude !== 'undefined') ? pay.extraInclude : 0;
 
                               total_tpv = total_tpv + (value.price * percentageValue);
                               if (cleanInclude == 1) {
@@ -877,18 +890,22 @@ if ( analytics ) {
                       });
 
                       if ($debug) {
+                         console.log(' TPV OK ');
                           console.log('paymentType: ' + parseInt(paymentType.data[pId].day) + ' > ' + parseInt(window.untilDays));
                       }
                   }
                   if ($debug) {
-                        console.log('----------');
-                        console.log(JSON.stringify(paymentType.policyId) + '' + paymentType.policyId.indexOf(pId) + '_' + pId);
+                        console.log('---------- ERROR PAY TPV -------- ');
+                        console.log('>>'+JSON.stringify(paymentType.policyId) + '' + paymentType.policyId.indexOf(pId) + '_' + pId);
                   }
                 } catch (err) {
                     console.log('no tpv');
                 }
             });
 
+            if( extraInclude > 0){
+               total_tpv = extraTotal * (  extraInclude / 100 );
+            }
 
             if (payment_in) {
                 $('#noPayment').hide();
