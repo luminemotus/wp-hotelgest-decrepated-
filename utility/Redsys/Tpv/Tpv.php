@@ -296,7 +296,7 @@ class Tpv
         return $order;
     }
 
-    public function getAmount($amount)
+    public function getAmountOLD($amount)
     {
         if (empty($amount)) {
             return '000';
@@ -330,6 +330,24 @@ class Tpv
         // Avoid to use intval, round or sprintf without remove decimals before
         // because this functions applies a round.
         return sprintf('%03d', preg_replace('/\.[0-9]+$/', '', $amount * 100));
+    }
+    
+    public function getAmount($amount)
+    {
+
+        if (empty($amount)) {
+            return '000';
+        }
+
+        if (preg_match('/[\d]+\.[\d]+,[\d]+/', $amount)) {
+            $amount = str_replace('.', '', $amount);
+        }
+
+        if (strpos($amount, ',') !== false) {
+            $amount = floatval(str_replace(',', '.', $amount));
+        }
+
+        return (round($amount, 2) * 100);
     }
 
     public function getValuesSignature()
