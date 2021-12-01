@@ -242,6 +242,7 @@ if ( analytics ) {
                             var todayT = moment(query.dto, formatDate);
                             //alert(  fromdayT.format("D MMM YYYY") + " - " + todayT.format("D MMM YYYY")  );
                             $('#DateRangHotel').val(fromdayT.format("D MMM YYYY") + " - " + todayT.format("D MMM YYYY"));
+                            $('#DateRangHotelMobile').val(fromdayT.format("D MMM YYYY") + " - " + todayT.format("D MMM YYYY"));
                             moment.defineLocale(language.toLowerCase(), null);
                         }
                 );
@@ -302,8 +303,8 @@ if ( analytics ) {
                 $.removeCookie("date_in");
                 $.removeCookie("date_out");
                 $.removeCookie("booking_occupancy");
-                $.cookie('date_in', date_in_val, {expires: 7, path: '/'});
-                $.cookie('date_out', date_out_val, {expires: 7, path: '/'});
+                $.cookie('date_in', date_in_val, {expires: 1, path: '/'});
+                $.cookie('date_out', date_out_val, {expires: 1, path: '/'});
                 $.cookie('booking_occupancy', booking_occupancy_val, {expires: 7, path: '/'});
                 accommodations.bindDate();
                 accommodations.roomAjax($pcode);
@@ -318,8 +319,8 @@ if ( analytics ) {
                             $.removeCookie("date_in");
                             $.removeCookie("date_out");
                             $.removeCookie("booking_occupancy");
-                            $.cookie('date_in', date_in_val, {expires: 7, path: '/'});
-                            $.cookie('date_out', date_out_val, {expires: 7, path: '/'});
+                            $.cookie('date_in', date_in_val, {expires: 1, path: '/'});
+                            $.cookie('date_out', date_out_val, {expires: 1, path: '/'});
                             $.cookie('booking_occupancy', booking_occupancy_val, {expires: 7, path: '/'});
                             //alert(typeof result + '---' + result);
                             accommodations.bindCleanCart();
@@ -610,8 +611,8 @@ if ( analytics ) {
             $.removeCookie("date_in");
             $.removeCookie("date_out");
             $.removeCookie("booking_occupancy");
-            $.cookie('date_in', date_in_val, {expires: 7, path: '/'});
-            $.cookie('date_out', date_out_val, {expires: 7, path: '/'});
+            $.cookie('date_in', date_in_val, {expires: 1, path: '/'});
+            $.cookie('date_out', date_out_val, {expires: 1, path: '/'});
             $.cookie('booking_occupancy', booking_occupancy_val, {expires: 7, path: '/'});
             accommodations.bindDate();
             if (typeof ($rtcode) !== 'undefined') {
@@ -1843,7 +1844,7 @@ if ( analytics ) {
                     }
                     totalprice += parseFloat(value.price * value.quantity);
                 });
-                $.cookie("dataCart", JSON.stringify($dataCart), {expires: 7, path: '/'});
+                $.cookie("dataCart", JSON.stringify($dataCart), {expires: 1, path: '/'});
                 accommodations.bindTotalCartEmbed(totalprice);
                 accommodations.bindCancelButton();
                 e.preventDefault();
@@ -2203,7 +2204,7 @@ if ( analytics ) {
                     $.removeCookie("dataCart");
 
                 } else {
-                    $.cookie("dataCart", JSON.stringify($dataCart), {expires: 7, path: '/'});
+                    $.cookie("dataCart", JSON.stringify($dataCart), {expires: 1, path: '/'});
                 }
 
                 var keyArry = key.split("-");

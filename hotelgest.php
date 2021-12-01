@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: Hotelgest plugin
  * Plugin URI: http://www.hotelgest.com

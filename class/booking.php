@@ -235,6 +235,7 @@ if (!class_exists('HG_Booking')) :
                         'fromDate' => $booking['date_arrival'], 'toDate' => $booking['date_departure'],
                         'rcode' => $postR['rcode'], 'pcode' => $pcode));
                 }
+                
                 $dayprices = [];
                 if ($price->ancillary)
                     foreach ($price->ancillary as $key => $prc) {
