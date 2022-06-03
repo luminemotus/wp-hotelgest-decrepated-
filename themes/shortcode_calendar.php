@@ -1,4 +1,5 @@
 <form action="<?php echo $action; ?>" method="get">
+    <?php echo $postInput; ?>
     <div id="hp-calendar-home">
         <div class="col-md-4 col-sm-12" style="z-index: 2;">
             <label class="trn"><?php _e('Book now', "hotelgest"); ?> </label>
@@ -33,6 +34,6 @@
 
     <input type="hidden" id="fromDateHg" name="dfrom" >
     <input type="hidden" id="toDateHg" name="dto" >
-    <?php echo $postInput; ?>
+    
 </form>
 
