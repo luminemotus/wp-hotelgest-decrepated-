@@ -43,6 +43,7 @@ if (!class_exists('HG_Shortcode')) :
                 'bookrooms' => '',
                 'layout' => '',
                 'pageid' => '',
+                'pcode' => false,
                 'url' => false,
                 'lang' => '',
                     ), $atts);
@@ -53,8 +54,11 @@ if (!class_exists('HG_Shortcode')) :
                $action = $atts["url"];
                 
             }else if ((int) $atts["external"] > 0) {
-                $action = 'https://booking.hotelgest.com/';
-                $action .= ( get_option('hotelgest_v3', 0) ) ? 'v3' : '';
+                $action = 'https://booking.hotelgest.com/v3/';
+                //$action .= ( get_option('hotelgest_v3', 0) ) ? 'v3' : '';
+                if( $atts["pcode"] ){
+                    $postInput = '<input type="hidden" id="pcode" name="pcode" value="' . $atts["pcode"] . '" >';
+                }
             } else {
                 $post_id = get_option('hotelgest_pageId_booking', '');
                 $action = get_permalink($post_id);
