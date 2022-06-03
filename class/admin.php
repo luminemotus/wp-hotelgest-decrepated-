@@ -244,16 +244,17 @@ if (!class_exists('HG_APF_AddFields')) :
                 <div class="welcome-panel-content">
                     <div class="welcome-panel-column-container">
 
-                        <div class="welcome-panel-column">
+                        <div class="welcome-panel-column-">
                             <h3>
                                 <span class="dashicons dashicons-shield" aria-hidden="true"></span> 
             <?php echo esc_html(__("Shortcode calendar", 'hotelgest')); ?>
                             </h3>
                             <p>Basic: <b>[hg_calendar]</b></p>
-                            <p>External url : <b>[hg_calendar url="https://booking.hotelgest.com/v3/114" ]</b></p>
+                            <p>External url: <b>[hg_calendar external=1 ]</b></p>  
+                            <p>Custom url: <b>[hg_calendar url="https://custome.com/" ]</b></p>  
                         </div>
 
-                        <div class="welcome-panel-column">
+                        <div class="welcome-panel-column-">
                             <h3>
                                 <span class="dashicons dashicons-megaphone" aria-hidden="true"></span> 
             <?php echo esc_html(__("Shortcode reservation", 'hotelgest')); ?>
@@ -261,7 +262,7 @@ if (!class_exists('HG_APF_AddFields')) :
                             <p>Basic: <b>[hg_booking]</b><br> basic lang: <b>[hg_booking lang=es ]</b><br> basic lang external: <b>[hg_booking lang=es external= 1 ]</b></p>
                         </div>
 
-                        <div class="welcome-panel-column" id="tableShortcode">
+                        <div class="welcome-panel-column-" id="tableShortcode">
                             <h3>
                                 <span class="dashicons dashicons-megaphone" aria-hidden="true"></span> 
             <?php echo esc_html(__("Shortcode reservation room", 'hotelgest')); ?>
