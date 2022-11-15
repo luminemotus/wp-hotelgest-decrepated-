@@ -3,7 +3,7 @@
  * Plugin Name: Hotelgest plugin
  * Plugin URI: http://www.hotelgest.com
  * Description: This plugin is for integration module of Hotelgest into  WordPress
- * Version: 1.0.39
+ * Version: 1.0.40
  * Author: hotelgest
  * Author URI: http://www.hotelgest.com
  * License: GPL2
@@ -22,7 +22,7 @@ if (!class_exists('Hotelier')) :
         /**
          * @var string
          */
-        public $version = '1.0.39';
+        public $version = '1.0.40';
 
         /**
          * @var Hotelier The single instance of the class
