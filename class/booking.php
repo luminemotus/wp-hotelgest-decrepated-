@@ -356,6 +356,10 @@ if (!class_exists('HG_Booking')) :
                 if (isset($_POST['paytpvOrder'])) {
                     $booking["paytpvOrder"] = $_POST['paytpvOrder'];
                 }
+            
+                if( isset($_POST['promoCode'])  and $_POST['promoCode'] != '' and $_POST['promoCode'] != 'false' ) {
+                    $booking["promo_code"] =  $_POST['promoCode'];
+                } 
 
                 // $curl_post_data['fount'] = 1946;
 
