@@ -1,4 +1,4 @@
-# WP Hotelgest(decrepated)
+# WP Hotelgest(deprecated)
 
 Welcome to the [WP Hotelgest](https://www.hotelgest.com/) GitHub repository. The documentation for the [WP Hotelgest plugin](https://www.hotelgest.com/) can be found on [plugin.webparahoteles.es](https://plugin.webparahoteles.es]), here you can browse the source of the project, find and discuss open issues.
 
